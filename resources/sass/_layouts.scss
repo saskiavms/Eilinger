@@ -1,6 +1,4 @@
-//
-// _layouts.scss
-//
+@use 'global' as *;
 
 body[data-layout-size="boxed"] {
     background-color: $boxed-body-bg;
@@ -50,4 +48,3 @@ body[data-layout-scrollable="true"] {
         }
     }
 }
-

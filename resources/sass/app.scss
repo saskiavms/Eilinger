@@ -1,7 +1,6 @@
 // Variables
-@import 'variables';
+@use 'variables';
 
 // Import all of Bootstrap's CSS
-@import "~bootstrap/scss/bootstrap";
-@import 'bootstrap-icons/font/bootstrap-icons.css';
-
+@use "~bootstrap/scss/bootstrap";
+@use 'bootstrap-icons/font/bootstrap-icons.css';

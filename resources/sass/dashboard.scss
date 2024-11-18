@@ -1,9 +1,9 @@
-@import 'myvariables';
-@import 'button';
-@import 'messages';
-@import 'topbar';
-@import 'vertical';
-@import 'layouts';
-@import 'custom-scrollbar';
-@import 'sidebar';
-@import 'home';
+@use 'global' as *;
+@use 'button';
+@use 'messages';
+@use 'topbar';
+@use 'vertical';
+@use 'layouts';
+@use 'custom-scrollbar';
+@use 'sidebar';
+@use 'home';

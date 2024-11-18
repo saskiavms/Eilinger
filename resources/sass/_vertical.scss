@@ -1,6 +1,5 @@
-//
-// _menu.scss
-//
+@use 'global' as *;
+@use "sass:color";
 
 .metismenu {
     margin: 0;
@@ -431,7 +430,7 @@ body[data-sidebar-size="small"] {
     #sidebar-menu {
         ul li {
             &.menu-title{
-                background-color: lighten($main_color, 2%);
+                background-color: color.adjust($main_color, $lightness: 2%);
             }
             a{
                 i{
@@ -551,7 +550,7 @@ body[data-sidebar="colored"] {
                 >ul{
                     >li{
                         &:hover>a{
-                            background-color: lighten($main_color, 2%);
+                            background-color: color.adjust($main_color, $lightness: 2%);
                             color: $white;
                             i{
                                 color: $white;
