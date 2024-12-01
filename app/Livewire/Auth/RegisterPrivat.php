@@ -7,17 +7,17 @@ use App\Http\Traits\UserUpdateTrait;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\User;
-use App\View\Components\Layout\Eilinger;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
 class RegisterPrivat extends Component
 {
-    use AddressUpdateTrait, UserUpdateTrait;
+    use AddressUpdateTrait;
+    use UserUpdateTrait;
 
     public $terms = false;
 
@@ -28,7 +28,7 @@ class RegisterPrivat extends Component
         return [
             //User
             'username.unique' => __('user.usernameUnique'),
-            'password.regexp' =>__('user.passwordRegexp'),
+            'password.regexp' => __('user.passwordRegexp'),
         ];
     }
 
@@ -103,29 +103,27 @@ class RegisterPrivat extends Component
         event(new Registered($user));
         auth()->login($user);
 
-        return redirect('verify-email');
+        return redirect()->route('verification.notice', app()->getLocale());
     }
 
     public function mount()
     {
         $this->model = User::class;
-        request()->session()->forget('valid-username');
-        request()->session()->forget('valid-name_inst');
-        request()->session()->forget('valid-email_inst');
+        session()->forget('valid-username');
+        session()->forget('valid-email');
 
         $this->model = Address::class;
-        request()->session()->forget('valid-street');
-        request()->session()->forget('valid-number');
-        request()->session()->forget('valid-plz');
-        request()->session()->forget('valid-town');
+        session()->forget('valid-street');
+        session()->forget('valid-number');
+        session()->forget('valid-plz');
+        session()->forget('valid-town');
     }
 
+    #[Layout('components.layout.eilinger')]
     public function render()
     {
-        Log::info(base_path(env('MYSQL_ATTR_SSL_CA')));
         $countries = Country::all();
 
-        return view('livewire.auth.register_privat', compact('countries'))
-            ->layout(Eilinger::class);
+        return view('livewire.auth.register_privat', compact('countries'));
     }
 }
