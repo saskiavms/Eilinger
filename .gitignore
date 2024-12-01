@@ -7,7 +7,7 @@
 .env.backup
 .env.production
 .env.testing
-.phpunit.cache
+/.phpunit.cache
 .phpunit.result.cache
 tree.txt
 Homestead.json
@@ -19,6 +19,3 @@ yarn-error.log
 /.idea
 /.vscode
 /public/uploads
-.phpunit.cache
-database/migrations/2014_10_12_100000_create_password_resets_table.php
-config/database.php
