@@ -169,4 +169,21 @@ class EmailVerificationTest extends TestCase
         Notification::assertSentTo($user, VerifyEmail::class);
         $response->assertRedirect($this->verificationNoticeRoute());
     }
+
+    public function test_forbidden_is_returned_when_signature_is_invalid()
+    {
+        $user = User::factory()->create([
+            'email_verified_at' => null,
+        ]);
+
+        $this->actingAs($user);
+
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1('wrong-email'), 'locale' => app()->getLocale()]
+        );
+
+        $this->get($verificationUrl)->assertStatus(403);
+    }
 }

@@ -12,25 +12,17 @@ use Livewire\WithFileUploads;
 class Datei extends Component
 {
     use WithFileUploads;
+
     public $showModal = false;
-
     public $enclosures;
-
     public $applications;
-
-    public $name;
-
-    public $UserName;
-
+    public $userName;
     public $application_id;
-
     public $column;
-
     public $file;
-
     public $columns = [];
-
     public $enclosure;
+
     protected function rules(): array
     {
         return [
@@ -46,9 +38,8 @@ class Datei extends Component
     {
         $this->applications = Application::with('enclosures')->LoggedInUser()->get();
 
-        $lastname = auth()->user()->lastname;
-        $firstname = auth()->user()->firstname;
-        $this->UserName = $lastname . '_' . $firstname;
+        $user = auth()->user();
+        $this->userName = "{$user->lastname}_{$user->firstname}";
     }
 
     public function render()
@@ -65,40 +56,51 @@ class Datei extends Component
     public function saveEnclosure()
     {
         $this->validate();
-        $column = $this->column;
-        $file = $this->file;
-        $fileName = 'Appl' . $this->application_id . '_' . $column . '.' . $file->getClientOriginalExtension();
-        $filePath = $file->storeAs($this->UserName, $fileName, 'uploads');
-        $this->enclosure->$column = $filePath;
-        $this->enclosure->application_id = $this->application_id;
-        ray($this->enclosure);
-        $this->enclosure->save();
 
-        $this->application_id = '';
-        $this->column = '';
-        $this->file = '';
+        try {
+            $fileName = $this->generateFileName();
+            $filePath = $this->storeFile($fileName);
 
-        $this->showModal = false;
-        $this->dispatch('fileUploaded');
+            $this->enclosure = $this->enclosure ?? new Enclosure();
+            $this->enclosure->application_id = $this->application_id;
+            $this->enclosure->{$this->column} = $filePath;
+            $this->enclosure->save();
+
+            $this->resetForm();
+            $this->showModal = false;
+            $this->dispatch('fileUploaded');
+            session()->flash('message', 'File uploaded successfully.');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error uploading file: ' . $e->getMessage());
+        }
     }
 
     public function updatedApplicationId($application_id)
     {
         $this->enclosure = Enclosure::where('application_id', $application_id)->first() ?? new Enclosure;;
-        if ($this->enclosure) {
-
-            $this->columns = Schema::getColumnListing($this->enclosure->getTable());
-        } else {
-            $this->columns = [];
-        }
+        $this->columns = $this->enclosure->exists
+            ? Schema::getColumnListing($this->enclosure->getTable())
+            : [];
     }
 
     public function close()
     {
-        $this->application_id = '';
-        $this->column = '';
-        $this->file = '';
-
+        $this->resetForm();
         $this->showModal = false;
+    }
+
+    private function generateFileName()
+    {
+        return "Appl{$this->application_id}_{$this->column}.{$this->file->getClientOriginalExtension()}";
+    }
+
+    private function storeFile($fileName)
+    {
+        return $this->file->storeAs($this->userName, $fileName, 'uploads');
+    }
+
+    private function resetForm()
+    {
+        $this->reset(['application_id', 'column', 'file']);
     }
 }

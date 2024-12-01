@@ -34,7 +34,7 @@ trait UserUpdateTrait
 
     public function updatedUsername()
     {
-        request()->session()->forget('valid-username');
+        session()->forget('valid-username');
         if ($this->validateOnly('username')) {
             session(['valid-username' => 'Username is available']);
         }
@@ -42,7 +42,7 @@ trait UserUpdateTrait
 
     public function updatedSalutation()
     {
-        request()->session()->forget('valid-salutation');
+        session()->forget('valid-salutation');
         if ($this->validateOnly('salutation')) {
             session(['valid-salutation' => 'OK']);
         }
@@ -50,7 +50,7 @@ trait UserUpdateTrait
 
     public function updatedNameInst()
     {
-        request()->session()->forget('valid-name_inst');
+        session()->forget('valid-name_inst');
         if ($this->validateOnly('name_inst')) {
             session(['valid-name_inst' => 'OK']);
         }
@@ -59,7 +59,7 @@ trait UserUpdateTrait
 
     public function updatedEmailInst()
     {
-        request()->session()->forget('valid-email_inst');
+        session()->forget('valid-email_inst');
         if ($this->validateOnly('email_inst')) {
             session(['valid-email_inst' => 'OK']);
         }
@@ -67,7 +67,7 @@ trait UserUpdateTrait
 
     public function updatedTelefonInst()
     {
-        request()->session()->forget('valid-phone_inst');
+        session()->forget('valid-phone_inst');
         if ($this->validateOnly('phone_inst')) {
             session(['valid-phone_inst' => 'OK']);
         }
@@ -75,7 +75,7 @@ trait UserUpdateTrait
 
     public function updatedEmail()
     {
-        request()->session()->forget('valid-email');
+        session()->forget('valid-email');
         if ($this->validateOnly('email')) {
             session(['valid-email' => 'OK']);
         }
@@ -83,7 +83,7 @@ trait UserUpdateTrait
 
     public function updatedWebsite()
     {
-        request()->session()->forget('valid-website');
+        session()->forget('valid-website');
         if ($this->validateOnly('website')) {
             session(['valid-website' => 'OK']);
         }
@@ -91,7 +91,7 @@ trait UserUpdateTrait
 
     public function updatedFirstname()
     {
-        request()->session()->forget('valid-firstname');
+        session()->forget('valid-firstname');
         if ($this->validateOnly('firstname')) {
             session(['valid-firstname' => 'OK']);
         }
@@ -99,7 +99,7 @@ trait UserUpdateTrait
 
     public function updatedLastname()
     {
-        request()->session()->forget('valid-lastname');
+        session()->forget('valid-lastname');
         if ($this->validateOnly('lastname')) {
             session(['valid-lastname' => 'OK']);
         }
@@ -107,7 +107,7 @@ trait UserUpdateTrait
 
     public function updatedTelefon()
     {
-        request()->session()->forget('valid-phone');
+        session()->forget('valid-phone');
         if ($this->validateOnly('phone')) {
             session(['valid-phone' => 'OK']);
         }
@@ -115,7 +115,7 @@ trait UserUpdateTrait
 
     public function updatedMobile()
     {
-        request()->session()->forget('valid-mobile');
+        session()->forget('valid-mobile');
         if ($this->validateOnly('mobile')) {
             session(['valid-mobile' => 'OK']);
         }
@@ -123,7 +123,7 @@ trait UserUpdateTrait
 
     public function updatedPassword()
     {
-        request()->session()->forget('valid-password');
+        session()->forget('valid-password');
         if ($this->validateOnly('password')) {
             session(['valid-password' => 'OK']);
         }
@@ -131,7 +131,7 @@ trait UserUpdateTrait
 
     public function updatedPasswordConfirmation()
     {
-        request()->session()->forget('valid-password_confirmation');
+        session()->forget('valid-password_confirmation');
         if ($this->validateOnly('password_confirmation')) {
             session(['valid-password_confirmation' => 'OK']);
         }

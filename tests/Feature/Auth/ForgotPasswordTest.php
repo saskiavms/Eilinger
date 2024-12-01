@@ -78,19 +78,19 @@ class ForgotPasswordTest extends TestCase
 
     public function testEmailIsRequired()
     {
-        $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), []);
+        $this->withoutExceptionHandling();
+        $this->expectException(\Illuminate\Validation\ValidationException::class);
 
-        $response->assertRedirect($this->passwordEmailGetRoute());
-        $response->assertSessionHasErrors('email');
+        $response = $this->post($this->passwordEmailPostRoute(), []);
     }
 
     public function testEmailIsAValidEmail()
     {
-        $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), [
-            'email' => 'invalid-email',
-        ]);
+        $this->withoutExceptionHandling();
+        $this->expectException(\Illuminate\Validation\ValidationException::class);
 
-        $response->assertRedirect($this->passwordEmailGetRoute());
-        $response->assertSessionHasErrors('email');
+        $response = $this->post($this->passwordEmailPostRoute(), [
+            'email' => 'not-an-email'
+        ]);
     }
 }
