@@ -113,4 +113,28 @@ class RegisterPrivatTest extends TestCase
             'email' => 'test@example.com'
         ]);
     }
+
+    /** @test */
+    public function terms_must_be_accepted(): void
+    {
+        $country = \App\Models\Country::first();
+
+        Livewire::test(RegisterPrivat::class)
+            ->set([
+                'username' => 'newuser',
+                'salutation' => 'Herr',
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'email' => 'test@example.com',
+                'street' => 'Test Street',
+                'plz' => '12345',
+                'town' => 'Test Town',
+                'country_id' => $country->id,
+                'terms' => false,
+                'password' => '^rwJj*Y4Yp!',
+                'password_confirmation' => '^rwJj*Y4Yp!'
+            ])
+            ->call('registerPrivat')
+            ->assertHasErrors(['terms' => 'accepted']);
+    }
 }

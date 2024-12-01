@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\ApplStatus;
 use App\Enums\Bereich;
 use App\Enums\Form;
+use App\Enums\PayoutPlan;
 use App\Models\Application;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,7 +22,7 @@ class ApplicationFactory extends Factory
             'form' => $this->faker->randomElement(Form::class),
             'comment' => $this->faker->word(),
             'reason' => $this->faker->word(),
-            'payout_plan' => $this->faker->word(),
+            'payout_plan' => $this->faker->randomElement(PayoutPlan::class),
             'is_first' => $this->faker->boolean(),
 
             'user_id' => $this->faker->randomNumber(1, 30),

@@ -11,6 +11,7 @@ use App\View\Components\Layout\UserDashboard;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
 class Antraege extends Component
 {
@@ -59,6 +60,7 @@ class Antraege extends Component
         return Lang::get('application');
     }
 
+    #[Layout('components.layout.user-dashboard')]
     public function render()
     {
         $applications = Application::LoggedInUser()
@@ -69,8 +71,8 @@ class Antraege extends Component
         return view('livewire.user.antraege', [
             'applications' => $applications,
             'currencies' => $currencies,
-        ])
-            ->layout(UserDashboard::class);
+        ]);
+
     }
 
     public function addApplication()

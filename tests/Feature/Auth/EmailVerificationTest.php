@@ -90,7 +90,6 @@ class EmailVerificationTest extends TestCase
     public function testGuestCannotSeeTheVerificationVerifyRoute()
     {
         $user = User::factory()->create([
-            'id' => 1,
             'email_verified_at' => null,
         ]);
 
@@ -102,11 +101,12 @@ class EmailVerificationTest extends TestCase
     public function testUserCannotVerifyOthers()
     {
         $user = User::factory()->create([
-            'id' => 1,
             'email_verified_at' => null,
         ]);
 
-        $user2 = User::factory()->create(['id' => 2, 'email_verified_at' => null]);
+        $user2 = User::factory()->create([
+            'email_verified_at' => null,
+        ]);
 
         $response = $this->actingAs($user)->get($this->validVerificationVerifyRoute($user2));
 
