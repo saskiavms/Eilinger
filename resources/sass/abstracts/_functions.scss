@@ -1,0 +1,46 @@
+@use 'variables' as *;
+
+// Get color from the $colors map
+@function get-color($color-name) {
+	@if map-has-key($colors, $color-name) {
+		@return map-get($colors, $color-name);
+	}
+
+	@error "Color '#{$color-name}' not found in $colors map.";
+}
+
+// Get breakpoint from the $breakpoints map
+@function breakpoint($breakpoint-name) {
+	@if map-has-key($breakpoints, $breakpoint-name) {
+		@return map-get($breakpoints, $breakpoint-name);
+	}
+
+	@error "Breakpoint '#{$breakpoint-name}' not found in $breakpoints map.";
+}
+
+// Convert px to rem
+@function rem($pixels, $context: 16) {
+	@return ($pixels / $context) * 1rem;
+}
+
+// Convert px to em
+@function em($pixels, $context: 16) {
+	@return ($pixels / $context) * 1em;
+}
+
+// Get z-index value from a list of elements
+$z-indexes: (
+	'modal': 9000,
+	'overlay': 8000,
+	'dropdown': 7000,
+	'header': 6000,
+	'footer': 5000
+);
+
+@function z($layer) {
+	@if map-has-key($z-indexes, $layer) {
+		@return map-get($z-indexes, $layer);
+	}
+
+	@error "Z-index '#{$layer}' not found in $z-indexes map.";
+}

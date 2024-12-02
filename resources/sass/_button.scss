@@ -1,18 +1,19 @@
+@use 'abstracts/functions' as *;
+@use 'abstracts/variables' as *;
+
 .btn-colour-1 {
-    color: #fff;
-    background-color: rgba(40, 58, 90, 0.9);
-    border-color:rgba(40, 58, 90, 0.9);
-    font-weight: bold;
-    letter-spacing: 0.05em;
-  }
-  
-  .btn-colour-1:hover,
-  .btn-colour-1:active,
-  .btn-colour-1:focus,
-  .btn-colour-1.active {
-    /* let's darken #004E64 a bit for hover effect */
-    background:#1d1B31;
-    color: #ffffff;
-    border-color:rgba(25, 37, 57, 0.9) ;
-  }
-  
+	color: get-color('white');
+	background-color: rgba(get-color('primary'), 0.9);
+	border-color: rgba(get-color('primary'), 0.9);
+	font-weight: bold;
+	letter-spacing: em(0.8);
+}
+
+.btn-colour-1:hover,
+.btn-colour-1:active,
+.btn-colour-1:focus,
+.btn-colour-1.active {
+	background: get-color('text');
+	color: get-color('white');
+	border-color: rgba(get-color('primary'), 0.9);
+}

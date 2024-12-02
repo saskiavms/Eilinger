@@ -1,0 +1,4 @@
+// Mixin for default transitions
+@mixin transition-default {
+	transition: all 0.5s ease;
+}

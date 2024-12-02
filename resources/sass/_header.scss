@@ -1,32 +1,36 @@
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
-@use 'global' as *;
+@use 'abstracts/functions' as *;
+@use 'abstracts/variables' as *;
+@use 'abstracts/mixins' as *;
+
 #header {
-    transition: all 0.5s;
-    z-index: 997;
-    padding: 15px 0;
-    background-color: $background-color;
-    }
+	@include transition-default;
+	z-index: z('header');
+	padding: rem(15) 0;
+	background-color: get-color('primary');
+}
 
-    #header.header-scrolled, #header.header-inner-pages {
-    background: rgba(40, 58, 90, 0.9);
-    }
+#header.header-scrolled,
+#header.header-inner-pages {
+	background: rgba(40, 58, 90, 0.9);
+}
 
-    #header .logo {
-    font-size: 1.875rem;
-    margin: 0;
-    padding: 0;
-    line-height: 1;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    }
+#header .logo {
+	font-size: 1.875rem;
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+	font-weight: 500;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
 
-    #header .logo a {
-    color: #fff;
-    }
+#header .logo a {
+	color: get-color('white');
+}
 
-    #header .logo img {
-    max-height: 40px;
-    }
+#header .logo img {
+	max-height: rem(40);
+}
