@@ -14,8 +14,8 @@ use App\Models\FinancingOrganisation;
 use App\Models\Parents;
 use App\Models\Sibling;
 use App\Models\User;
-use App\View\Components\Layout\AdminDashboard;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
 class Antrag extends Component
 {
@@ -75,10 +75,10 @@ class Antrag extends Component
         $this->financingOrganisation = FinancingOrganisation::where('application_id', $application_id)->get();
     }
 
+    #[Layout('components.layout.admin-dashboard')]
     public function render()
     {
-        return view('livewire.admin.antrag')
-            ->layout(AdminDashboard::class);
+        return view('livewire.admin.antrag');
     }
 
     public function getTotalCostDarlehen()

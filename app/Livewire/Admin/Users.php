@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\User;
-use App\View\Components\Layout\AdminDashboard;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -35,7 +35,9 @@ class Users extends Component
         $this->filterStatus = '';
     }
 
-    protected function applySorting($query) {}
+    protected function applySorting($query)
+    {
+    }
 
     protected function searchUsername($query)
     {
@@ -48,32 +50,35 @@ class Users extends Component
     {
         return $this->searchUserEmail === ''
             ? $query
-            : $query->where('email', 'like', '%' . $this->searchUserEmail . '%');;
+            : $query->where('email', 'like', '%' . $this->searchUserEmail . '%');
+        ;
     }
 
     protected function searchNameInst($query)
     {
         return $this->searchNameInst === ''
             ? $query
-            : $query->where('name_inst', 'like', '%' . $this->searchNameInst . '%');;
+            : $query->where('name_inst', 'like', '%' . $this->searchNameInst . '%');
+        ;
     }
 
     protected function filterBereich($query)
     {
         return $this->filterBereich === ''
             ? $query
-            : $query->where('bereich', 'like', '%' . $this->filterBereich . '%');;
+            : $query->where('bereich', 'like', '%' . $this->filterBereich . '%');
+        ;
     }
 
     protected function filterStatus($query)
     {
         return $this->filterStatus === ''
             ? $query
-            : $query->where('status', 'like', '%' . $this->filterStatus . '%');;
+            : $query->where('status', 'like', '%' . $this->filterStatus . '%');
+        ;
     }
 
-
-
+    #[Layout('components.layout.admin-dashboard')]
     public function render()
     {
         $users = User::with('lastLogin')
@@ -97,6 +102,6 @@ class Users extends Component
 
         return view('livewire.admin.users', [
             'users' => $users,
-        ])->layout(AdminDashboard::class);
+        ]);
     }
 }

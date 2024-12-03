@@ -4,11 +4,12 @@ namespace App\Livewire\Admin;
 
 use App\Models\Application;
 use App\Models\User;
-use App\View\Components\Layout\AdminDashboard;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
 class Uebersicht extends Component
 {
+    #[Layout('components.layout.admin-dashboard')]
     public function render()
     {
         $userCount = User::where('is_admin', 0)->count();
@@ -19,7 +20,6 @@ class Uebersicht extends Component
             'userCount' => $userCount,
             'applicationCount' => $applicationCount,
             'projectCount' => $projectCount,
-        ])
-            ->layout(AdminDashboard::class);
+        ]);
     }
 }

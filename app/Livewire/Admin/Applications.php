@@ -3,9 +3,9 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Application;
-use App\View\Components\Layout\AdminDashboard;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
 
 class Applications extends Component
 {
@@ -13,6 +13,7 @@ class Applications extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    #[Layout('components.layout.admin-dashboard')]
     public function render()
     {
         $applications = Application::with('user')
@@ -22,7 +23,6 @@ class Applications extends Component
 
         return view('livewire.admin.applications', [
             'applications' => $applications,
-        ])
-            ->layout(AdminDashboard::class);
+        ]);
     }
 }
