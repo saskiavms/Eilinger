@@ -1,4 +1,4 @@
-@use 'global' as *;
+@use 'abstracts/variables' as *;
 @use 'common';
 @use 'header';
 @use 'navbar';
@@ -9,5 +9,5 @@
 @use 'services';
 @use 'pricing';
 @use 'form';
-@use 'button';
-@use 'footer';
+@use 'components/button';
+@use 'components/footer';

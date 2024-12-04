@@ -1,5 +1,5 @@
-@use 'global' as *;
-@use 'button';
+@use 'abstracts/variables' as *;
+@use 'components/button';
 @use 'messages';
 @use 'topbar';
 @use 'vertical';

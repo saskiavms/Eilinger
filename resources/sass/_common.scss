@@ -1,79 +1,86 @@
-@use 'global' as *;
+@use 'abstracts/variables' as *;
+
 @font-face {
-    font-family: 'the_salvador_condensedregular';
-    src: url('/public/fonts/thesalvador-condensed-webfont.woff2') format('woff2'),
-         url('/public/fonts/thesalvador-condensed-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
+	font-family: 'the_salvador_condensedregular';
+	src: url('/public/fonts/thesalvador-condensed-webfont.woff2') format('woff2'),
+		url('/public/fonts/thesalvador-condensed-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
 
-  body {
-  font-family: "Roboto", sans-serif;
-  color: $main_color;
-  }
+body {
+	font-family: "Roboto", sans-serif;
+	color: $main_color;
+}
 
-  a {
-  color: $sec_color;
-  text-decoration: none;
-  }
+a {
+	color: $sec_color;
+	text-decoration: none;
+}
 
-  a:hover {
-  color: $third-color;
-  text-decoration: none;
-  }
+a:hover {
+	color: $third-color;
+	text-decoration: none;
+}
 
-  h2 {
-  font-family: "the_salvador_condensedregular", sans-serif;
-  }
+h2 {
+	font-family: "the_salvador_condensedregular", sans-serif;
+}
 
-  h1, h3, h4, h5, h6 {
-  font-family: "Ubuntu", sans-serif;
-  }
+h1,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Ubuntu", sans-serif;
+}
 
 
 /*--------------------------------------------------------------
 # Preloader
 --------------------------------------------------------------*/
 #preloader {
-     position: fixed;
-     top: 0;
-     left: 0;
-     right: 0;
-     bottom: 0;
-     z-index: 9999;
-     overflow: hidden;
-     background: #37517e;
-     }
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+	overflow: hidden;
+	background: #37517e;
+}
 
-     #preloader:before {
-     content: "";
-     position: fixed;
-     top: calc(50% - 30px);
-     left: calc(50% - 30px);
-     border: 6px solid #37517e;
-     border-top-color: #fff;
-     border-bottom-color: #fff;
-     border-radius: 50%;
-     width: 60px;
-     height: 60px;
-     -webkit-animation: animate-preloader 1s linear infinite;
-     animation: animate-preloader 1s linear infinite;
-     }
+#preloader:before {
+	content: "";
+	position: fixed;
+	top: calc(50% - 30px);
+	left: calc(50% - 30px);
+	border: 6px solid #37517e;
+	border-top-color: #fff;
+	border-bottom-color: #fff;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	-webkit-animation: animate-preloader 1s linear infinite;
+	animation: animate-preloader 1s linear infinite;
+}
 
-     @-webkit-keyframes animate-preloader {
-     0% {
-       transform: rotate(0deg);
-     }
-     100% {
-       transform: rotate(360deg);
-     }
-     }
+@-webkit-keyframes animate-preloader {
+	0% {
+		transform: rotate(0deg);
+	}
 
-     @keyframes animate-preloader {
-     0% {
-       transform: rotate(0deg);
-     }
-     100% {
-       transform: rotate(360deg);
-     }
-     }
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes animate-preloader {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}

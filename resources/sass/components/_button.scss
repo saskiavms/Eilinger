@@ -1,5 +1,5 @@
-@use 'abstracts/functions' as *;
-@use 'abstracts/variables' as *;
+@use '../abstracts/functions' as *;
+@use '../abstracts/variables' as *;
 
 .btn-colour-1 {
 	color: get-color('white');
