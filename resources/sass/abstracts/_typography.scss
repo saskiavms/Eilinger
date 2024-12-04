@@ -1,0 +1,61 @@
+// Font faces
+@font-face {
+	font-family: 'the_salvador_condensedregular';
+	src: url('/public/fonts/thesalvador-condensed-webfont.woff2') format('woff2'),
+		url('/public/fonts/thesalvador-condensed-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+// Font families
+$font-logo: "Ubuntu", sans-serif;
+$font-primary: "Roboto", sans-serif;
+$font-decorative: "the_salvador_condensedregular", sans-serif;
+
+// Base typography
+@mixin base-typography {
+	font-family: $font-primary;
+	color: get-color('text');
+}
+
+// Logo typography
+@mixin logo-typography {
+
+	.logo,
+	.logo-details {
+		font-family: $font-logo;
+	}
+}
+
+// Heading styles
+@mixin heading-styles {
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: $font-primary;
+	}
+}
+
+// Public pages specific h2
+@mixin public-h2 {
+	h2 {
+		font-family: $font-decorative;
+	}
+}
+
+// Additional mixins for specific components
+@mixin button-typography {
+	font-family: $font-primary;
+}
+
+@mixin input-typography {
+	font-family: $font-primary;
+
+	&::placeholder {
+		font-family: $font-primary;
+	}
+}

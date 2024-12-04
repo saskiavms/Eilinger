@@ -1,4 +1,5 @@
 @use 'abstracts/variables' as *;
+@use 'abstracts/typography';
 @use 'components/button';
 @use 'messages';
 @use 'topbar';
@@ -7,3 +8,11 @@
 @use 'custom-scrollbar';
 @use 'sidebar';
 @use 'home';
+
+// Apply base styles
+body {
+	@include typography.base-typography;
+}
+
+// Apply heading styles without decorative h2
+@include typography.heading-styles;

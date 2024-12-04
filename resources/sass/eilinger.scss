@@ -1,4 +1,5 @@
 @use 'abstracts/variables' as *;
+@use 'abstracts/typography';
 @use 'common';
 @use 'header';
 @use 'navbar';
@@ -11,3 +12,15 @@
 @use 'form';
 @use 'components/button';
 @use 'components/footer';
+
+// Apply base styles with Roboto
+body {
+	@include typography.base-typography;
+}
+
+// Apply Ubuntu to logo
+@include typography.logo-typography;
+
+// Apply heading styles with decorative h2
+@include typography.heading-styles;
+@include typography.public-h2;

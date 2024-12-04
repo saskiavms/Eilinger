@@ -1,6 +1,7 @@
-// Variables
-@use 'abstracts/variables';
-
 // Import all of Bootstrap's CSS
 @use "~bootstrap/scss/bootstrap";
 @use 'bootstrap-icons/font/bootstrap-icons.css';
+
+// Variables
+@use 'abstracts/variables' as *;
+@use 'components/button';

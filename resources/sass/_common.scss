@@ -1,18 +1,5 @@
 @use 'abstracts/variables' as *;
 
-@font-face {
-	font-family: 'the_salvador_condensedregular';
-	src: url('/public/fonts/thesalvador-condensed-webfont.woff2') format('woff2'),
-		url('/public/fonts/thesalvador-condensed-webfont.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
-}
-
-body {
-	font-family: "Roboto", sans-serif;
-	color: $main_color;
-}
-
 a {
 	color: $sec_color;
 	text-decoration: none;
@@ -21,18 +8,6 @@ a {
 a:hover {
 	color: $third-color;
 	text-decoration: none;
-}
-
-h2 {
-	font-family: "the_salvador_condensedregular", sans-serif;
-}
-
-h1,
-h3,
-h4,
-h5,
-h6 {
-	font-family: "Ubuntu", sans-serif;
 }
 
 
