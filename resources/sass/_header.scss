@@ -29,6 +29,12 @@
 
 #header .logo a {
 	color: get-color('white');
+	text-decoration: none;
+}
+
+#header .logo a:hover {
+	color: get-color('white');
+	text-decoration: none;
 }
 
 #header .logo img {

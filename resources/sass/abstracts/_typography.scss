@@ -8,8 +8,8 @@
 }
 
 // Font families
-$font-logo: "Ubuntu", sans-serif;
 $font-primary: "Roboto", sans-serif;
+$font-secondary: "Ubuntu", sans-serif;
 $font-decorative: "the_salvador_condensedregular", sans-serif;
 
 // Base typography
@@ -23,7 +23,7 @@ $font-decorative: "the_salvador_condensedregular", sans-serif;
 
 	.logo,
 	.logo-details {
-		font-family: $font-logo;
+		font-family: $font-secondary;
 	}
 }
 
@@ -44,6 +44,12 @@ $font-decorative: "the_salvador_condensedregular", sans-serif;
 @mixin public-h2 {
 	h2 {
 		font-family: $font-decorative;
+	}
+}
+
+@mixin public-h3 {
+	h3 {
+		font-family: $font-secondary;
 	}
 }
 
