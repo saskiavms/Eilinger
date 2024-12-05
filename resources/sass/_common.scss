@@ -1,12 +1,13 @@
 @use 'abstracts/variables' as *;
+@use 'abstracts/functions' as *;
 
 a {
-	color: $sec_color;
+	color: get-color('secondary');
 	text-decoration: none;
 }
 
 a:hover {
-	color: $third-color;
+	color: get-color('tertiary');
 	text-decoration: none;
 }
 
@@ -22,7 +23,7 @@ a:hover {
 	bottom: 0;
 	z-index: 9999;
 	overflow: hidden;
-	background: #37517e;
+	background: get-color('primary');
 }
 
 #preloader:before {
@@ -30,9 +31,9 @@ a:hover {
 	position: fixed;
 	top: calc(50% - 30px);
 	left: calc(50% - 30px);
-	border: 6px solid #37517e;
-	border-top-color: #fff;
-	border-bottom-color: #fff;
+	border: 6px solid get-color('primary');
+	border-top-color: get-color('white');
+	border-bottom-color: get-color('white');
 	border-radius: 50%;
 	width: 60px;
 	height: 60px;

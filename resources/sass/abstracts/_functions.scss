@@ -1,4 +1,4 @@
-@use 'variables' as *;
+@use 'colors' as *;
 
 // Get color from the $colors map
 @function get-color($color-name) {
@@ -43,4 +43,17 @@ $z-indexes: (
 	}
 
 	@error "Z-index '#{$layer}' not found in $z-indexes map.";
+}
+
+@function lighten-color($color-name, $amount) {
+	@return lighten(get-color($color-name), $amount);
+}
+
+@function darken-color($color-name, $amount) {
+	@return darken(get-color($color-name), $amount);
+}
+
+// Add this new function
+@function color-opacity($color-name, $opacity) {
+	@return rgba(get-color($color-name), $opacity);
 }

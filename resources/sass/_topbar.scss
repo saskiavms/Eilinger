@@ -1,4 +1,6 @@
+@use 'abstracts/colors' as *;
 @use 'abstracts/variables' as *;
+@use 'abstracts/functions' as fn;
 
 #page-topbar {
 	position: fixed;
@@ -23,7 +25,7 @@
 
 	.dropdown .show {
 		&.header-item {
-			background-color: $third-color;
+			background-color: get-color('tertiary');
 		}
 	}
 }
@@ -45,7 +47,7 @@
 
 		&::after {
 			content: "";
-			background: $background-color;
+			background: get-color('primary');
 			height: 2px;
 			position: absolute;
 			width: 100%;
@@ -57,7 +59,7 @@
 		}
 
 		&.active {
-			color: $background-color;
+			color: get-color('primary');
 
 			&:after {
 				transform: scale(1);
@@ -95,7 +97,7 @@
 		padding: 5px 0px;
 
 		a {
-			color: $background-color;
+			color: get-color('primary');
 		}
 	}
 }
@@ -136,7 +138,7 @@
 .header-profile-user {
 	height: 36px;
 	width: 36px;
-	background-color: $third-color;
+	background-color: get-color('tertiary');
 	padding: 3px;
 }
 
@@ -172,7 +174,7 @@
 	padding: 15px 0 9px;
 	display: block;
 	border: 1px solid transparent;
-	color: $background-color;
+	color: get-color('primary');
 
 	img {
 		height: 24px;
@@ -207,12 +209,12 @@ body[data-topbar="dark"] {
 	.navbar-header {
 		.dropdown .show {
 			&.header-item {
-				background-color: rgba($white, 0.05);
+				background-color: fn.color-opacity('white', 0.05);
 			}
 		}
 
 		.waves-effect .waves-ripple {
-			background: rgba($white, 0.4);
+			background: fn.color-opacity('white', 0.4);
 		}
 	}
 
@@ -225,7 +227,7 @@ body[data-topbar="dark"] {
 	}
 
 	.header-profile-user {
-		background-color: rgba($white, 0.25);
+		background-color: fn.color-opacity('white', 0.25);
 	}
 
 	.noti-icon {
@@ -237,7 +239,7 @@ body[data-topbar="dark"] {
 
 body[data-sidebar="dark"] {
 	.navbar-brand-box {
-		background: $background-color;
+		background: fn.get-color('primary');
 	}
 
 	.logo-dark {

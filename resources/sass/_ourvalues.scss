@@ -1,6 +1,6 @@
-/*--------------------------------------------------------------
-# Our Values
---------------------------------------------------------------*/
+@use 'abstracts/variables' as *;
+@use 'abstracts/functions' as *;
+
 .our-values .card {
 	border: 0;
 	padding: 160px 20px 20px 20px;
@@ -48,12 +48,12 @@
 }
 
 .our-values .card:hover .card-body {
-	background: #4260a6;
+	background: get-color('secondary');
 }
 
 .our-values .card:hover .read-more a,
 .our-values .card:hover .card-title,
 .our-values .card:hover .card-title a,
 .our-values .card:hover .card-text {
-	color: #fff;
+	color: get-color('white');
 }

@@ -1,4 +1,6 @@
 @use 'abstracts/typography' as *;
+@use 'abstracts/variables' as *;
+@use 'abstracts/functions' as *;
 
 /*--------------------------------------------------------------
 # Navigation Menu
@@ -30,7 +32,7 @@
 	padding: 10px 0 10px 30px;
 	font-size: 15px;
 	font-weight: 500;
-	color: #fff;
+	color: get-color('white');
 	white-space: nowrap;
 	transition: 0.3s;
 }
@@ -193,7 +195,7 @@
 .navbar-mobile a {
 	padding: 10px 20px;
 	font-size: 0.9375rem;
-	color: #37517e;
+	color: get-color('primary');
 }
 
 .navbar-mobile a:hover,
@@ -204,7 +206,7 @@
 
 .navbar-mobile .getstarted {
 	margin: 15px;
-	color: #37517e;
+	color: get-color('primary');
 }
 
 .navbar-mobile .dropdown ul {
@@ -215,7 +217,7 @@
 	z-index: 99;
 	opacity: 1;
 	visibility: visible;
-	background: #fff;
+	background: get-color('white');
 	box-shadow: 0 0 30px rgba(127, 137, 161, 0.25);
 }
 

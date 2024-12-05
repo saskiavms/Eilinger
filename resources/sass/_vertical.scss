@@ -1,4 +1,5 @@
 @use 'abstracts/variables' as *;
+@use 'abstracts/functions' as *;
 @use "sass:color";
 
 .metismenu {
@@ -33,10 +34,10 @@
 
 
 .vertical-menu {
-	color: $main-color;
+	color: get-color('primary');
 	width: $sidebar-width;
 	z-index: 1001;
-	background: $background-color;
+	background: get-color('primary');
 	bottom: 0;
 	margin-top: 0;
 	position: fixed;
@@ -356,7 +357,7 @@ body[data-sidebar="dark"] {
 					}
 
 					ul {
-						background-color: $main_color;
+						background-color: get-color('primary');
 					}
 
 				}
@@ -365,10 +366,10 @@ body[data-sidebar="dark"] {
 
 					li {
 						&.mm-active .active {
-							color: $main_color !important;
+							color: get-color('primary') !important;
 
 							i {
-								color: $main_color !important;
+								color: get-color('primary') !important;
 							}
 						}
 					}
@@ -381,25 +382,25 @@ body[data-sidebar="dark"] {
 	}
 
 	.mm-active {
-		color: $main_color !important;
+		color: get-color('primary') !important;
 
 		>a {
-			color: $main_color !important;
+			color: get-color('primary') !important;
 
 			i {
-				color: $main_color !important;
+				color: get-color('primary') !important;
 			}
 		}
 
 		>i {
-			color: $main_color !important;
+			color: get-color('primary') !important;
 		}
 
 		.active {
-			color: $main_color !important;
+			color: get-color('primary') !important;
 
 			i {
-				color: $main_color !important;
+				color: get-color('primary') !important;
 			}
 		}
 	}
@@ -444,7 +445,7 @@ body[data-sidebar-size="small"] {
 	#sidebar-menu {
 		ul li {
 			&.menu-title {
-				background-color: color.adjust($main_color, $lightness: 2%);
+				background-color: color.adjust(get-color('primary'), $lightness: 2%);
 			}
 
 			a {
@@ -498,11 +499,11 @@ body[data-sidebar-size="small"] {
 
 body[data-sidebar="colored"] {
 	.vertical-menu {
-		background-color: $background-color;
+		background-color: get-color('primary');
 	}
 
 	.navbar-brand-box {
-		background-color: $background-color;
+		background-color: get-color('primary');
 
 		.logo-dark {
 			display: none;
@@ -514,19 +515,19 @@ body[data-sidebar="colored"] {
 	}
 
 	.mm-active {
-		color: $white !important;
+		color: get-color('white') !important;
 
 		>a {
-			color: $white !important;
+			color: get-color('white') !important;
 
 			i {
-				color: $white !important;
+				color: get-color('white') !important;
 			}
 		}
 
 		>i,
 		.active {
-			color: $white !important;
+			color: get-color('white') !important;
 		}
 	}
 
@@ -534,27 +535,27 @@ body[data-sidebar="colored"] {
 		ul {
 			li {
 				&.menu-title {
-					color: rgba($white, 0.6);
+					color: rgba(get-color('white'), 0.6);
 				}
 
 				a {
-					color: rgba($white, 0.6);
+					color: rgba(get-color('white'), 0.6);
 
 					i {
-						color: rgba($white, 0.6);
+						color: rgba(get-color('white'), 0.6);
 					}
 
 					&.waves-effect {
 						.waves-ripple {
-							background: rgba($white, 0.1);
+							background: rgba(get-color('white'), 0.1);
 						}
 					}
 
 					&:hover {
-						color: $white;
+						color: get-color('white');
 
 						i {
-							color: $white;
+							color: get-color('white');
 						}
 					}
 				}
@@ -562,10 +563,10 @@ body[data-sidebar="colored"] {
 				ul.sub-menu {
 					li {
 						a {
-							color: rgba($white, .5);
+							color: rgba(get-color('white'), .5);
 
 							&:hover {
-								color: $white;
+								color: get-color('white');
 							}
 						}
 					}
@@ -580,11 +581,11 @@ body[data-sidebar="colored"] {
 				>ul {
 					>li {
 						&:hover>a {
-							background-color: color.adjust($main_color, $lightness: 2%);
-							color: $white;
+							background-color: color.adjust(get-color('primary'), $lightness: 2%);
+							color: get-color('white');
 
 							i {
-								color: $white;
+								color: get-color('white');
 							}
 						}
 					}

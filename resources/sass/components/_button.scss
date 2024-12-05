@@ -1,19 +1,20 @@
-@use '../abstracts/functions' as *;
+@use '../abstracts/colors' as *;
+@use '../abstracts/functions' as fn;
 @use '../abstracts/variables' as *;
 
 .btn.btn-colour-1 {
-	color: get-color('white');
-	background-color: rgba(get-color('primary'), 0.9);
-	border-color: rgba(get-color('primary'), 0.9);
+	color: fn.get-color('white');
+	background-color: fn.color-opacity('primary', 0.9);
+	border-color: fn.color-opacity('primary', 0.9);
 	font-weight: bold;
-	letter-spacing: em(0.8);
+	letter-spacing: fn.em(0.8);
 
 	&:hover,
 	&:active,
 	&:focus,
 	&.active {
-		background: get-color('text');
-		color: get-color('white');
-		border-color: rgba(get-color('primary'), 0.9);
+		background: fn.get-color('text');
+		color: fn.get-color('white');
+		border-color: fn.color-opacity('primary', 0.9);
 	}
 }

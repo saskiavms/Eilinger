@@ -1,5 +1,6 @@
-@use '../abstracts/mixins' as *;
-@use '../abstracts/functions' as *;
+@use '../abstracts/colors' as *;
+@use '../abstracts/functions' as fn;
+@use '../abstracts/mixins' as mx;
 
 /*--------------------------------------------------------------
 # Footer
@@ -73,7 +74,7 @@
 
 #footer .footer-top .footer-links ul a {
 	color: get-color('gray-light');
-	@include transition-default;
+	@include mx.transition-default;
 	display: inline-block;
 	line-height: 1;
 }
