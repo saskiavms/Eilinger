@@ -46,7 +46,7 @@
 
                 <div class="row">
                     <div class="col-md-6 d-flex align-items-stretch">
-                        <div class="card" style='background-image: url("images/Bildung_4.jpg");'>
+                        <div class="card" style='background-image: url("{{ asset('images/Bildung_4.jpg') }}");'>
                             <div class="card-body">
                                 <h3 class="card-title"><a href="">{{ __('home.education') }}</a></h3>
                                 <p class="card-text">{{ __('home.education_text1') }}</p>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-                        <div class="card" style='background-image: url("images/Menschen_5.jpg");'>
+                        <div class="card" style='background-image: url("{{ asset('images/Menschen_5.jpg') }}");'>
                             <div class="card-body">
                                 <h3 class="card-title"><a href="">{{ __('home.need') }}</a></h3>
                                 <p class="card-text">{{ __('home.need_text1') }}</p>
@@ -65,7 +65,7 @@
 
                     </div>
                     <div class="col-md-6 d-flex align-items-stretch mt-4">
-                        <div class="card" style='background-image: url("images/Tier_1.jpeg");'>
+                        <div class="card" style='background-image: url("{{ asset('images/Tier_1.jpeg') }}");'>
                             <div class="card-body">
                                 <h3 class="card-title"><a href="">{{ __('home.welfare') }}</a></h3>
                                 <p class="card-text">{{ __('home.welfare_text1') }}</p>
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 d-flex align-items-stretch mt-4">
-                        <div class="card" style='background-image: url("images/Umwelt.jpg");'>
+                        <div class="card" style='background-image: url("{{ asset('images/Umwelt.jpg') }}");'>
                             <div class="card-body">
                                 <h3 class="card-title"><a href="">{{ __('home.environment') }}</a></h3>
                                 <p class="card-text">{{ __('home.environment_text1') }}</p>
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 offset-md-3 d-flex align-items-stretch mt-4">
-                        <div class="card" style='background-image: url("images/Menschen_4.jpg");'>
+                        <div class="card" style='background-image: url("{{ asset('images/Menschen_4.jpg') }}");'>
                             <div class="card-body">
                                 <h3 class="card-title"><a href="">{{ __('home.rights') }}</a></h3>
                                 <p class="card-text">{{ __('home.rights_text1') }}</p>
