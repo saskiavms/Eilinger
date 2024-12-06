@@ -122,7 +122,7 @@ ul {
 	border: none;
 	border-radius: 12px;
 	transition: all 0.5s ease;
-	background: fn.get-color('sidebar-dark');
+	background: fn.color-opacity('sidebar-dark', 0.9);
 }
 
 .sidebar.vertical-menu-btn input {

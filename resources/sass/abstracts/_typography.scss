@@ -14,6 +14,33 @@ $font-primary: "Roboto", sans-serif;
 $font-secondary: "Ubuntu", sans-serif;
 $font-decorative: "the_salvador_condensedregular", sans-serif;
 
+// Simplify font system
+$font-sizes: (
+	'xs': 0.75rem,
+	// 12px
+	'sm': 0.875rem,
+	// 14px
+	'base': 1rem,
+	// 16px
+	'lg': 1.125rem,
+	// 18px
+	'xl': 1.25rem,
+	// 20px
+	'2xl': 1.5rem,
+	// 24px
+	'3xl': 1.875rem,
+	// 30px
+	'4xl': 2.25rem // 36px
+);
+
+// Simplify font weights
+$font-weights: (
+	'normal': 400,
+	'medium': 500,
+	'semibold': 600,
+	'bold': 700
+);
+
 // Base typography
 @mixin base-typography {
 	font-family: $font-primary;

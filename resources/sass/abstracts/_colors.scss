@@ -1,18 +1,32 @@
-// Define the colors map
+// Simplify color palette to match Tailwind's approach
 $colors: (
-	'primary': #37517e,
-	'secondary': #4260a6,
-	'tertiary': #7095c5,
-	'text': #1b2356,
+	'primary': ('DEFAULT': #37517e,
+		'light': #36507c,
+		'dark': #273959),
+	'secondary': ('DEFAULT': #4260a6,
+		'light': #5b79be,
+		'dark': #334a80),
+	'tertiary': ('DEFAULT': #7095c5,
+		'light': #8ab0d9,
+		'dark': #5c79a9),
+	'gray': ('DEFAULT': #777777,
+		'light': #a2adb7,
+		'dark': #5e5e5e),
+	'accent': ('DEFAULT': #47b2e4,
+		'hover': #31a9e1),
+	// Layout colors
+	'body-bg': #f3f5fa,
+	'footer-bg': #283a5a,
+	'sidebar-dark': #283a5a,
+	'ghost-white': #f8fafc,
+	// Essential colors
 	'white': #fff,
 	'black': #000,
-	'gray-light': #777777,
-	'gray-dark': #5e5e5e,
-	'footer-bg': #283a5a,
-	'accent-blue': #47b2e4,
-	'scroll-gray': #a2adb7,
-	'body-bg': #E6E9ED,
-	'nav-text': #555b6d,
-	'sidebar-dark': #273959,
-	'ghost-white': ghostwhite
+	'body': #E6E9ED,
+	'text': #1b2356,
+	// Status colors
+	'success': #66BB6A,
+	'warning': #FFA726,
+	'danger': #EF5350,
+	'info': #29B6F6
 );

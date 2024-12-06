@@ -34,7 +34,7 @@
 	line-height: 24px;
 	margin-bottom: 0;
 	font-family: "Jost", sans-serif;
-	color: fn.get-color('gray-dark');
+	color: fn.get-color('gray', 'dark');
 }
 
 #footer .footer-top h4 {
@@ -73,7 +73,7 @@
 }
 
 #footer .footer-top .footer-links ul a {
-	color: fn.get-color('gray-light');
+	color: fn.get-color('gray', 'light');
 	@include mx.transition-default;
 	display: inline-block;
 	line-height: 1;

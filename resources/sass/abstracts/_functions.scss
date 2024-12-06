@@ -1,9 +1,19 @@
 @use 'colors' as *;
 
-// Get color from the $colors map
-@function get-color($color-name) {
+// Get color from the $colors map with optional variant
+@function get-color($color-name, $variant: 'DEFAULT') {
 	@if map-has-key($colors, $color-name) {
-		@return map-get($colors, $color-name);
+		$color: map-get($colors, $color-name);
+
+		@if type-of($color)=='map' {
+			@if map-has-key($color, $variant) {
+				@return map-get($color, $variant);
+			}
+
+			@error "Variant '#{$variant}' not found in color '#{$color-name}'.";
+		}
+
+		@return $color;
 	}
 
 	@error "Color '#{$color-name}' not found in $colors map.";
@@ -53,7 +63,8 @@ $z-indexes: (
 	@return darken(get-color($color-name), $amount);
 }
 
-// Add this new function
-@function color-opacity($color-name, $opacity) {
-	@return rgba(get-color($color-name), $opacity);
+// Add opacity to a color
+@function color-opacity($color-name, $opacity, $variant: 'DEFAULT') {
+	$color: get-color($color-name, $variant);
+	@return rgba($color, $opacity);
 }

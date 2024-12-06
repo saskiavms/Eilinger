@@ -3,12 +3,7 @@
 @use 'abstracts/functions' as fn;
 @use 'abstracts/mixins' as mx;
 
-/*--------------------------------------------------------------
-# Navigation Menu
---------------------------------------------------------------*/
-/**
-* Desktop Navigation
-*/
+
 .navbar {
 	padding: 0;
 
@@ -48,7 +43,7 @@
 	.active,
 	.active:focus,
 	li:hover>a {
-		color: #47b2e4;
+		color: fn.get-color('accent', 'DEFAULT');
 	}
 
 	.getstarted {
@@ -57,14 +52,14 @@
 		border-radius: 50px;
 		color: #fff;
 		font-size: 0.875rem;
-		border: 2px solid #47b2e4;
+		border: 2px solid fn.get-color('accent', 'DEFAULT');
 		font-weight: 600;
 		font-family: $font-primary;
 	}
 
 	.getstarted:hover {
 		color: #fff;
-		background: #31a9e1;
+		background: fn.get-color('accent', 'hover');
 	}
 
 	.dropdown ul {
@@ -78,7 +73,7 @@
 		opacity: 0;
 		visibility: hidden;
 		background: fn.get-color('white');
-		box-shadow: 0 0 30px fn.color-opacity('gray-light', 0.25);
+		box-shadow: 0 0 30px fn.color-opacity('gray', 0.25, 'light');
 		transition: 0.3s;
 	}
 
@@ -91,7 +86,7 @@
 		font-size: 0.875 rem;
 		text-transform: none;
 		font-weight: 500;
-		color: #0c3c53;
+		color: fn.get-color('text');
 	}
 
 	.dropdown ul a i {
@@ -101,7 +96,7 @@
 	.dropdown ul a:hover,
 	.dropdown ul .active:hover,
 	.dropdown ul li:hover>a {
-		color: #47b2e4;
+		color: fn.get-color('accent', 'DEFAULT');
 	}
 
 	.dropdown:hover>ul {
@@ -137,7 +132,7 @@
 	    * Mobile Navigation
 	    */
 	.mobile-nav-toggle {
-		color: #fff;
+		color: fn.get-color('white');
 		font-size: 1.75rem;
 		cursor: pointer;
 		display: none;
@@ -146,7 +141,7 @@
 	}
 
 	.mobile-nav-toggle.bi-x {
-		color: #fff;
+		color: fn.get-color('white');
 	}
 
 	@media (max-width: 991px) {
@@ -186,7 +181,7 @@
 		left: 15px;
 		padding: 10px 0;
 		border-radius: 10px;
-		background-color: #fff;
+		background-color: fn.get-color('white');
 
 		.navbar ul {
 			margin: 0;
@@ -224,23 +219,23 @@
 		.navbar .active,
 		.navbar .active:focus,
 		.navbar li:hover>a {
-			color: #47b2e4;
+			color: fn.get-color('accent', 'DEFAULT');
 		}
 
 		.navbar .getstarted {
 			padding: 8px 20px;
 			margin-left: 30px;
 			border-radius: 50px;
-			color: #fff;
+			color: fn.get-color('white');
 			font-size: 0.875rem;
-			border: 2px solid #47b2e4;
+			border: 2px solid fn.get-color('accent', 'DEFAULT');
 			font-weight: 600;
 			font-family: $font-primary;
 		}
 
 		.navbar .getstarted:hover {
-			color: #fff;
-			background: #31a9e1;
+			color: fn.get-color('white');
+			background: fn.get-color('accent', 'hover');
 		}
 
 		.navbar .dropdown ul {
@@ -253,8 +248,8 @@
 			z-index: 99;
 			opacity: 0;
 			visibility: hidden;
-			background: #fff;
-			box-shadow: 0 0 30px fn.color-opacity('gray-light', 0.25);
+			background: fn.get-color('white');
+			box-shadow: 0 0 30px fn.color-opacity('gray', 0.25, 'light');
 			transition: 0.3s;
 			border-radius: 4px;
 		}
@@ -268,7 +263,7 @@
 			font-size: 0.875 rem;
 			text-transform: none;
 			font-weight: 500;
-			color: #0c3c53;
+			color: fn.get-color('text');
 		}
 
 		.navbar .dropdown ul a i {
@@ -278,7 +273,7 @@
 		.navbar .dropdown ul a:hover,
 		.navbar .dropdown ul .active:hover,
 		.navbar .dropdown ul li:hover>a {
-			color: #47b2e4;
+			color: fn.get-color('accent', 'DEFAULT');
 		}
 
 		.navbar .dropdown:hover>ul {
@@ -314,7 +309,7 @@
     * Mobile Navigation
     */
 		.mobile-nav-toggle {
-			color: #fff;
+			color: fn.get-color('white');
 			font-size: 1.75rem;
 			cursor: pointer;
 			display: none;
@@ -323,7 +318,7 @@
 		}
 
 		.mobile-nav-toggle.bi-x {
-			color: #fff;
+			color: fn.get-color('white');
 		}
 
 		@media (max-width: 991px) {
@@ -363,7 +358,7 @@
 			left: 15px;
 			padding: 10px 0;
 			border-radius: 10px;
-			background-color: #fff;
+			background-color: fn.get-color('white');
 			overflow-y: auto;
 			transition: 0.3s;
 		}
@@ -377,7 +372,7 @@
 		.navbar-mobile a:hover,
 		.navbar-mobile .active,
 		.navbar-mobile li:hover>a {
-			color: #47b2e4;
+			color: fn.get-color('accent', 'DEFAULT');
 		}
 
 		.navbar-mobile .getstarted {
@@ -394,7 +389,7 @@
 			opacity: 1;
 			visibility: visible;
 			background: fn.get-color('white');
-			box-shadow: 0 0 30px fn.color-opacity('gray-light', 0.25);
+			box-shadow: 0 0 30px fn.color-opacity('gray', 0.25, 'light');
 		}
 
 		.navbar-mobile .dropdown ul li {
@@ -412,7 +407,7 @@
 		.navbar-mobile .dropdown ul a:hover,
 		.navbar-mobile .dropdown ul .active:hover,
 		.navbar-mobile .dropdown ul li:hover>a {
-			color: #47b2e4;
+			color: fn.get-color('accent', 'DEFAULT');
 		}
 
 		.navbar-mobile .dropdown>.dropdown-active {

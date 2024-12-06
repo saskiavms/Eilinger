@@ -27,15 +27,15 @@
 }
 
 .our-values .card-title a {
-	color: #150517;
+	color: fn.get-color('text');
 }
 
 .our-values .card-text {
-	color: fn.get-color('gray-dark');
+	color: fn.get-color('gray', 'dark');
 }
 
 .our-values .read-more a {
-	color: fn.get-color('gray-light');
+	color: fn.get-color('gray', 'light');
 	text-transform: uppercase;
 	font-weight: 600;
 	font-size: 0.75rem;

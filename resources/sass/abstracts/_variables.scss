@@ -34,11 +34,31 @@ $line-height-base: 1.6;
 $theme-colors: (
 	'body-background': get-color('body-bg'),
 	'text-primary': get-color('text'),
-	'text-muted': get-color('gray-light'),
+	'text-muted': get-color('gray', 'light'),
 	'link': get-color('secondary'),
 	'link-hover': get-color('tertiary'),
 	'header-bg': get-color('primary'),
 	'footer-bg': get-color('footer-bg'),
-	'button-primary': get-color('accent-blue'),
-	'button-hover': darken-color('accent-blue', 10%)
+	'button-primary': get-color('accent'),
+	'button-hover': get-color('accent', 'hover')
+);
+
+// Use Tailwind-like spacing scale
+$spacing: (
+	'0': 0,
+	'1': 0.25rem,
+	// 4px
+	'2': 0.5rem,
+	// 8px
+	'3': 0.75rem,
+	// 12px
+	'4': 1rem,
+	// 16px
+	'6': 1.5rem,
+	// 24px
+	'8': 2rem,
+	// 32px
+	'12': 3rem,
+	// 48px
+	'16': 4rem // 64px
 );

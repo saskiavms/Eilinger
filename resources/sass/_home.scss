@@ -51,8 +51,8 @@
 }
 
 .form-check-input:checked {
-	background-color: red;
-	border-color: gray;
+	background-color: fn.get-color('danger');
+	border-color: fn.get-color('gray', 'light');
 }
 
 .accordion-button {

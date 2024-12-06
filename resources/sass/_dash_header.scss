@@ -1,5 +1,7 @@
+@use 'abstracts/functions' as fn;
+
 body {
-	background: #E6E9ED;
+	background: fn.get-color('body');
 	min-height: 100vh;
 	position: relative;
 }
@@ -17,7 +19,7 @@ body {
 	height: 7px;
 	width: 7px;
 	border-radius: 7px;
-	background-color: #66BB6A;
+	background-color: fn.get-color('success');
 	position: absolute;
 	top: 7px;
 	left: 12px;
@@ -59,7 +61,7 @@ body {
 }
 
 .notification-ui_dd .notification-ui_dd-header {
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid fn.get-color('gray', 'light');
 	padding: 15px;
 }
 
@@ -81,7 +83,7 @@ body {
 	justify-content: space-between;
 	padding: 20px 0;
 	margin: 0 25px;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid fn.get-color('gray', 'light');
 }
 
 .notification-list--unread {
@@ -94,7 +96,7 @@ body {
 	top: 0;
 	left: -25px;
 	height: calc(100% + 1px);
-	border-left: 2px solid #29B6F6;
+	border-left: 2px solid fn.get-color('info');
 }
 
 .notification-list .notification-list_img img {
