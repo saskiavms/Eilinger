@@ -19,12 +19,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/js/app.js'])
-    @vite(['resources/js/eilinger.js'])
-    @vite(['resources/sass/eilinger.scss'])
-    @livewireStyles()
-
-
+    @vite(['resources/js/app.js', 'resources/js/eilinger.js', 'resources/sass/eilinger.scss'])
+    @livewireStyles
 
 </head>
 
@@ -58,7 +54,7 @@
     <!-- ======= Footer ======= -->
     @include('components.layout.footer')
 
-    @livewireScripts()
+    @livewireScripts
 </body>
 
 </html>

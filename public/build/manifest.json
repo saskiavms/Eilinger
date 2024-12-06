@@ -28,12 +28,12 @@
       "css/app.min.css",
       "css/app.min2.css"
     ],
-    "file": "js/app.js",
+    "file": "js/app.min.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/js/eilinger.js": {
-    "file": "js/eilinger.js",
+    "file": "js/eilinger.min.js",
     "isEntry": true,
     "src": "resources/js/eilinger.js"
   },
