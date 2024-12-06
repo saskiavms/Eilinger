@@ -1,125 +1,124 @@
-/*--------------------------------------------------------------
-# Pricing
---------------------------------------------------------------*/
+@use 'abstracts/functions' as fn;
+
 .pricing .row {
-    padding-top: 40px;
-    }
+	padding-top: 40px;
+}
 
-    .pricing .box {
-    padding: 60px 40px;
-    box-shadow: 0 3px 20px -2px rgba(20, 45, 100, 0.1);
-    background: #fff;
-    height: 100%;
-    border-top: 4px solid #fff;
-    border-radius: 5px;
-    }
+.pricing .box {
+	padding: 60px 40px;
+	box-shadow: 0 3px 20px -2px fn.color-opacity('black', 0.1);
+	background: fn.get-color('white');
+	height: 100%;
+	border-top: 4px solid fn.get-color('white');
+	border-radius: 5px;
+}
 
-    .pricing h3 {
-    font-weight: 500;
-    margin-bottom: 15px;
-    font-size: 1.25rem;
-    color: #37517e;
-    }
+.pricing h3 {
+	font-weight: 500;
+	margin-bottom: 15px;
+	font-size: 1.25rem;
+	color: fn.get-color('primary');
+}
 
-    .pricing h4 {
-    font-size: 1.875rem;
-    font-weight: 700;
-    margin-top: 25px;
-    margin-bottom: 15px;
-    }
+.pricing h4 {
+	font-size: 1.875rem;
+	font-weight: 700;
+	margin-top: 25px;
+	margin-bottom: 15px;
+}
 
-    .pricing h4 sup {
-    font-size: 1.75rem;
-    }
+.pricing h4 sup {
+	font-size: 1.75rem;
+}
 
-    .pricing h4 span {
-    color: #47b2e4;
-    font-size: 1.125rem;
-    display: block;
-    }
+.pricing h4 span {
+	color: #47b2e4;
+	font-size: 1.125rem;
+	display: block;
+}
 
-    .pricing ul {
-    padding: 20px 0;
-    list-style: none;
-    color: #999;
-    text-align: left;
-    line-height: 20px;
-    }
+.pricing ul {
+	padding: 20px 0;
+	list-style: none;
+	color: fn.get-color('gray-dark');
+	text-align: left;
+	line-height: 20px;
+}
 
-    .pricing ul li {
-    padding: 10px 0 10px 30px;
-    position: relative;
-    }
+.pricing ul li {
+	padding: 10px 0 10px 30px;
+	position: relative;
+}
 
-    .pricing ul i {
-    color: #47b2e4;
-    font-size: 1.5rem;
-    position: absolute;
-    left: 0;
-    top: 6px;
-    }
+.pricing ul i {
+	color: #47b2e4;
+	font-size: 1.5rem;
+	position: absolute;
+	left: 0;
+	top: 6px;
+}
 
-    .pricing ul .na {
-    color: #ccc;
-    }
+.pricing ul .na {
+	color: #ccc;
+}
 
-    .pricing ul .na i {
-    color: #ccc;
-    }
+.pricing ul .na i {
+	color: #ccc;
+}
 
-    .pricing ul .na span {
-    text-decoration: line-through;
-    }
+.pricing ul .na span {
+	text-decoration: line-through;
+}
 
-    .pricing .buy-btn {
-        text-align: center;
-        display: inline-block;
-        padding: 12px 35px;
-        border-radius: 50px;
-        color: #47b2e4;
-        transition: none;
-        font-size: 1rem;
-        font-weight: 500;
-        font-family: "Jost", sans-serif;
-        transition: 0.3s;
-        border: 1px solid #47b2e4;
-    }
+.pricing .buy-btn {
+	text-align: center;
+	display: inline-block;
+	padding: 12px 35px;
+	border-radius: 50px;
+	color: fn.get-color('accent-blue');
+	transition: none;
+	font-size: 1rem;
+	font-weight: 500;
+	font-family: "Jost", sans-serif;
+	transition: 0.3s;
+	border: 1px solid fn.get-color('accent-blue');
+}
 
-    .pricing .buy-btn:hover {
-    background: #47b2e4;
-    color: #fff;
-    }
+.pricing .buy-btn:hover {
+	background: fn.get-color('accent-blue');
+	color: fn.get-color('white');
+}
 
-    .pricing .featured {
-    border-top-color: #47b2e4;
-    }
+.pricing .featured {
+	border-top-color: fn.get-color('accent-blue');
+}
 
-    .pricing .featured .buy-btn {
-    background: #47b2e4;
-    color: #fff;
-    }
+.pricing .featured .buy-btn {
+	background: fn.get-color('accent-blue');
+	color: fn.get-color('white');
+}
 
-    .pricing .featured .buy-btn:hover {
-    background: #23a3df;
-    }
+.pricing .featured .buy-btn:hover {
+	background: fn.get-color('accent-blue');
+}
 
-    @media (max-width: 992px) {
-    .pricing .box {
-      max-width: 60%;
-      margin: 0 auto 30px auto;
-    }
-    }
+@media (max-width: 992px) {
+	.pricing .box {
+		max-width: 60%;
+		margin: 0 auto 30px auto;
+	}
+}
 
-    @media (max-width: 767px) {
-    .pricing .box {
-      max-width: 80%;
-      margin: 0 auto 30px auto;
-    }
-    }
+@media (max-width: 767px) {
+	.pricing .box {
+		max-width: 80%;
+		margin: 0 auto 30px auto;
+	}
+}
 
-    @media (max-width: 420px) {
-    .pricing .box {
-      max-width: 100%;
-      margin: 0 auto 30px auto;
-    }
-    }
+@media (max-width: 420px) {
+	.pricing .box {
+		max-width: 100%;
+		margin: 0 auto 30px auto;
+	}
+}

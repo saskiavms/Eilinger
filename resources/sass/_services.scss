@@ -1,13 +1,12 @@
-/*--------------------------------------------------------------
-# Services
---------------------------------------------------------------*/
+@use 'abstracts/functions' as fn;
+
 .services .icon-box {
 	padding: 30px;
 	position: relative;
 	overflow: hidden;
 	border-radius: 10px;
-	background: #fff;
-	box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
+	background: fn.get-color('white');
+	box-shadow: 0 10px 29px 0 fn.color-opacity('text', 0.1);
 	transition: all 0.3s ease-in-out;
 	height: 100%;
 }
@@ -36,11 +35,11 @@
 }
 
 .services .title a {
-	color: #111;
+	color: fn.get-color('text');
 }
 
 .services .icon-box:hover .title a {
-	color: get-color('secondary');
+	color: fn.get-color('secondary');
 }
 
 .services .description {

@@ -1,24 +1,21 @@
-/*--------------------------------------------------------------
-# Header
---------------------------------------------------------------*/
-@use 'abstracts/functions' as *;
+@use 'abstracts/functions' as fn;
 @use 'abstracts/variables' as *;
-@use 'abstracts/mixins' as *;
+@use 'abstracts/mixins' as mx;
 
 #header {
-	@include transition-default;
-	z-index: z('header');
-	padding: rem(15) 0;
-	background-color: get-color('primary');
+	@include mx.transition-default;
+	z-index: fn.z('header');
+	padding: fn.rem(15, 16) 0; // Add the context parameter (16 is default)
+	background-color: fn.get-color('primary');
 }
 
 #header.header-scrolled,
 #header.header-inner-pages {
-	background: rgba(40, 58, 90, 0.9);
+	background: fn.color-opacity('primary', 0.9);
 }
 
 #header .logo {
-	font-size: 1.875rem;
+	font-size: fn.rem(30, 16); // 1.875rem
 	margin: 0;
 	padding: 0;
 	line-height: 1;
@@ -28,15 +25,15 @@
 }
 
 #header .logo a {
-	color: get-color('white');
+	color: fn.get-color('white');
 	text-decoration: none;
-}
 
-#header .logo a:hover {
-	color: get-color('white');
-	text-decoration: none;
+	&:hover {
+		color: fn.get-color('white');
+		text-decoration: none;
+	}
 }
 
 #header .logo img {
-	max-height: rem(40);
+	max-height: fn.rem(40, 16);
 }

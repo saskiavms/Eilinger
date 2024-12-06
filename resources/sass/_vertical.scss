@@ -1,5 +1,5 @@
 @use 'abstracts/variables' as *;
-@use 'abstracts/functions' as *;
+@use 'abstracts/functions' as fn;
 @use "sass:color";
 
 .metismenu {
@@ -34,10 +34,10 @@
 
 
 .vertical-menu {
-	color: get-color('primary');
+	color: fn.get-color('primary');
 	width: $sidebar-width;
 	z-index: 1001;
-	background: get-color('primary');
+	background: fn.get-color('primary');
 	bottom: 0;
 	margin-top: 0;
 	position: fixed;
@@ -71,8 +71,8 @@
 				top: -20px;
 				left: calc(100% + 15px);
 				z-index: 3;
-				background: #fff;
-				box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+				background: fn.get-color('white');
+				box-shadow: 0 5px 10px fn.color-opacity('black', 0.3);
 				padding: 6px 12px;
 				border-radius: 4px;
 				font-size: 0.9375rem;
@@ -95,7 +95,7 @@
 				align-items: center;
 				text-decoration: none;
 				transition: all .4s ease;
-				background: rgba(40, 58, 90, .9);
+				background: fn.color-opacity('sidebar-dark', 0.9);
 
 				i {
 					display: inline-block;
@@ -117,10 +117,10 @@
 						transform: translateY(-50%);
 					}
 
-					color: ghostwhite;
+					color: fn.get-color('ghost-white');
 
 					i {
-						color: ghostwhite;
+						color: fn.get-color('ghost-white');
 					}
 				}
 			}
@@ -237,10 +237,10 @@
 							position: absolute;
 							width: 190px;
 							height: auto !important;
-							box-shadow: 3px 5px 10px 0 rgba(54, 61, 71, .1);
+							box-shadow: 3px 5px 10px 0 fn.color-opacity('gray-dark', 0.1);
 
 							ul {
-								box-shadow: 3px 5px 10px 0 rgba(54, 61, 71, .1);
+								box-shadow: 3px 5px 10px 0 fn.color-opacity('gray-dark', 0.1);
 							}
 
 							a {
@@ -259,7 +259,7 @@
 					padding: 5px 0;
 					z-index: 9999;
 					display: none;
-					background-color: ghostwhite;
+					background-color: fn.get-color('ghost-white');
 
 					li {
 						&:hover {
@@ -285,7 +285,7 @@
 
 					li.active {
 						a {
-							color: lightgrey;
+							color: fn.get-color('gray-light');
 						}
 					}
 				}
@@ -296,115 +296,7 @@
 }
 
 
-body[data-sidebar="dark"] {
 
-	#sidebar-menu {
-
-		ul {
-			li {
-				a {
-					color: ghostwhite;
-
-					i {
-						color: ghostwhite;
-					}
-
-					&:hover {
-						color: ghostwhite;
-
-						i {
-							color: ghostwhite;
-						}
-					}
-				}
-
-			}
-		}
-	}
-
-	// Enlarge menu
-	&.vertical-collpsed {
-		min-height: 1760px;
-
-		// Side menu
-		.vertical-menu {
-
-			// Sidebar Menu
-			#sidebar-menu {
-
-				>ul {
-					>li {
-
-						&:hover {
-							>a {
-								color: ghostwhite;
-
-								i {
-									color: ghostwhite;
-								}
-							}
-
-							>ul {
-								a {
-									color: ghostwhite;
-
-									&:hover {
-										color: ghostwhite;
-									}
-								}
-							}
-						}
-					}
-
-					ul {
-						background-color: get-color('primary');
-					}
-
-				}
-
-				ul {
-
-					li {
-						&.mm-active .active {
-							color: get-color('primary') !important;
-
-							i {
-								color: get-color('primary') !important;
-							}
-						}
-					}
-				}
-
-			}
-
-
-		}
-	}
-
-	.mm-active {
-		color: get-color('primary') !important;
-
-		>a {
-			color: get-color('primary') !important;
-
-			i {
-				color: get-color('primary') !important;
-			}
-		}
-
-		>i {
-			color: get-color('primary') !important;
-		}
-
-		.active {
-			color: get-color('primary') !important;
-
-			i {
-				color: get-color('primary') !important;
-			}
-		}
-	}
-}
 
 
 body[data-layout="horizontal"] {
@@ -445,7 +337,7 @@ body[data-sidebar-size="small"] {
 	#sidebar-menu {
 		ul li {
 			&.menu-title {
-				background-color: color.adjust(get-color('primary'), $lightness: 2%);
+				background-color: color.adjust(fn.get-color('primary'), $lightness: 2%);
 			}
 
 			a {
@@ -535,27 +427,27 @@ body[data-sidebar="colored"] {
 		ul {
 			li {
 				&.menu-title {
-					color: rgba(get-color('white'), 0.6);
+					color: fn.color-opacity('white', 0.6);
 				}
 
 				a {
-					color: rgba(get-color('white'), 0.6);
+					color: fn.color-opacity('white', 0.6);
 
 					i {
-						color: rgba(get-color('white'), 0.6);
+						color: fn.color-opacity('white', 0.6);
 					}
 
 					&.waves-effect {
 						.waves-ripple {
-							background: rgba(get-color('white'), 0.1);
+							background: fn.color-opacity('white', 0.1);
 						}
 					}
 
 					&:hover {
-						color: get-color('white');
+						color: fn.get-color('white');
 
 						i {
-							color: get-color('white');
+							color: fn.get-color('white');
 						}
 					}
 				}
@@ -563,10 +455,10 @@ body[data-sidebar="colored"] {
 				ul.sub-menu {
 					li {
 						a {
-							color: rgba(get-color('white'), .5);
+							color: fn.color-opacity('white', .5);
 
 							&:hover {
-								color: get-color('white');
+								color: fn.get-color('white');
 							}
 						}
 					}
@@ -581,11 +473,11 @@ body[data-sidebar="colored"] {
 				>ul {
 					>li {
 						&:hover>a {
-							background-color: color.adjust(get-color('primary'), $lightness: 2%);
-							color: get-color('white');
+							background-color: color.adjust(fn.get-color('primary'), $lightness: 2%);
+							color: fn.get-color('white');
 
 							i {
-								color: get-color('white');
+								color: fn.get-color('white');
 							}
 						}
 					}

@@ -1,9 +1,8 @@
-@use 'abstracts/colors' as *;
-@use 'abstracts/variables' as *;
+@use 'abstracts/functions' as fn;
 
 body {
 	font-family: "Roboto", sans-serif;
-	color: get-color('primary');
+	color: fn.get-color('primary');
 }
 
 ul {
@@ -16,7 +15,7 @@ ul {
 	top: 0;
 	height: 100%;
 	width: 78px;
-	background: get-color('primary');
+	background: fn.get-color('primary');
 	padding: 6px 14px;
 	z-index: 99;
 	transition: all 0.5s ease;
@@ -88,8 +87,8 @@ ul {
 	top: -20px;
 	left: calc(100% + 15px);
 	z-index: 3;
-	background: get-color('white');
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+	background: fn.get-color('white');
+	box-shadow: 0 5px 10px fn.color-opacity('black', 0.3);
 	padding: 6px 12px;
 	border-radius: 4px;
 	font-size: 0.9375rem;
@@ -114,7 +113,7 @@ ul {
 
 .sidebar input {
 	font-size: 0.9375rem;
-	color: get-color('white');
+	color: fn.get-color('white');
 	font-weight: 400;
 	outline: none;
 	height: 50px;
@@ -123,7 +122,7 @@ ul {
 	border: none;
 	border-radius: 12px;
 	transition: all 0.5s ease;
-	background: #1d1b31;
+	background: fn.get-color('sidebar-dark');
 }
 
 .sidebar.vertical-menu-btn input {
@@ -139,15 +138,15 @@ ul {
 	align-items: center;
 	text-decoration: none;
 	transition: all 0.4s ease;
-	background: rgba(40, 58, 90, 0.9);
+	background: fn.color-opacity('sidebar-dark', 0.9);
 }
 
 .sidebar li a:hover {
-	background: get-color('white');
+	background: fn.get-color('white');
 }
 
 .sidebar li a .links_name {
-	color: get-color('white');
+	color: fn.get-color('white');
 	font-size: 0.9375rem;
 	font-weight: 400;
 	white-space: nowrap;
@@ -164,7 +163,7 @@ ul {
 .sidebar li a:hover .links_name,
 .sidebar li a:hover i {
 	transition: all 0.5s ease;
-	color: #11101D;
+	color: fn.get-color('text');
 }
 
 .sidebar li i {

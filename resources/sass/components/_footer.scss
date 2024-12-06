@@ -7,12 +7,12 @@
 --------------------------------------------------------------*/
 #footer {
 	font-size: 0.875rem;
-	background: get-color('primary');
+	background: fn.get-color('primary');
 }
 
 #footer .footer-top {
 	padding: 60px 0 30px;
-	background: get-color('footer-bg');
+	background: fn.get-color('footer-bg');
 }
 
 #footer .footer-top .footer-contact {
@@ -26,7 +26,7 @@
 	line-height: 1;
 	text-transform: uppercase;
 	font-weight: 600;
-	color: get-color('primary');
+	color: fn.get-color('primary');
 }
 
 #footer .footer-top .footer-contact p {
@@ -34,13 +34,13 @@
 	line-height: 24px;
 	margin-bottom: 0;
 	font-family: "Jost", sans-serif;
-	color: get-color('gray-dark');
+	color: fn.get-color('gray-dark');
 }
 
 #footer .footer-top h4 {
 	font-size: 1rem;
 	font-weight: bold;
-	color: get-color('primary');
+	color: fn.get-color('primary');
 	position: relative;
 	padding-bottom: 12px;
 }
@@ -57,7 +57,7 @@
 
 #footer .footer-top .footer-links ul i {
 	padding-right: 2px;
-	color: get-color('tertiary');
+	color: fn.get-color('tertiary');
 	font-size: 1.125rem;
 	line-height: 1;
 }
@@ -73,7 +73,7 @@
 }
 
 #footer .footer-top .footer-links ul a {
-	color: get-color('gray-light');
+	color: fn.get-color('gray-light');
 	@include mx.transition-default;
 	display: inline-block;
 	line-height: 1;
@@ -81,13 +81,13 @@
 
 #footer .footer-top .footer-links ul a:hover {
 	text-decoration: none;
-	color: get-color('tertiary');
+	color: fn.get-color('tertiary');
 }
 
 #footer .footer-bottom {
 	padding-top: 30px;
 	padding-bottom: 30px;
-	color: get-color('white');
+	color: fn.get-color('white');
 }
 
 #footer .copyright {
