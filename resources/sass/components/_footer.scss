@@ -73,7 +73,7 @@
 }
 
 #footer .footer-top .footer-links ul a {
-	color: fn.get-color("gray", "light");
+	color: fn.get-color("gray", "dark");
 	@include mx.transition-default;
 	display: inline-block;
 	line-height: 1;
