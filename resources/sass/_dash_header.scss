@@ -61,7 +61,7 @@ body {
 }
 
 .notification-ui_dd .notification-ui_dd-header {
-	border-bottom: fn.spacing("px") solid fn.get-color("gray", "light");
+	border-bottom: fn.spacing("px") solid fn.get-color("gray", "400");
 	padding: fn.spacing("3");
 }
 
@@ -83,7 +83,7 @@ body {
 	justify-content: space-between;
 	padding: fn.spacing("4") 0;
 	margin: 0 fn.spacing("5");
-	border-bottom: fn.spacing("px") solid fn.get-color("gray", "light");
+	border-bottom: fn.spacing("px") solid fn.get-color("gray", "400");
 }
 
 .notification-list--unread {

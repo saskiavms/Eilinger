@@ -10,7 +10,7 @@
 .simplebar-scrollbar:before {
 	position: absolute;
 	content: "";
-	background: fn.get-color("gray", "light");
+	background: fn.get-color("gray", "400");
 	border-radius: fn.radius("lg"); // 7px -> lg
 	left: 0;
 	right: 0;

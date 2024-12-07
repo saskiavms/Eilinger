@@ -237,10 +237,10 @@
 							position: absolute;
 							width: 190px;
 							height: auto !important;
-							box-shadow: 3px 5px 10px 0 fn.color-opacity('gray', 0.1, 'dark');
+							box-shadow: 3px 5px 10px 0 fn.color-opacity('gray', 0.1, '800');
 
 							ul {
-								box-shadow: 3px 5px 10px 0 fn.color-opacity('gray', 0.1, 'dark');
+								box-shadow: 3px 5px 10px 0 fn.color-opacity('gray', 0.1, '800');
 							}
 
 							a {
@@ -285,7 +285,7 @@
 
 					li.active {
 						a {
-							color: fn.get-color('gray', 'light');
+							color: fn.get-color('gray', '400');
 						}
 					}
 				}

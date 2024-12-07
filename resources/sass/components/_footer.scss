@@ -20,7 +20,7 @@
 }
 
 #footer .footer-top .footer-contact h3 {
-	font-size: fn.font-size("xl");
+	font-size: fn.font-size("3xl");
 	margin-bottom: fn.spacing("2.5");
 	padding: fn.spacing("0.5") 0;
 	line-height: 1;
@@ -34,7 +34,7 @@
 	line-height: fn.spacing("6");
 	margin-bottom: 0;
 	font-family: "Jost", sans-serif;
-	color: fn.get-color("gray", "dark");
+	color: fn.get-color("footer-text");
 }
 
 #footer .footer-top h4 {
@@ -57,7 +57,7 @@
 
 #footer .footer-top .footer-links ul i {
 	padding-right: fn.spacing("0.5");
-	color: fn.get-color("tertiary");
+	color: fn.get-color("primary", "400");
 	font-size: fn.font-size("lg");
 	line-height: 1;
 }
@@ -73,7 +73,7 @@
 }
 
 #footer .footer-top .footer-links ul a {
-	color: fn.get-color("gray", "dark");
+	color: fn.get-color("footer-text");
 	@include mx.transition-default;
 	display: inline-block;
 	line-height: 1;
@@ -81,7 +81,7 @@
 
 #footer .footer-top .footer-links ul a:hover {
 	text-decoration: none;
-	color: fn.get-color("tertiary");
+	color: fn.get-color("primary", "400");
 }
 
 #footer .footer-bottom {

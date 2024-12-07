@@ -34,11 +34,22 @@ $line-height-base: 1.6;
 $theme-colors: (
 	'body-background': get-color('body-bg'),
 	'text-primary': get-color('text'),
-	'text-muted': get-color('gray', 'light'),
-	'link': get-color('secondary'),
-	'link-hover': get-color('tertiary'),
+	'text-muted': get-color('gray', '400'),
+	'link': get-color('primary', '500'),
+	'link-hover': get-color('primary', '400'),
 	'header-bg': get-color('primary'),
 	'footer-bg': get-color('footer-bg'),
 	'button-primary': get-color('accent'),
 	'button-hover': get-color('accent', 'hover')
+);
+
+// Align z-index values with Tailwind's scale:
+$z-index: (
+    '0': 0,
+    '10': 10,
+    '20': 20,
+    '30': 30,
+    '40': 40,
+    '50': 50,
+    'auto': 'auto'
 );

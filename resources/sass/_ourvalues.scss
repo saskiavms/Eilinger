@@ -31,11 +31,11 @@
 }
 
 .our-values .card-text {
-	color: fn.get-color('gray', 'dark');
+	color: fn.get-color('gray', '800');
 }
 
 .our-values .read-more a {
-	color: fn.get-color('gray', 'light');
+	color: fn.get-color('gray', '400');
 	text-transform: uppercase;
 	font-weight: 600;
 	font-size: fn.font-size('xs');
@@ -47,7 +47,7 @@
 }
 
 .our-values .card:hover .card-body {
-	background: fn.get-color('secondary');
+	background: fn.get-color('primary', '500');
 }
 
 .our-values .card:hover .read-more a,

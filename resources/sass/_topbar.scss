@@ -53,11 +53,11 @@
 
 .nav-item {
 	position: relative;
-	color: fn.get-color('gray', 'dark');
+	color: fn.get-color('gray', '800');
 
 	.nav-link {
 		border: none;
-		color: fn.get-color('gray', 'dark');
+		color: fn.get-color('gray', '800');
 
 		&::after {
 			content: "";
@@ -69,7 +69,7 @@
 			bottom: -1px;
 			transition: all 250ms ease 0s;
 			transform: scale(0);
-			color: fn.get-color('gray', 'dark');
+			color: fn.get-color('gray', '800');
 		}
 
 		&.active {
@@ -136,7 +136,7 @@
 .header-profile-user {
 	height: 36px;
 	width: 36px;
-	background-color: get-color('tertiary');
+	background-color: get-color('primary', '400');
 	padding: 3px;
 }
 
@@ -158,7 +158,7 @@
 		padding: 0.75rem 1rem;
 
 		&:hover {
-			background-color: fn.get-color('gray', 'light');
+			background-color: fn.get-color('gray', '400');
 		}
 	}
 }
@@ -186,7 +186,7 @@
 	}
 
 	&:hover {
-		border-color: fn.get-color('gray', 'light');
+		border-color: fn.get-color('gray', '400');
 	}
 }
 
@@ -242,7 +242,7 @@ hr {
 	display: block;
 	height: 1px;
 	border: 0;
-	border-top: 1px solid fn.get-color('gray', 'light');
+	border-top: 1px solid fn.get-color('gray', '400');
 	margin: 1em 0;
 	padding: 0;
 }

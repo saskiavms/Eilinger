@@ -31,7 +31,7 @@ hr {
 }
 
 .blog-comment .post-comments {
-	border: 1px solid fn.get-color("gray", "light");
+	border: 1px solid fn.get-color("gray", "400");
 	margin-bottom: fn.spacing("5");
 	margin-left: fn.spacing("20");
 	margin-right: fn.spacing("0");
@@ -39,15 +39,15 @@ hr {
 	position: relative;
 	border-radius: fn.spacing("1");
 	background: fn.get-color("white");
-	color: fn.get-color("gray", "dark");
+	color: fn.get-color("gray", "800");
 }
 
 .blog-comment .meta {
 	font-size: fn.font-size("sm");
-	color: fn.get-color("gray", "light");
+	color: fn.get-color("gray", "400");
 	padding-bottom: fn.spacing("2");
 	margin-bottom: 10px !important;
-	border-bottom: 1px solid fn.get-color("gray", "light");
+	border-bottom: 1px solid fn.get-color("gray", "400");
 }
 
 .blog-comment ul.comments ul {

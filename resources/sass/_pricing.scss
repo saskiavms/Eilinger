@@ -40,7 +40,7 @@
 .pricing ul {
 	padding: 20px 0;
 	list-style: none;
-	color: fn.get-color('gray', 'dark');
+	color: fn.get-color('gray', '800');
 	text-align: left;
 	line-height: 20px;
 }
@@ -59,11 +59,11 @@
 }
 
 .pricing ul .na {
-	color: fn.get-color('gray', 'light');
+	color: fn.get-color('gray', '400');
 }
 
 .pricing ul .na i {
-	color: fn.get-color('gray', 'light');
+	color: fn.get-color('gray', '400');
 }
 
 .pricing ul .na span {

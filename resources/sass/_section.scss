@@ -30,7 +30,7 @@ section {
 	display: block;
 	width: 120px;
 	height: 1px;
-	background: fn.get-color('gray', 'light');
+	background: fn.get-color('gray', '400');
 	bottom: 1px;
 	left: calc(50% - 60px);
 }
@@ -41,7 +41,7 @@ section {
 	display: block;
 	width: 40px;
 	height: 3px;
-	background: fn.get-color('tertiary', 'DEFAULT');
+	background: fn.get-color('primary', '400');
 	bottom: 0;
 	left: calc(50% - 20px);
 }

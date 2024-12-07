@@ -52,7 +52,7 @@
 
 .form-check-input:checked {
 	background-color: fn.get-color('danger');
-	border-color: fn.get-color('gray', 'light');
+	border-color: fn.get-color('gray', '400');
 }
 
 .accordion-button {

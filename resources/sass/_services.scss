@@ -39,7 +39,7 @@
 }
 
 .services .icon-box:hover .title a {
-	color: fn.get-color('secondary');
+	color: fn.get-color('primary', '500');
 }
 
 .services .description {
