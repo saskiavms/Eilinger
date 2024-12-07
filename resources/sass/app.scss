@@ -10,3 +10,8 @@
 // Components
 @use "components/links";
 @use "components/preloader";
+
+// Tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

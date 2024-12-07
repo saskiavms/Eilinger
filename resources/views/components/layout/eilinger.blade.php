@@ -26,8 +26,8 @@
 
 <body>
 
-    <!-- ======= Header ======= -->
-    @include('components.layout.header')
+    <!-- ======= Navbar ======= -->
+    <x-layout.navbar />
 
 
     <!-- ======= Hero Section ======= -->

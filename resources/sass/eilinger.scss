@@ -1,7 +1,6 @@
 @use "abstracts/variables" as *;
+@use "abstracts/functions" as fn;
 @use "abstracts/typography";
-@use "components/links";
-@use "components/preloader";
 @use "header";
 @use "navbar";
 @use "hero";
@@ -13,7 +12,6 @@
 @use "form";
 @use "components/footer";
 
-// Apply base styles with Roboto
 body {
 	@include typography.base-typography;
 }
@@ -25,3 +23,90 @@ body {
 @include typography.heading-styles;
 @include typography.public-h2;
 @include typography.public-h3;
+
+// Our navbar styles
+#header {
+  font-family: 'Roboto', sans-serif;
+
+  .container {
+    padding: 0.5rem 1rem;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+  }
+
+  .navbar {
+    ul {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      white-space: nowrap;
+      transition: 0.3s;
+
+      &:hover {
+        color: #47b2e4;
+      }
+    }
+
+    .getstarted {
+      padding: 8px 20px;
+      margin-left: 15px;
+      border-radius: 50px;
+      border: 2px solid #47b2e4;
+      font-weight: 600;
+
+      &:hover {
+        color: white !important;
+        background: #31a9e1;
+      }
+    }
+
+    .dropdown {
+      position: relative;
+
+      ul {
+        display: none;
+        position: absolute;
+        left: 14px;
+        top: calc(100% + 30px);
+        margin: 0;
+        padding: 10px 0;
+        z-index: 99;
+        background: white;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+
+        li {
+          min-width: 200px;
+        }
+
+        a {
+          padding: 10px 20px;
+          color: #2c4964;
+
+          &:hover {
+            color: #47b2e4;
+          }
+        }
+      }
+
+      &:hover > ul {
+        display: block;
+        top: 100%;
+      }
+    }
+  }
+}
