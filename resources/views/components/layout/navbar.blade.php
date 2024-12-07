@@ -1,4 +1,4 @@
-<header id="header" class="fixed top-0 w-full">
+<header id="header" class="fixed top-0 w-full bg-[#37517e] py-4">
     <div class="container mx-auto">
         <div class="flex justify-between items-center">
             {{-- Logo --}}
