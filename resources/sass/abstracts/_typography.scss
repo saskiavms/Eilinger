@@ -94,3 +94,8 @@ $font-weights: (
 		font-family: $font-primary;
 	}
 }
+
+// Add this mixin for font sizes
+@mixin font($size) {
+	font-size: fn.font-size($size);
+}

@@ -1,7 +1,7 @@
-@use 'abstracts/functions' as fn;
+@use "abstracts/functions" as fn;
 
 body {
-	background: fn.get-color('body');
+	background: fn.get-color("body");
 	min-height: 100vh;
 	position: relative;
 }
@@ -16,26 +16,26 @@ body {
 
 .notification-ui_icon .unread-notification {
 	display: inline-block;
-	height: 7px;
-	width: 7px;
-	border-radius: 7px;
-	background-color: fn.get-color('success');
+	height: fn.spacing("2");
+	width: fn.spacing("2");
+	border-radius: fn.spacing("2");
+	background-color: fn.get-color("success");
 	position: absolute;
-	top: 7px;
-	left: 12px;
+	top: fn.spacing("2");
+	left: fn.spacing("3");
 }
 
 @media (min-width: 900px) {
 	.notification-ui_icon .unread-notification {
-		left: 20px;
+		left: fn.spacing("5");
 	}
 }
 
 .notification-ui_dd {
-	padding: 0;
-	border-radius: 10px;
-	-webkit-box-shadow: 0 5px 20px -3px fn.color-opacity('black', 0.16);
-	box-shadow: 0 5px 20px -3px fn.color-opacity('black', 0.16);
+	padding: fn.spacing("0");
+	border-radius: fn.spacing("2");
+	-webkit-box-shadow: 0 fn.spacing("1.5") fn.spacing("5") fn.spacing("-0.5") fn.color-opacity("black", 0.16);
+	box-shadow: 0 fn.spacing("1.5") fn.spacing("5") fn.spacing("-0.5") fn.color-opacity("black", 0.16);
 	border: 0;
 	max-width: 400px;
 }
@@ -44,33 +44,33 @@ body {
 	.notification-ui_dd {
 		min-width: 400px;
 		position: absolute;
-		left: -192px;
-		top: 70px;
+		left: fn.spacing("-12");
+		top: fn.spacing("4");
 	}
 }
 
 .notification-ui_dd:after {
 	content: "";
 	position: absolute;
-	top: -30px;
-	left: calc(50% - 7px);
-	border-top: 15px solid transparent;
-	border-right: 15px solid transparent;
-	border-bottom: 15px solid #fff;
-	border-left: 15px solid transparent;
+	top: fn.spacing("-2");
+	left: calc(50% - fn.spacing("1"));
+	border-top: fn.spacing("1") solid transparent;
+	border-right: fn.spacing("1") solid transparent;
+	border-bottom: fn.spacing("1") solid fn.get-color("white");
+	border-left: fn.spacing("1") solid transparent;
 }
 
 .notification-ui_dd .notification-ui_dd-header {
-	border-bottom: 1px solid fn.get-color('gray', 'light');
-	padding: 15px;
+	border-bottom: fn.spacing("px") solid fn.get-color("gray", "light");
+	padding: fn.spacing("3");
 }
 
 .notification-ui_dd .notification-ui_dd-header h3 {
-	margin-bottom: 0;
+	margin-bottom: fn.spacing("0");
 }
 
 .notification-ui_dd .notification-ui_dd-content {
-	max-height: 500px;
+	max-height: fn.spacing("10");
 	overflow: auto;
 }
 
@@ -81,9 +81,9 @@ body {
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
 	justify-content: space-between;
-	padding: 20px 0;
-	margin: 0 25px;
-	border-bottom: 1px solid fn.get-color('gray', 'light');
+	padding: fn.spacing("4") 0;
+	margin: 0 fn.spacing("5");
+	border-bottom: fn.spacing("px") solid fn.get-color("gray", "light");
 }
 
 .notification-list--unread {
@@ -94,26 +94,26 @@ body {
 	content: "";
 	position: absolute;
 	top: 0;
-	left: -25px;
+	left: fn.spacing("-6");
 	height: calc(100% + 1px);
-	border-left: 2px solid fn.get-color('info');
+	border-left: fn.spacing("px") solid fn.get-color("info");
 }
 
 .notification-list .notification-list_img img {
-	height: 48px;
-	width: 48px;
-	border-radius: 50px;
-	margin-right: 20px;
+	height: fn.spacing("12");
+	width: fn.spacing("12");
+	border-radius: fn.spacing("2");
+	margin-right: fn.spacing("4");
 }
 
 .notification-list .notification-list_detail p {
-	margin-bottom: 5px;
+	margin-bottom: fn.spacing("1");
 	line-height: 1.2;
 }
 
 .notification-list .notification-list_feature-img img {
-	height: 48px;
-	width: 48px;
-	border-radius: 5px;
-	margin-left: 20px;
+	height: fn.spacing("12");
+	width: fn.spacing("12");
+	border-radius: fn.radius("sm");
+	margin-left: fn.spacing("4");
 }

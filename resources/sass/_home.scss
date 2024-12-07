@@ -11,35 +11,35 @@
 }
 
 .home-content {
-	padding: 0.625rem;
+	padding: fn.spacing('3');
 }
 
 .sidebar.open~.home-section {
-	left: 250px;
-	width: calc(100% - 250px);
+	left: fn.spacing('2');
+	width: calc(100% - fn.spacing('2'));
 }
 
 .home-section {
 	.text {
 		display: inline-block;
 		color: fn.get-color('text');
-		font-size: 1.625rem;
+		font-size: fn.font-size('2xl');
 		font-weight: 500;
 		margin: 1.125rem;
 	}
 
 	p,
 	ul {
-		font-size: 1rem;
+		font-size: fn.font-size('base');
 		font-weight: 500;
 		margin: 1.125rem;
 	}
 
 	.td.alert {
 		font-weight: 600;
-		padding: 1px 10px;
-		border-radius: 15px;
-		font-size: 0.9rem;
+		padding: fn.spacing('1') fn.spacing('4');
+		border-radius: fn.spacing('1');
+		font-size: fn.font-size('sm');
 	}
 
 }
@@ -56,6 +56,6 @@
 }
 
 .accordion-button {
-	font-size: 1.2rem;
+	font-size: fn.font-size('xl');
 	font-style: italic;
 }

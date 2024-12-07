@@ -1,52 +1,52 @@
-@use '../abstracts/colors' as *;
-@use '../abstracts/functions' as fn;
-@use '../abstracts/mixins' as mx;
+@use "../abstracts/colors" as *;
+@use "../abstracts/functions" as fn;
+@use "../abstracts/mixins" as mx;
 
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
 #footer {
-	font-size: 0.875rem;
-	background: fn.get-color('primary');
+	font-size: fn.font-size("sm");
+	background: fn.get-color("primary");
 }
 
 #footer .footer-top {
-	padding: 60px 0 30px;
-	background: fn.get-color('footer-bg');
+	padding: fn.spacing("16") 0 fn.spacing("8");
+	background: fn.get-color("footer-bg");
 }
 
 #footer .footer-top .footer-contact {
-	margin-bottom: 30px;
+	margin-bottom: fn.spacing("8");
 }
 
 #footer .footer-top .footer-contact h3 {
-	font-size: 1.75rem;
-	margin-bottom: 10px;
-	padding: 2px 0;
+	font-size: fn.font-size("xl");
+	margin-bottom: fn.spacing("2.5");
+	padding: fn.spacing("0.5") 0;
 	line-height: 1;
 	text-transform: uppercase;
 	font-weight: 600;
-	color: fn.get-color('primary');
+	color: fn.get-color("primary");
 }
 
 #footer .footer-top .footer-contact p {
-	font-size: 0.875rem;
-	line-height: 24px;
+	font-size: fn.font-size("sm");
+	line-height: fn.spacing("6");
 	margin-bottom: 0;
 	font-family: "Jost", sans-serif;
-	color: fn.get-color('gray', 'dark');
+	color: fn.get-color("gray", "dark");
 }
 
 #footer .footer-top h4 {
-	font-size: 1rem;
+	font-size: fn.font-size("base");
 	font-weight: bold;
-	color: fn.get-color('primary');
+	color: fn.get-color("primary");
 	position: relative;
-	padding-bottom: 12px;
+	padding-bottom: fn.spacing("3");
 }
 
 #footer .footer-top .footer-links {
-	margin-bottom: 30px;
+	margin-bottom: fn.spacing("8");
 }
 
 #footer .footer-top .footer-links ul {
@@ -56,14 +56,14 @@
 }
 
 #footer .footer-top .footer-links ul i {
-	padding-right: 2px;
-	color: fn.get-color('tertiary');
-	font-size: 1.125rem;
+	padding-right: fn.spacing("0.5");
+	color: fn.get-color("tertiary");
+	font-size: fn.font-size("lg");
 	line-height: 1;
 }
 
 #footer .footer-top .footer-links ul li {
-	padding: 10px 0;
+	padding: fn.spacing("2.5") 0;
 	display: flex;
 	align-items: center;
 }
@@ -73,7 +73,7 @@
 }
 
 #footer .footer-top .footer-links ul a {
-	color: fn.get-color('gray', 'light');
+	color: fn.get-color("gray", "light");
 	@include mx.transition-default;
 	display: inline-block;
 	line-height: 1;
@@ -81,13 +81,13 @@
 
 #footer .footer-top .footer-links ul a:hover {
 	text-decoration: none;
-	color: fn.get-color('tertiary');
+	color: fn.get-color("tertiary");
 }
 
 #footer .footer-bottom {
-	padding-top: 30px;
-	padding-bottom: 30px;
-	color: fn.get-color('white');
+	padding-top: fn.spacing("8");
+	padding-bottom: fn.spacing("8");
+	color: fn.get-color("white");
 }
 
 #footer .copyright {
@@ -96,8 +96,8 @@
 
 @media (max-width: 768px) {
 	#footer .footer-bottom {
-		padding-top: 20px;
-		padding-bottom: 20px;
+		padding-top: fn.spacing("5");
+		padding-bottom: fn.spacing("5");
 	}
 
 	#footer .copyright,
@@ -107,6 +107,6 @@
 	}
 
 	#footer .credits {
-		padding-top: 4px;
+		padding-top: fn.spacing("1");
 	}
 }

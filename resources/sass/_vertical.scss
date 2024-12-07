@@ -75,7 +75,7 @@
 				box-shadow: 0 5px 10px fn.color-opacity('black', 0.3);
 				padding: 6px 12px;
 				border-radius: 4px;
-				font-size: 0.9375rem;
+				font-size: fn.font-size('sm');
 				font-weight: 400;
 				opacity: 0;
 				white-space: nowrap;
@@ -88,7 +88,7 @@
 				padding: .625rem 1.5rem;
 				color: fn.get-color('ghost-white');
 				position: relative;
-				font-size: 16px;
+				font-size: fn.font-size('base');
 				height: 100%;
 				width: 100%;
 				border-radius: 12px;
@@ -101,7 +101,7 @@
 					display: inline-block;
 					min-width: 1.75rem;
 					padding-bottom: .125em;
-					font-size: 1.25rem;
+					font-size: fn.font-size('xl');
 					line-height: 1.40625rem;
 					vertical-align: middle;
 					transition: all .4s;

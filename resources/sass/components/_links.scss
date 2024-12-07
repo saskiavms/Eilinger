@@ -1,0 +1,12 @@
+@use "../abstracts/functions" as fn;
+
+// This will map to Tailwind's text-{color} and hover:text-{color}
+a {
+	color: fn.get-color("secondary");
+	text-decoration: none;
+
+	&:hover {
+		color: fn.get-color("tertiary");
+		text-decoration: none;
+	}
+}

@@ -1,0 +1,37 @@
+@use "../abstracts/functions" as fn;
+
+// Will map to Tailwind's fixed inset-0 z-50 overflow-hidden bg-{color}
+#preloader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+	overflow: hidden;
+	background: fn.get-color("primary");
+
+	// Will map to Tailwind's animate-spin and border utilities
+	&:before {
+		content: "";
+		position: fixed;
+		top: calc(50% - fn.spacing("8"));
+		left: calc(50% - fn.spacing("8"));
+		border: fn.spacing("1.5") solid fn.get-color("primary");
+		border-top-color: fn.get-color("white");
+		border-bottom-color: fn.get-color("white");
+		border-radius: 50%;
+		width: fn.spacing("16");
+		height: fn.spacing("16");
+		animation: animate-preloader 1s linear infinite;
+	}
+}
+
+@keyframes animate-preloader {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

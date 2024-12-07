@@ -19,23 +19,23 @@
 }
 
 .form-group .form-wrapper:first-child {
-	margin-right: 20px;
+	margin-right: fn.spacing('4');
 }
 
 .form-wrapper {
-	margin-bottom: 17px;
+	margin-bottom: fn.spacing('2');
 }
 
 .form-wrapper label {
-	margin-bottom: 9px;
+	margin-bottom: fn.spacing('1');
 	display: block;
 }
 
 .form-control {
 	display: block;
 	width: 100%;
-	height: 40px;
-	padding: 15px 20px;
+	height: fn.spacing('4');
+	padding: fn.spacing('3') fn.spacing('4');
 	background: fn.color-opacity('white', .1);
 }
 
@@ -45,18 +45,18 @@
 
 button {
 	border: none;
-	min-width: 300px;
-	height: 40px;
+	min-width: fn.spacing('6');
+	height: fn.spacing('4');
 	margin: auto;
-	margin-top: 33px;
+	margin-top: fn.spacing('2');
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 100;
+	padding: fn.spacing('2');
 	background: fn.get-color('danger');
-	font-size: 1.25rem;
-	color: #fff;
+	font-size: fn.font-size('xl');
+	color: fn.get-color('white');
 	text-transform: uppercase;
 	overflow: hidden;
 	-webkit-transform: perspective(1px) translateZ(0);
@@ -73,10 +73,10 @@ button:before {
 	content: "";
 	position: absolute;
 	z-index: -1;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	top: fn.spacing('0');
+	left: fn.spacing('0');
+	right: fn.spacing('0');
+	bottom: fn.spacing('0');
 	background: fn.get-color('danger');
 	-webkit-transform: scaleX(0);
 	transform: scaleX(0);
@@ -98,16 +98,16 @@ button:hover:before {
 }
 
 label {
-	padding-top: 10px;
+	padding-top: fn.spacing('1');
 }
 
 .form-check {
-	padding-left: 0;
+	padding-left: fn.spacing('0');
 }
 
 .hr-line {
 	width: 100%;
 	position: relative;
-	margin: 15px;
-	border-bottom: 1px solid fn.get-color('danger');
+	margin: fn.spacing('2');
+	border-bottom: fn.spacing('1') solid fn.get-color('danger');
 }

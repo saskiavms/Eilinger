@@ -37,7 +37,7 @@
 
 	&-lg {
 		color: fn.get-color('white');
-		font-size: 1.25rem;
+		font-size: fn.font-size('xl');
 		font-weight: 600;
 		opacity: 1;
 	}
@@ -142,7 +142,7 @@
 
 .noti-icon {
 	i {
-		font-size: 22px;
+		font-size: fn.font-size('2xl');
 		color: $header-item-color;
 	}
 

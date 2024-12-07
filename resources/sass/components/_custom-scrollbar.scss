@@ -1,0 +1,50 @@
+@use "abstracts/functions" as fn;
+
+.simplebar-scrollbar {
+	position: absolute;
+	right: fn.spacing("1"); // 4px -> 1
+	width: fn.spacing("1"); // 4px -> 1
+	min-height: fn.spacing("4"); // 16px -> 4
+}
+
+.simplebar-scrollbar:before {
+	position: absolute;
+	content: "";
+	background: fn.get-color("gray", "light");
+	border-radius: fn.radius("lg"); // 7px -> lg
+	left: 0;
+	right: 0;
+	opacity: 0;
+	transition: opacity 0.2s linear;
+}
+
+.simplebar-track.simplebar-vertical {
+	top: 0;
+	width: fn.spacing("3"); // 11px -> 3
+}
+
+.simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
+	top: fn.spacing("0.5"); // 2px -> 0.5
+	bottom: fn.spacing("0.5"); // 2px -> 0.5
+}
+
+.simplebar-track.simplebar-horizontal {
+	left: 0;
+	height: fn.spacing("3"); // 11px -> 3
+}
+
+.simplebar-track.simplebar-horizontal .simplebar-scrollbar:before {
+	height: 100%;
+	left: fn.spacing("0.5"); // 2px -> 0.5
+	right: fn.spacing("0.5"); // 2px -> 0.5
+}
+
+.simplebar-track.simplebar-horizontal .simplebar-scrollbar {
+	right: auto;
+	left: 0;
+	top: fn.spacing("0.5"); // 2px -> 0.5
+	height: fn.spacing("2"); // 7px -> 2
+	min-height: 0;
+	min-width: fn.spacing("2.5"); // 10px -> 2.5
+	width: auto;
+}

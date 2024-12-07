@@ -1,4 +1,7 @@
 @use 'colors' as *;
+@use 'typography' as *;
+@use 'radius' as *;
+@use 'spacing' as *;
 
 // Get color from the $colors map with optional variant
 @function get-color($color-name, $variant: 'DEFAULT') {
@@ -67,4 +70,28 @@ $z-indexes: (
 @function color-opacity($color-name, $opacity, $variant: 'DEFAULT') {
 	$color: get-color($color-name, $variant);
 	@return rgba($color, $opacity);
+}
+
+@function font-size($size) {
+	@if map-has-key($font-sizes, $size) {
+		@return map-get($font-sizes, $size);
+	}
+
+	@error "Font size '#{$size}' not found in $font-sizes map.";
+}
+
+@function radius($size: 'DEFAULT') {
+	@if map-has-key($radius, $size) {
+		@return map-get($radius, $size);
+	}
+
+	@error "Radius size '#{$size}' not found in $radius map.";
+}
+
+@function spacing($size) {
+	@if map-has-key($spacing, $size) {
+		@return map-get($spacing, $size);
+	}
+
+	@error "Spacing size '#{$size}' not found in $spacing map.";
 }

@@ -38,7 +38,7 @@
 	color: fn.get-color('gray', 'light');
 	text-transform: uppercase;
 	font-weight: 600;
-	font-size: 0.75rem;
+	font-size: fn.font-size('xs');
 	transition: 0.4s;
 }
 

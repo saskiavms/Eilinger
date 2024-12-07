@@ -7,7 +7,7 @@
 	background-color: fn.color-opacity('primary', 0.9);
 	border-color: fn.color-opacity('primary', 0.9);
 	font-weight: bold;
-	letter-spacing: fn.em(0.8);
+	letter-spacing: fn.spacing('0.5');
 
 	&:hover,
 	&:active,

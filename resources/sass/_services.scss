@@ -22,7 +22,7 @@
 }
 
 .services .icon i {
-	font-size: 4rem;
+	font-size: fn.font-size('4xl');
 	line-height: 1;
 	transition: 0.5s;
 }
@@ -31,7 +31,7 @@
 	margin-left: 40px;
 	font-weight: 700;
 	margin-bottom: 15px;
-	font-size: 1.125rem;
+	font-size: fn.font-size('lg');
 }
 
 .services .title a {
@@ -43,7 +43,7 @@
 }
 
 .services .description {
-	font-size: 0.875 rem;
+	font-size: fn.font-size('sm');
 	margin-left: 40px;
 	line-height: 24px;
 	margin-bottom: 0;
