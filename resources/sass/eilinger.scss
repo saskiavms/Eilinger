@@ -1,8 +1,7 @@
 @use "abstracts/variables" as *;
 @use "abstracts/functions" as fn;
 @use "abstracts/typography";
-@use "header";
-@use "navbar";
+
 @use "hero";
 @use "section";
 @use "aboutus";
@@ -24,9 +23,33 @@ body {
 @include typography.public-h2;
 @include typography.public-h3;
 
+// Logo styles
+.logo {
+  font-size: 30px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  a {
+    color: white;
+    text-decoration: none;
+
+    &:hover {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
 // Our navbar styles
 #header {
   font-family: 'Roboto', sans-serif;
+  background: #37517e;
+  z-index: 997;        // Ensure header stays on top
+  padding: 15px 0;     // Add some padding
 
   .container {
     padding: 0.5rem 1rem;
@@ -106,6 +129,14 @@ body {
       &:hover > ul {
         display: block;
         top: 100%;
+      }
+    }
+
+    .mobile-nav-toggle {
+      display: none;
+
+      @media (max-width: 991px) {
+        display: block;
       }
     }
   }
