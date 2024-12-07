@@ -34,13 +34,17 @@
 .form-control {
 	display: block;
 	width: 100%;
-	height: fn.spacing('4');
-	padding: fn.spacing('3') fn.spacing('4');
-	background: fn.color-opacity('white', .1);
-}
+	height: 42px;
+	padding: 0.625rem 1.5rem;
+	background: fn.get-color('white');
+	border: 1px solid #ced4da;
+	transition: border-color 0.3s ease;
 
-.form-control:focus {
-	border: 1px solid fn.get-color('danger');
+	&:focus {
+		border-color: fn.get-color('primary');
+		outline: 0;
+		box-shadow: 0 0 0 0.2rem fn.color-opacity('primary', 0.25);
+	}
 }
 
 button {
@@ -98,7 +102,9 @@ button:hover:before {
 }
 
 label {
-	padding-top: fn.spacing('1');
+	padding-top: 0;
+	margin-bottom: 0.5rem;
+	font-weight: 500;
 }
 
 .form-check {
