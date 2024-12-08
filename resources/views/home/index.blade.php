@@ -6,34 +6,61 @@
 
         <!-- ======= About Us Section ======= -->
         <section id="about" class="about">
-            <div class="container">
-
+            <div class="container mx-auto">
                 <div class="section-title">
-                    <h2>{{ __('home.about') }}</h2>
+                    <h2
+                        class="text-center text-[2.5rem] font-bold text-[#37517e] uppercase relative mb-5 pb-5
+                              after:content-[''] after:absolute after:block after:w-10 after:h-[3px] after:bg-[#47b2e4] after:bottom-0 after:left-1/2 after:-translate-x-1/2
+                              before:content-[''] before:absolute before:block before:w-[120px] before:h-[1px] before:bg-gray-400 before:bottom-[1px] before:left-1/2 before:-translate-x-1/2">
+                        ÜBER UNS
+                    </h2>
                 </div>
 
                 <div class="row content">
                     <div class="col-lg-6">
-                        <h3>{{ __('home.philosophy') }}</h3>
-                        <p>{{ __('home.philosophy_text1') }}
-                        </p>
-                        <p>
-                            {{ __('home.philosophy_text2') }}
+                        <h3 class="text-[#2d405f] text-2xl font-bold mb-4">{{ __('home.philosophy') }}</h3>
+                        <p class="text-[#444444] mb-4">{{ __('home.philosophy_text1') }}</p>
+                        {{ __('home.philosophy_text2') }}Im Fokus unserer Unterstützungsleistungen stehen kleinere
+                        Vereine...
                         </p>
                     </div>
                     <div class="col-lg-6 pt-4 pt-lg-0">
-                        <h3>{{ __('home.purpose') }}</h3>
-                        <p>{{ __('home.purpose_text') }}: </p>
-                        <ul>
-                            <li><i class="bi bi-check-all"></i>{{ __('home.purpose1') }}</li>
-                            <li><i class="bi bi-check-all"></i>{{ __('home.purpose2') }}</li>
-                            <li><i class="bi bi-check-all"></i>{{ __('home.purpose3') }}</li>
-                            <li><i class="bi bi-check-all"></i>{{ __('home.purpose4') }}</li>
-                            <li><i class="bi bi-check-all"></i>{{ __('home.purpose5') }}</li>
+                        <h3 class="text-[#2d405f] text-2xl font-bold mb-4">{{ __('home.purpose') }}</h3>
+                        <p class="text-[#444444] mb-4">{{ __('home.purpose_text') }}:</p>
+                        <ul class="list-none !list-style-type-none m-0 p-0" style="list-style: none !important;">
+                            <li class="!list-style-type-none relative pl-6 mb-3"
+                                style="list-style: none !important; position: relative; padding-left: 1.5rem;">
+                                <i class="bi bi-check-all !text-[#47b2e4] absolute left-0 top-1"
+                                    style="color: #47b2e4 !important; position: absolute; left: 0; top: 0.25rem; line-height: 1;"></i>
+                                <span class="text-[#444444]">{{ __('home.purpose1') }}</span>
+                            </li>
+                            <li class="!list-style-type-none relative pl-6 mb-3"
+                                style="list-style: none !important; position: relative; padding-left: 1.5rem;">
+                                <i class="bi bi-check-all !text-[#47b2e4] absolute left-0 top-1"
+                                    style="color: #47b2e4 !important; position: absolute; left: 0; top: 0.25rem; line-height: 1;"></i>
+                                <span class="text-[#444444]">{{ __('home.purpose2') }}</span>
+                            </li>
+                            <li class="!list-style-type-none relative pl-6 mb-3"
+                                style="list-style: none !important; position: relative; padding-left: 1.5rem;">
+                                <i class="bi bi-check-all !text-[#47b2e4] absolute left-0 top-1"
+                                    style="color: #47b2e4 !important; position: absolute; left: 0; top: 0.25rem; line-height: 1;"></i>
+                                <span class="text-[#444444]">{{ __('home.purpose3') }}</span>
+                            </li>
+                            <li class="!list-style-type-none relative pl-6 mb-3"
+                                style="list-style: none !important; position: relative; padding-left: 1.5rem;">
+                                <i class="bi bi-check-all !text-[#47b2e4] absolute left-0 top-1"
+                                    style="color: #47b2e4 !important; position: absolute; left: 0; top: 0.25rem; line-height: 1;"></i>
+                                <span class="text-[#444444]">{{ __('home.purpose4') }}</span>
+                            </li>
+                            <li class="!list-style-type-none relative pl-6 mb-3"
+                                style="list-style: none !important; position: relative; padding-left: 1.5rem;">
+                                <i class="bi bi-check-all !text-[#47b2e4] absolute left-0 top-1"
+                                    style="color: #47b2e4 !important; position: absolute; left: 0; top: 0.25rem; line-height: 1;"></i>
+                                <span class="text-[#444444]">{{ __('home.purpose5') }}</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
-
             </div>
         </section><!-- End About Us Section -->
 
