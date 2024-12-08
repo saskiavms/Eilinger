@@ -20,4 +20,11 @@ trait CreatesApplication
 
         return $app;
     }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutVite();
+    }
 }
