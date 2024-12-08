@@ -25,6 +25,10 @@ trait CreatesApplication
     {
         parent::setUp();
 
-        $this->withoutVite();
+        // Manually create a dummy vite manifest if needed
+        if (!file_exists(public_path('build/manifest.json'))) {
+            @mkdir(public_path('build'), 0755, true);
+            file_put_contents(public_path('build/manifest.json'), json_encode([]));
+        }
     }
 }
