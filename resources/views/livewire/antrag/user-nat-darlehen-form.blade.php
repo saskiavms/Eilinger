@@ -2,7 +2,6 @@
     @csrf
     <div class="mb-6">
         <h3 class="text-lg font-semibold text-primary mb-2">{{ __('user.candidate') }}</h3>
-        <p> UserNatDarlehen Form </p>
         <p class="text-sm text-gray-600">{{ __('user.subTitleCandidate') }}</p>
     </div>
 

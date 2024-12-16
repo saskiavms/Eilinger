@@ -25,7 +25,7 @@
                 <!-- Last Name -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ __('sibling.lastname') }}
+                        {{ __('sibling.lastname') }} *
                     </label>
                     <input wire:model.blur="siblingsList.{{ $index }}.lastname" type="text"
                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -37,7 +37,7 @@
                 <!-- First Name -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ __('sibling.firstname') }}
+                        {{ __('sibling.firstname') }} *
                     </label>
                     <input wire:model.blur="siblingsList.{{ $index }}.firstname" type="text"
                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -49,7 +49,7 @@
                 <!-- Birth Year -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ __('sibling.birthyear') }}
+                        {{ __('sibling.birthyear') }} *
                     </label>
                     <input wire:model.blur="siblingsList.{{ $index }}.birth_year" type="number"
                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -102,7 +102,7 @@
                     <!-- Get Amount -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                            {{ __('sibling.get_amount') }}
+                            {{ __('sibling.get_amount') }} *
                         </label>
                         <select wire:model.blur="siblingsList.{{ $index }}.get_amount"
                             class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">

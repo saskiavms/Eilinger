@@ -25,7 +25,7 @@
                 <!-- Parent Type -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ __('parents.parent_type') }}
+                        {{ __('parents.parent_type') }} *
                     </label>
                     <select wire:model.blur="parentsList.{{ $index }}.parent_type"
                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -44,7 +44,7 @@
                 <!-- Last Name -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ __('parents.lastname') }}
+                        {{ __('parents.lastname') }} *
                     </label>
                     <input wire:model.blur="parentsList.{{ $index }}.lastname" type="text"
                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -56,7 +56,7 @@
                 <!-- First Name -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ __('parents.firstname') }}
+                        {{ __('parents.firstname') }} *
                     </label>
                     <input wire:model.blur="parentsList.{{ $index }}.firstname" type="text"
                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -68,7 +68,7 @@
                 <!-- Birthday -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ __('parents.birthday') }}
+                        {{ __('parents.birthday') }} *
                     </label>
                     <input wire:model.blur="parentsList.{{ $index }}.birthday" type="date"
                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">

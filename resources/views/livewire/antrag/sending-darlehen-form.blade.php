@@ -140,7 +140,7 @@
                         {{ __('sending.financing') }} *
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        @if (auth()->user()->type == 'nat')
+                        @if (auth()->user()->type->value == 'nat')
                             @if ($financingNoDraft)
                                 <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">

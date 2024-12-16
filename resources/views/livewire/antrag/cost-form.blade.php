@@ -12,7 +12,7 @@
         <!-- Semester Fees -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('cost.semester_fees') }}
+                {{ __('cost.semester_fees') }} *
             </label>
             <input wire:model.blur="semester_fees" type="number"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -24,7 +24,7 @@
         <!-- Fees -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('cost.fees') }}
+                {{ __('cost.fees') }} *
             </label>
             <input wire:model.blur="fees" type="number"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -36,7 +36,7 @@
         <!-- Educational Material -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('cost.educational_material') }}
+                {{ __('cost.educational_material') }} *
             </label>
             <input wire:model.blur="educational_material" type="number"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -48,7 +48,7 @@
         <!-- Excursion -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('cost.excursion') }}
+                {{ __('cost.excursion') }} *
             </label>
             <input wire:model.blur="excursion" type="number"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -60,7 +60,7 @@
         <!-- Travel Expenses -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('cost.travel_expenses') }}
+                {{ __('cost.travel_expenses') }} *
             </label>
             <input wire:model.blur="travel_expenses" type="number"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -72,7 +72,7 @@
         <!-- Number of Children -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('cost.number_of_children') }}
+                {{ __('cost.number_of_children') }} *
             </label>
             <input wire:model.blur="number_of_children" type="number"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">

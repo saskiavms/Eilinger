@@ -12,7 +12,7 @@
         <!-- Personal Contribution -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('financing.personal_contribution') }}
+                {{ __('financing.personal_contribution') }} *
             </label>
             <input wire:model.blur="personal_contribution" type="number"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -24,7 +24,7 @@
         <!-- Netto Income -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('financing.netto_income') }}
+                {{ __('financing.netto_income') }} *
             </label>
             <input wire:model.blur="netto_income" type="number"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -36,7 +36,7 @@
         <!-- Assets -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('financing.assets') }}
+                {{ __('financing.assets') }} *
             </label>
             <input wire:model.blur="assets" type="number"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
@@ -48,7 +48,7 @@
         <!-- Scholarship -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('financing.scholarship') }}
+                {{ __('financing.scholarship') }} *
             </label>
             <input wire:model.blur="scholarship" type="number"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
