@@ -7,42 +7,58 @@ use Livewire\Component;
 
 class UserNatDarlehenForm extends Component
 {
-    public $user;
+    public $firstname;
+    public $lastname;
+    public $birthday;
+    public $salutation;
+    public $phone;
+    public $mobile;
+    public $contact_aboard;
 
     protected function rules(): array
     {
         return [
-            'user.firstname' => 'required',
-            'user.lastname' => 'required',
-            'user.birthday' => 'required|date',
-            'user.salutation' => 'required',
-            'user.phone' => 'required',
-            'user.mobile' => 'sometimes',
-            'user.contact_aboard' => 'sometimes',
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'birthday' => 'required|date',
+            'salutation' => 'required',
+            'phone' => 'required',
+            'mobile' => 'sometimes',
+            'contact_aboard' => 'sometimes',
         ];
     }
 
-    public function validationAttributes()
+    public function validationAttributes(): array
     {
         return Lang::get('user');
     }
 
-    public function mount()
+    public function mount(): void
     {
-        $this->user = auth()->user();
-        $this->user->salutation = $this->user->salutation ?? '';
+        $user = auth()->user();
+        $this->firstname = $user->firstname;
+        $this->lastname = $user->lastname;
+        $this->birthday = $user->birthday;
+        $this->salutation = $user->salutation ?? '';
+        $this->phone = $user->phone;
+        $this->mobile = $user->mobile;
+        $this->contact_aboard = $user->contact_aboard;
+    }
+
+    public function saveUserNat(): void
+    {
+        $validatedData = $this->validate();
+
+        $user = auth()->user();
+        $user->fill($validatedData);
+        $user->is_draft = false;
+        $user->save();
+
+        session()->flash('success', __('userNotification.userSaved'));
     }
 
     public function render()
     {
         return view('livewire.antrag.user-nat-darlehen-form');
-    }
-
-    public function saveUserNat()
-    {
-        $this->validate();
-        $this->user->is_draft = false;
-        $this->user->save();
-        session()->flash('success', __('userNotification.userSaved'));
     }
 }

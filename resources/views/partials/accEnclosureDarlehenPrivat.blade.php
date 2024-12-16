@@ -1,81 +1,60 @@
-<div class="accordion-item">
-    <h2 class="accordion-header" id="headingEnclosureDarlehenPrivat">
-        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
-                data-bs-target="#collapseEnclosureDarlehenPrivat">{{ __('enclosure.title') }}
-        </button>
-    </h2>
-    <div id="collapseEnclosureDarlehenPrivat" class="accordion-collapse collapse">
+<div class="border rounded-lg bg-white" x-data="{ open: false }">
+    <!-- Accordion Header -->
+    <button @click="open = !open"
+        class="w-full flex justify-between items-center p-4 bg-primary-300 hover:bg-primary-400 transition-colors">
+        <h2 class="text-lg font-medium text-gray-900">{{ __('enclosure.title') }}</h2>
+        <svg class="h-5 w-5 text-gray-500 transform transition-transform" :class="{ 'rotate-180': open }"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+
+    <!-- Accordion Content -->
+    <div x-show="open" class="p-4">
         @if ($enclosure)
-            <div class="card-body">
-                <div class=row>
-                    <div class="col-sm-12">
-                        <p>{{ __('enclosure.remark') }}: {{ $enclosure->remark }}</p>
-                    </div>
-                    <div class="col-sm-12">
-                        <p>{{ __('enclosure.activity') }}:
-                            @if ($enclosure->activity)
-                                <a href="{{ Storage::disk('s3')->url($enclosure->activity) }}"
-                                   target="_blank">{{ $enclosure->activity }}</a>
+            <div class="space-y-4">
+                <!-- Remark -->
+                <div class="text-sm">
+                    <span class="font-medium text-gray-700">{{ __('enclosure.remark') }}:</span>
+                    <span class="text-gray-900 ml-1">{{ $enclosure->remark }}</span>
+                </div>
+
+                <!-- Files Section -->
+                <div class="grid grid-cols-1 gap-3">
+                    @php
+                        $files = [
+                            'activity' => __('enclosure.activity'),
+                            'actvity_report' => __('enclosure.activity_report'),
+                            'rental_contract' => __('enclosure.rental_contract'),
+                            'balance_sheet' => __('enclosure.balance_sheet'),
+                            'tax_assessment' => __('enclosure.tax_assessment'),
+                            'cost_receipts' => __('enclosure.cost_receipts'),
+                            'open_invoice' => __('enclosure.open_invoice'),
+                        ];
+                    @endphp
+
+                    @foreach ($files as $field => $label)
+                        <div class="flex items-center">
+                            <span class="font-medium text-gray-700 text-sm min-w-[200px]">{{ $label }}:</span>
+                            @if ($enclosure->$field)
+                                <a href="{{ Storage::disk('s3')->url($enclosure->$field) }}" target="_blank"
+                                    class="text-sm text-primary hover:text-primary-600 hover:underline ml-2 flex items-center">
+                                    <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    {{ basename($enclosure->$field) }}
+                                </a>
+                            @else
+                                <span class="text-md text-gray-400 ml-2">-</span>
                             @endif
-                        </p>
-                    </div>
-                    <div class="col-sm-12">
-                        <p>{{ __('enclosure.activity_report') }}:
-                            @if ($enclosure->actvity_report)
-                                <a href="{{ Storage::disk('s3')->url($enclosure->actvity_report) }}"
-                                   target="_blank">{{ $enclosure->actvity_report }}</a>
-                            @endif
-                        </p>
-                    </div>
-                    <div class="col-sm-12">
-                        <p>{{ __('enclosure.rental_contract') }}:
-                            @if ($enclosure->rental_contract)
-                                <a href="{{ Storage::disk('s3')->url($enclosure->rental_contract) }}"
-                                   target="_blank">{{ $enclosure->rental_contract }}</a>
-                            @endif
-                        </p>
-                    </div>
-                    <div class="col-sm-12">
-                        <p>{{ __('enclosure.balance_sheet') }}:
-                            @if ($enclosure->activity)
-                                <a href="{{ Storage::disk('s3')->url($enclosure->balance_sheet) }}"
-                                   target="_blank">{{ $enclosure->balance_sheet }}</a>
-                            @endif
-                        </p>
-                    </div>
-                    <div class="col-sm-12">
-                        <p>{{ __('enclosure.tax_assessment') }}:
-                            @if ($enclosure->tax_assessment)
-                                <a href="{{ Storage::disk('s3')->url($enclosure->tax_assessment) }}"
-                                   target="_blank">{{ $enclosure->tax_assessment }}</a>
-                            @endif
-                        </p>
-                    </div>
-                    <div class="col-sm-12">
-                        <p>{{ __('enclosure.cost_receipts') }}:
-                            @if ($enclosure->cost_receipts)
-                                <a href="{{ Storage::disk('s3')->url($enclosure->cost_receipts) }}"
-                                   target="_blank">{{ $enclosure->cost_receipts }}</a>
-                            @endif
-                        </p>
-                    </div>
-                    <div class="col-sm-12">
-                        <p>{{ __('enclosure.open_invoice') }}:
-                            @if ($enclosure->open_invoice)
-                                <a href="{{ Storage::disk('s3')->url($enclosure->open_invoice) }}"
-                                   target="_blank">{{ $enclosure->open_invoice }}</a>
-                            @endif
-                        </p>
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         @else
-            <div class="card-body">
-                <div class=row>
-                    <div class="col-sm-12">
-                        <p>{{ __('enclosure.noEnclosure') }}</p>
-                    </div>
-                </div>
+            <div class="text-sm text-gray-500">
+                {{ __('enclosure.noEnclosure') }}
             </div>
         @endif
     </div>

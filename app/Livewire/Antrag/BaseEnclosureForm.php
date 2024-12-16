@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 abstract class BaseEnclosureForm extends Component
 {
@@ -17,6 +18,7 @@ abstract class BaseEnclosureForm extends Component
     public $enclosure;
     public $UserName;
     public $isInitialAppl;
+    public $sendLaterFields = [];
 
     // Add all possible file upload fields
     public $activity;
@@ -48,10 +50,27 @@ abstract class BaseEnclosureForm extends Component
         $lastname = auth()->user()->lastname;
         $firstname = auth()->user()->firstname;
         $this->UserName = $lastname . '_' . $firstname;
+
+        // Get or create enclosure
         $this->enclosure = Enclosure::where('application_id', session()->get('appl_id'))
             ->first() ?? new Enclosure();
+
+        // Initialize sendLater fields for both required and optional fields
+        $allFields = array_merge($this->getRequiredFields(), $this->getOptionalFields());
+        foreach ($allFields as $field) {
+            $sendLaterField = $this->getCamelCaseSendLater($field);
+            // Initialize the public property for the checkbox
+            $this->sendLaterFields[$field] = (bool) $this->enclosure->$sendLaterField;
+        }
+
         $this->isInitialAppl = Application::where('id', session()->get('appl_id'))
             ->first(['is_first'])->is_first;
+    }
+
+    public function updatedSendLaterFields($value, $field): void
+    {
+        $sendLaterField = $this->getCamelCaseSendLater($field);
+        $this->enclosure->$sendLaterField = $value;
     }
 
     public function validationAttributes(): array
@@ -59,22 +78,36 @@ abstract class BaseEnclosureForm extends Component
         return Lang::get('enclosure');
     }
 
-    public function rules(): array
+    protected function rules(): array
     {
-        $rules = ['enclosure.remark' => 'nullable'];
+        $rules = [
+            'enclosure.remark' => 'nullable',
+        ];
 
         foreach ($this->getRequiredFields() as $field) {
-            $isRequired = is_null($this->enclosure->$field) &&
-                         $this->enclosure->{$this->getCamelCaseSendLater($field)} == 0;
-            $rules[$field] = [new FileUploadRule($isRequired)];
-            $rules["enclosure.{$this->getCamelCaseSendLater($field)}"] = 'boolean|nullable';
+            // If file already exists in database, skip validation
+            if (!is_null($this->enclosure->$field)) {
+                continue;
+            }
+
+            // Add validation rules for the sendLater checkbox
+            $rules["sendLaterFields.{$field}"] = 'boolean';
+
+            // If sendLater is not checked, require the file
+            if (empty($this->sendLaterFields[$field])) {
+                $rules[$field] = ['required', new FileUploadRule(true)];
+            } else {
+                $rules[$field] = ['nullable', new FileUploadRule(false)];
+            }
         }
 
+        // Handle optional fields - only validate format if file is provided
         foreach ($this->getOptionalFields() as $field) {
-            $rules[$field] = [new FileUploadRule(false)];
-            $rules["enclosure.{$this->getCamelCaseSendLater($field)}"] = 'boolean|nullable';
+            $rules[$field] = ['nullable', new FileUploadRule(false)];
         }
 
+        Log::debug('Validation Rules:', $rules);
+        Log::debug('SendLater Fields:', $this->sendLaterFields);
         return $rules;
     }
 
@@ -90,22 +123,27 @@ abstract class BaseEnclosureForm extends Component
             $this->enclosure->$field = $filePath;
             $sendLaterField = $this->getCamelCaseSendLater($field);
             $this->enclosure->$sendLaterField = false;
+            $this->sendLaterFields[$field] = false;
         }
     }
 
     public function save(): void
     {
-        Log::error('Validation Errors:', $this->getErrorBag()->toArray());
-        $this->validate();
+        $validatedData = $this->validate();
+        Log::debug('Validated Data:', $validatedData);
 
         $allFields = array_merge($this->getRequiredFields(), $this->getOptionalFields());
         foreach ($allFields as $field) {
             $this->handleFileUpload($field);
+            // Update the sendLater field in the model
+            $sendLaterField = $this->getCamelCaseSendLater($field);
+            $this->enclosure->$sendLaterField = $this->sendLaterFields[$field] ?? false;
         }
 
         $this->enclosure->is_draft = false;
         $this->enclosure->application_id = session()->get('appl_id');
         $this->enclosure->save();
+
         session()->flash('success', __('userNotification.enclosureSaved'));
     }
 
@@ -116,5 +154,6 @@ abstract class BaseEnclosureForm extends Component
             $fileName = 'Appl' . $appl_id . '_' . $text . '.' . $type->getClientOriginalExtension();
             return $type->storeAs($this->UserName, $fileName, 's3');
         }
+        return null;
     }
 }

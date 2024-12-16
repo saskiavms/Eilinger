@@ -56,6 +56,30 @@ class Enclosure extends Model
         'is_draft',
     ];
 
+    protected $casts = [
+        'passportSendLater' => 'boolean',
+        'cvSendLater' => 'boolean',
+        'apprenticeshipContractSendLater' => 'boolean',
+        'diplomaSendLater' => 'boolean',
+        'divorceSendLater' => 'boolean',
+        'rentalContractSendLater' => 'boolean',
+        'certificateOfStudySendLater' => 'boolean',
+        'taxAssessmentSendLater' => 'boolean',
+        'expenseReceiptsSendLater' => 'boolean',
+        'partnerTaxAssessmentSendLater' => 'boolean',
+        'supplementaryServicesSendLater' => 'boolean',
+        'ectsPointsSendLater' => 'boolean',
+        'parentsTaxFactorsSendLater' => 'boolean',
+        'activitySendLater' => 'boolean',
+        'activityReportSendLater' => 'boolean',
+        'balanceSheetSendLater' => 'boolean',
+        'costReceiptsSendLater' => 'boolean',
+        'openInvoiceSendLater' => 'boolean',
+        'commercialRegisterExtractSendLater' => 'boolean',
+        'statuteSendLater' => 'boolean',
+        'is_draft' => 'boolean',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

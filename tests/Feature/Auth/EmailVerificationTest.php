@@ -49,12 +49,12 @@ class EmailVerificationTest extends TestCase
 
     protected function verificationResendRoute(): string
     {
-        return route('verification.resend', app()->getLocale());
+        return route('verification.send', app()->getLocale());
     }
 
     protected function loginRoute(): string
     {
-        return route('login', app()->getLocale());
+        return route('login', [app()->getLocale()]);
     }
 
     public function testGuestCannotSeeTheVerificationNotice()

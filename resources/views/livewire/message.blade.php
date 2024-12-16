@@ -1,76 +1,83 @@
-<div class="post-comments">
-    <p class="meta">{{ $message->created_at->diffForHumans() }} <a href="#">{{ $message->user->username }}</a>
-        says : <i class="pull-right">
-            @if (!$message->main_message_id)
-                <button wire:click="$toggle('isReplying')" type="button" class="btn btn-success btn-sm">{{__('message.reply')}}</button>
+<div class="space-y-4">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <span class="text-sm text-gray-600">{{ $message->created_at->diffForHumans() }}</span>
+            <span class="text-gray-400">•</span>
+            <span class="text-sm font-medium text-primary">{{ $message->user->username }}</span>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            @if ($this->canReply)
+                <button wire:click="$toggle('isReplying')" type="button"
+                    class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-success rounded-md hover:bg-successHover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-success-500">
+                    {{ __('message.reply') }}
+                </button>
             @endif
 
-            @can ('update', $message)
-                <button wire:click="$toggle('isEditing')" type="button" class="btn btn-primary btn-sm">{{__('message.edit')}}
+            @can('update', $message)
+                <button wire:click="$toggle('isEditing')" type="button"
+                    class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    {{ __('message.edit') }}
                 </button>
             @endcan
 
-            @can ('destroy', $message)
-                <button type="button"
-                        class="btn btn-danger btn-sm"
-                        x-on:click="confirmMessageDeletion"
-                        x-data="{
-                    confirmMessageDeletion () {
-                       const message = this.$el.getAttribute('data-confirm-message');
-                        if (window.confirm(message)) {
-                            @this.call('deleteMessage')
-                        }
-                    }
-                }"
-                        data-confirm-message="{{ __('message.confirmDelete') }}"
-                >{{ __('message.delete') }}
+            @can('destroy', $message)
+                <button wire:click="deleteMessage" wire:confirm="{{ __('message.confirmDelete') }}" type="button"
+                    class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    {{ __('message.delete') }}
                 </button>
             @endcan
-        </i>
-    </p>
+        </div>
+    </div>
+
     @if ($isEditing)
-        <form wire:submit="editMessage">
-            <div class="blog-comment">
-                <textarea wire:model="body" id="textareaID" class="form-control"></textarea>
+        <form wire:submit="editMessage" class="space-y-4">
+            <div>
+                <textarea wire:model="body" rows="3"
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50"></textarea>
 
                 @error('body')
-                <p class="text-danger">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
-            <br/>
-            <div class="col-md-12 text-end">
-                <button class="btn btn-colour-1" type="submit">
-                    <span class="align-middle d-sm-inline-block d-none">{{__('message.editMessage')}}</span>
+
+            <div class="flex justify-end">
+                <button type="submit"
+                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    {{ __('message.editMessage') }}
                 </button>
             </div>
         </form>
     @else
-        {{ $message->body }}
+        <div class="text-gray-700 whitespace-pre-wrap">{{ $message->body }}</div>
     @endif
+
     @if ($isReplying)
-        <form wire:submit="postReply">
-            <div class="blog-comment">
-                <textarea wire:model="body" id="textareaID" class="form-control"></textarea>
+        <form wire:submit="postReply" class="mt-4 space-y-4">
+            <div>
+                <textarea wire:model="body" rows="3"
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50"
+                    placeholder="{{ __('message.writeReply') }}"></textarea>
 
                 @error('body')
-                <p class="text-danger">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
-            <br/>
-            <div class="col-md-12 text-end">
-                <button class="btn btn-colour-1" type="submit">
-                    <span class="align-middle d-sm-inline-block d-none">{{__('message.saveReply')}}</span>
+
+            <div class="flex justify-end">
+                <button type="submit"
+                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    {{ __('message.saveReply') }}
                 </button>
             </div>
         </form>
     @endif
-    <div>
-        @foreach ($message->replies as $reply)
-            <ul class="comments">
-                <li class="clearfix">
-                    @livewire('message', ['message' => $reply],  key('reply-'.$reply->id))
-                </li>
-            </ul>
-        @endforeach
-    </div>
+
+    @if ($message->replies->count() > 0)
+        <div class="ml-6 mt-4 space-y-4 border-l-2 border-gray-200 pl-4">
+            @foreach ($message->replies as $reply)
+                @livewire('message', ['message' => $reply], key('reply-' . $reply->id))
+            @endforeach
+        </div>
+    @endif
 </div>

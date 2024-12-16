@@ -1,341 +1,299 @@
-<main id="main">
-    <section>
-        <div class="container">
-            <div class="section-title">
-                <h2>{{  __('regLog.regOrg')  }}</h2>
-            </div>
-            <div>
-                <form wire:submit="registerInst">
-                    @csrf
-                    <div class="group">
-                        <label class="form-label" for="username">{{  __('user.username')  }} *</label>
-                        <input wire:model.blur="username" class="form-control @error('username') is-invalid @enderror @if (session('valid-username')) is-valid @endif" id="username" type="text"
-                            placeholder="Wählen Sie einen Benutzernamen" autofocus autocomplete="off">
-                        @error('username')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-username'))
-                            <div class="valid-feedback">
-                                {{ session('valid-username') }}
-                            </div>
-                        @endif
-                    </div>
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <x-heading.decorative class="text-center">
+            {{ __('regLog.regOrg') }}
+        </x-heading.decorative>
 
-                    <div class="group">
-                        <label class="form-label" for="name_inst">{{  __('user.name_inst')  }} *</label>
-                        <input wire:model.blur="name_inst" class="form-control @error('name_inst') is-invalid @enderror @if (session('valid-name_inst')) is-valid @endif" id="name_inst" type="text"
-                            placeholder="Firma Mustermann"  autofocus autocomplete="off">
-                        @error('name_inst')
-                            <div id="invalidname_instFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-name_inst'))
-                            <div class="valid-feedback">
-                                {{ session('valid-name_inst') }}
-                            </div>
-                        @endif
-                    </div>
+        <form wire:submit="registerInst">
+            @csrf
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Username -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="username">
+                        {{ __('user.username') }} *
+                    </label>
+                    <input wire:model.blur="username" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('username') ? 'border-red-500' : (session('valid-username') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="username" placeholder="Wählen Sie einen Benutzernamen" autofocus autocomplete="off">
+                    @error('username')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="street">{{  __('address.street')  }} *</label>
-                        <input wire:model.blur="street" class="form-control @error('street') is-invalid @enderror @if (session('valid-street'))
-                            is-valid @endif" id="street" type="text" placeholder="Mustergasse"  autofocus autocomplete="off">
-                        @error('street')
-                            <div id="invalidstreetFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-street'))
-                            <div class="valid-feedback">
-                                {{ session('valid-street') }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Institution Name -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="name_inst">
+                        {{ __('user.name_inst') }} *
+                    </label>
+                    <input wire:model.blur="name_inst" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('name_inst') ? 'border-red-500' : (session('valid-name_inst') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="name_inst" placeholder="Firma Mustermann">
+                    @error('name_inst')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="number">{{  __('address.number')  }} </label>
-                        <input wire:model.blur="number" class="form-control @error('number') is-invalid @enderror @if (session('valid-number'))
-                            is-valid @endif" id="number" type="text" placeholder="12"  autofocus autocomplete="off">
-                        @error('number')
-                            <div id="invalidstreetFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-number'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-number']) }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Street -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="street">
+                        {{ __('address.street') }} *
+                    </label>
+                    <input wire:model.blur="street" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('street') ? 'border-red-500' : (session('valid-street') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="street" placeholder="Mustergasse">
+                    @error('street')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="plz">{{  __('address.plz')  }} *</label>
-                        <input wire:model.blur="plz" class="form-control @error('plz') is-invalid @enderror @if (session('valid-plz'))
-                            is-valid @endif" id="plz" type="number" placeholder="7000"  autofocus autocomplete="off">
-                        @error('plz')
-                            <div id="invalidstreetFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-plz'))
-                            <div class="valid-feedback">
-                                {{ session('valid-plz') }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Number -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="number">
+                        {{ __('address.number') }}
+                    </label>
+                    <input wire:model.blur="number" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('number') ? 'border-red-500' : (session('valid-number') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="number" placeholder="12">
+                    @error('number')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="town">{{  __('address.town')  }} *</label>
-                        <input wire:model.blur="town" class="form-control @error('town') is-invalid @enderror @if (session('valid-town'))
-                            is-valid @endif" id="town" type="text" placeholder="Musterhausen"  autofocus autocomplete="off">
-                        @error('town')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-town'))
-                            <div class="valid-feedback">
-                                {{ session('valid-town') }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- PLZ -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="plz">
+                        {{ __('address.plz') }} *
+                    </label>
+                    <input wire:model.blur="plz" type="number"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('plz') ? 'border-red-500' : (session('valid-plz') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="plz" placeholder="7000">
+                    @error('plz')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="country">{{  __('address.country')  }} *</label>
-                        <select wire:model.blur="country_id" class="form-select @error('country_id') is-invalid @enderror @if (session('valid-country_id'))
-                            is-valid @endif" id="country_id" type="text" autofocus autocomplete="off">
-                            <option selected value="" disabled>{{  __('attributes.please_select')  }}</option>
-                            @foreach ($countries as $country)
-                                <option value="{{ $country->id }}">{{ $country->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('country_id')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-country_id'))
-                            <div class="valid-feedback">
-                                {{ session('valid-country_id') }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Town -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="town">
+                        {{ __('address.town') }} *
+                    </label>
+                    <input wire:model.blur="town" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('town') ? 'border-red-500' : (session('valid-town') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="town" placeholder="Musterhausen">
+                    @error('town')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="phone_inst">{{  __('user.phone_inst')  }}</label>
-                        <input wire:model.blur="phone_inst" class="form-control @error('phone_inst') is-invalid @enderror @if (session('valid-phone_inst'))
-                            is-valid @endif" id="phone_inst" type="text" placeholder="+41 81 123 4567"  autofocus autocomplete="off">
-                        @error('phone_inst')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-phone_inst'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-phone_inst']) }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Country -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="country">
+                        {{ __('address.country') }} *
+                    </label>
+                    <select wire:model.blur="country_id"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('country_id') ? 'border-red-500' : (session('valid-country_id') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="country">
+                        <option value="">{{ __('attributes.please_select') }}</option>
+                        @foreach ($countries as $country)
+                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('country_id')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="email_inst">{{  __('user.email_inst')  }}</label>
-                        <input wire:model.blur="email_inst" class="form-control @error('email_inst') is-invalid @enderror @if (session('valid-email_inst'))
-                            is-valid @endif" id="email_inst" type="email" placeholder="muster@muster.ch"  autofocus autocomplete="off">
-                        @error('email_inst')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-email_inst'))
-                            <div class="valid-feedback">
-                                {{ session('valid-email_inst') }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Institution Phone -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="phone_inst">
+                        {{ __('user.phone_inst') }}
+                    </label>
+                    <input wire:model.blur="phone_inst" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('phone_inst') ? 'border-red-500' : (session('valid-phone_inst') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="phone_inst" placeholder="+41 81 123 4567">
+                    @error('phone_inst')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
+                <!-- Institution Email -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="email_inst">
+                        {{ __('user.email_inst') }}
+                    </label>
+                    <input wire:model.blur="email_inst" type="email"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('email_inst') ? 'border-red-500' : (session('valid-email_inst') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="email_inst" placeholder="muster@muster.ch">
+                    @error('email_inst')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="website">{{  __('user.website')  }}</label>
-                        <input wire:model.blur="website" class="form-control @error('website') is-invalid @enderror @if (session('valid-website'))
-                            is-valid @endif" id="website" type="text" placeholder="https://www.musterfirma.ch"  autofocus autocomplete="off">
-                        @error('website')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-website'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-website']) }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Website -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="website">
+                        {{ __('user.website') }}
+                    </label>
+                    <input wire:model.blur="website" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('website') ? 'border-red-500' : (session('valid-website') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="website" placeholder="https://www.musterfirma.ch">
+                    @error('website')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="salutation">{{  __('user.salutation')  }} *</label>
-                        <select wire:model.blur="salutation" class="form-select @error('salutation') is-invalid @enderror @if (session('valid-salutation'))
-                            is-valid @endif" id="salutation" type="text" autofocus autocomplete="off">
-                            <option selected value="" disabled>{{  __('attributes.please_select')  }}</option>
-                            @foreach (App\Enums\Salutation::cases() as $salutation)
-                                <option value="{{ $salutation->value }}">{{ __('user.salutation_name.' .$salutation->name) }}</option>
-                            @endforeach
-                        </select>
-                        @error('salutation')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-salutation'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-salutation']) }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Contact Person Fields -->
+                <!-- Salutation -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="salutation">
+                        {{ __('user.salutation') }} *
+                    </label>
+                    <select wire:model.blur="salutation"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('salutation') ? 'border-red-500' : (session('valid-salutation') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="salutation">
+                        <option value="">{{ __('attributes.please_select') }}</option>
+                        @foreach (App\Enums\Salutation::cases() as $salutation)
+                            <option value="{{ $salutation->value }}">
+                                {{ __('user.salutation_name.' . $salutation->name) }}</option>
+                        @endforeach
+                    </select>
+                    @error('salutation')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
+                <!-- Contact First Name -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="firstname">
+                        {{ __('user.firstname') }} {{ __('user.contact') }} *
+                    </label>
+                    <input wire:model.blur="firstname" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('firstname') ? 'border-red-500' : (session('valid-firstname') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="firstname" placeholder="Max">
+                    @error('firstname')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="firstname">{{  __('user.firstname')  }} {{  __('user.contact')  }} *</label>
-                        <input wire:model.blur="firstname" class="form-control @error('firstname') is-invalid @enderror @if (session('valid-firstname'))
-                            is-valid @endif" id="firstname" type="text" placeholder="Max"  autofocus autocomplete="off">
-                        @error('firstname')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-firstname'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-firstname']) }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Contact Last Name -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="lastname">
+                        {{ __('user.lastname') }} {{ __('user.contact') }} *
+                    </label>
+                    <input wire:model.blur="lastname" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('lastname') ? 'border-red-500' : (session('valid-lastname') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="lastname" placeholder="Muster">
+                    @error('lastname')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="lastname">{{  __('user.lastname')  }} {{  __('user.contact')  }} *</label>
-                        <input wire:model.blur="lastname" class="form-control @error('lastname') is-invalid @enderror @if (session('valid-lastname'))
-                            is-valid @endif" id="lastname" type="text" placeholder="Muster"  autofocus autocomplete="off">
-                        @error('lastname')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-lastname'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-lastname']) }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Contact Phone -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="phone">
+                        {{ __('user.phone') }} {{ __('user.contact') }} *
+                    </label>
+                    <input wire:model.blur="phone" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('phone') ? 'border-red-500' : (session('valid-phone') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="phone" placeholder="+41 81 123 4567">
+                    @error('phone')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <div class="group">
-                        <label class="form-label" for="phone">{{  __('user.phone')  }} {{  __('user.contact')  }} *</label>
-                        <input wire:model.blur="phone" class="form-control @error('phone') is-invalid @enderror @if (session('valid-phone'))
-                            is-valid @endif" id="phone" type="text" placeholder="+41 81 123 4567"  autofocus autocomplete="off">
-                        @error('phone')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-phone'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-phone']) }}
-                            </div>
-                        @endif
-                    </div>
+                <!-- Contact Mobile -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="mobile">
+                        {{ __('user.mobile') }} {{ __('user.contact') }} *
+                    </label>
+                    <input wire:model.blur="mobile" type="text"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('mobile') ? 'border-red-500' : (session('valid-mobile') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="mobile" placeholder="+41 79 123 4567">
+                    @error('mobile')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                   <div class="group">
-                        <label class="form-label" for="mobile">{{  __('user.mobile')  }} {{  __('user.contact')  }} *</label>
-                        <input wire:model.blur="mobile" class="form-control @error('mobile') is-invalid @enderror @if (session('valid-mobile'))
-                            is-valid @endif" id="mobile" type="text" placeholder="+41 79 123 4567"  autofocus autocomplete="off">
-                        @error('mobile')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-mobile'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-mobile']) }}
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="group">
-                        <label class="form-label" for="email">{{  __('user.email')  }} {{  __('user.contact')  }} *</label>
-                        <input wire:model.blur="email" class="form-control @error('email') is-invalid @enderror @if (session('valid-email'))
-                            is-valid @endif" id="email" type="email" placeholder="max@mustermann.ch"  autofocus autocomplete="off">
-                        @error('email')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-email'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-email']) }}
-                            </div>
-                        @endif
-                    </div>
-
-
-                    <div class="group">
-                        <label class="form-label" for="password">{{  __('user.password_register')  }} *</label>
-                        <input wire:model.blur="password" class="form-control @error('password') is-invalid @enderror @if (session('valid-password'))
-                            is-valid @endif" id="password" type="password" autofocus autocomplete="off">
-                        @error('password')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-password'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-password']) }}
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="group">
-                        <label class="form-label" for="password_confirmation">{{  __('user.password_confirmation')  }} *</label>
-                        <input wire:model.blur="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror @if (session('valid-password_confirmation'))
-                            is-valid @endif" id="password_confirmation" type="password" autofocus autocomplete="off">
-                        @error('password_confirmation')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-password_confirmation'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-password_confirmation']) }}
-                            </div>
-                        @endif
-                    </div>
-                    <br/>
-                    <div class="form-check">
-                        <label class="form-label" for="terms">
-                            <input wire:model.blur="terms" class ="@error('terms') is-invalid @enderror @if (session('valid-terms'))
-                                is-valid @endif" id="terms" type="checkbox" autofocus autocomplete="off">
-                            @error('terms')
-                                <div id="invalidFeedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                            @if (session()->has('valid-terms'))
-                                <div class="valid-feedback">
-                                    {{ session(['valid-terms']) }}
-                                </div>
-                            @endif
-                            {{  __('regLog.accept')  }}
-                        </label>
-                    </div>
-                    <div class="col-md-12 text-center">
-                        <x-primary-button>
-                            {{  __('regLog.register')  }}
-                        </x-primary-button>
-                    </div>
-                </form>
+                <!-- Contact Email -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="email">
+                        {{ __('user.email') }} {{ __('user.contact') }} *
+                    </label>
+                    <input wire:model.blur="email" type="email"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('email') ? 'border-red-500' : (session('valid-email') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="email" placeholder="max@mustermann.ch">
+                    @error('email')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
 
-        </div>
+            <!-- Password fields in one row -->
+            <div class="col-span-2 grid grid-cols-2 gap-6 mt-6">
+                <!-- Password -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="password">
+                        {{ __('user.password_register') }} *
+                    </label>
+                    <input wire:model.blur="password" type="password"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('password') ? 'border-red-500' : (session('valid-password') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="password">
+                    @error('password')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
 
-    </section>
+                <!-- Password Confirmation -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-primary mb-1" for="password_confirmation">
+                        {{ __('user.password_confirmation') }} *
+                    </label>
+                    <input wire:model.blur="password_confirmation" type="password"
+                        class="w-full rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50
+                        {{ $errors->has('password_confirmation') ? 'border-red-500' : (session('valid-password_confirmation') ? 'border-green-500' : 'border-gray-300') }}"
+                        id="password_confirmation">
+                    @error('password_confirmation')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
 
-</main><!-- End #main -->
+            <!-- Terms -->
+            <div class="mt-8">
+                <label class="flex items-center">
+                    <input wire:model.blur="terms" type="checkbox"
+                        class="rounded border-gray-300 text-accent shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                    <span class="ml-2 text-sm text-primary">{{ __('regLog.accept') }}</span>
+                </label>
+                @error('terms')
+                    <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end mt-6">
+                <button type="submit"
+                    class="px-6 py-2 bg-primary text-white rounded-md hover:bg-danger-hover transition-colors">
+                    {{ __('regLog.register') }}
+                </button>
+            </div>
+        </form>
+    </div>
+</section>

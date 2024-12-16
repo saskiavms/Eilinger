@@ -5,6 +5,7 @@ use App\Enums\GetAmount;
 return [
     'title' => 'Geschwister',
     'subtitle' => 'Geschwister der gesuchstellenden Person',
+    'sibling' => 'Geschwister :position',
     'lastname' => 'Nachname',
     'firstname' => 'Vorname',
     'birthday' => 'Geburtsdatum',

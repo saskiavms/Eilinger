@@ -1,123 +1,164 @@
 @php use App\Enums\CivilStatus; @endphp
 <form wire:submit="saveUserNat">
     @csrf
-    <div class="content-header mb-3">
-        <h3 class="mb-0">{{ __('user.applicant') }}</h3>
-        <div class="d-flex justify-content-between">
-            <div>
-                <small>{{ __('user.subtitle') }}</small>
-            </div>
-        </div>
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-2">{{ __('user.applicant') }}</h3>
+        <p class="text-sm text-gray-600">{{ __('user.subtitle') }}</p>
     </div>
 
-    <div class="row g-3">
+    <x-notification />
 
-        <x-notification />
-
-        <div class="col-sm-2">
-            <label for="salutation" id="salutation" class="form-label">{{ __('user.salutation') }} *</label>
-            <select wire:model.blur="user.salutation" class="form-select">
-                <option hidden>{{ __('attributes.please_select') }}</option>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Salutation -->
+        <div>
+            <label for="salutation" class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.salutation') }} *
+            </label>
+            <select wire:model.blur="salutation"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                <option value="">{{ __('attributes.please_select') }}</option>
                 @foreach (App\Enums\Salutation::cases() as $salutation)
                     <option value="{{ $salutation }}">{{ __('user.salutation_name.' . $salutation->name) }}</option>
                 @endforeach
             </select>
-            @error('user.salutatiom')
-                <div style="font-size: 0.75rem; color: red">{{ $message }}</div>
+            @error('salutation')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
-        <div class="col-sm-5">
-            <label class="form-label" for="firstname">{{ __('user.firstname') }} *</label>
-            <input wire:model.blur="user.firstname" type="text" class="form-control" />
-            <span class="text-danger">
-                @error('user.firstname')
-                    {{ $message }}
-                @enderror
-            </span>
-        </div>
-        <div class="col-sm-5">
-            <label class="form-label" for="lastname">{{ __('user.lastname') }} *</label>
-            <input wire:model.blur="user.lastname" type="text" class="form-control" />
-            <span class="text-danger">
-                @error('user.lastname')
-                    {{ $message }}
-                @enderror
-            </span>
+
+        <!-- First Name -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.firstname') }} *
+            </label>
+            <input wire:model.blur="firstname" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+            @error('firstname')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
-        <div class="col-sm-2">
-            <label class="form-label" for="country">{{ __('user.nationality') }} *</label>
-            <select wire:model.blur="user.nationality" class="form-select">
-                <option hidden>{{ __('attributes.please_select') }}</option>
+        <!-- Last Name -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.lastname') }} *
+            </label>
+            <input wire:model.blur="lastname" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+            @error('lastname')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Nationality -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.nationality') }} *
+            </label>
+            <select wire:model.blur="nationality"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                <option value="">{{ __('attributes.please_select') }}</option>
                 @foreach ($countries as $country)
                     <option value="{{ $country->short_code }}">{{ $country->name }}</option>
                 @endforeach
             </select>
-            @error('user.nationality')
-                <div style="font-size: 0.75rem; color: red">{{ $message }}</div>
+            @error('nationality')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
+        </div>
 
+        <!-- Birthday -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.birthday') }} *
+            </label>
+            <input wire:model.blur="birthday" type="date"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+            @error('birthday')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
-        <div class="col-sm-5">
-            <label class="form-label" for="birthday">{{ __('user.birthday') }} *</label>
-            <input wire:model.blur="user.birthday" type="date" id="birthday" class="form-control">
-            <span class="text-danger">
-                @error('user.birthday')
-                    {{ $message }}
-                @enderror
-            </span>
-        </div>
-        <div class="col-md-5">
-            <label class="form-label" for="civil_status">{{ __('user.civil_status') }} *</label>
-            <select wire:model.blur="user.civil_status" class="form-select">
-                <option hidden>{{ __('attributes.please_select') }}</option>
+
+        <!-- Civil Status -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.civil_status') }} *
+            </label>
+            <select wire:model.blur="civil_status"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                <option value="">{{ __('attributes.please_select') }}</option>
                 @foreach (CivilStatus::cases() as $status)
-                    <option value="{{ $status->value }}">{{ __('user.civil_status_name.' . $status->name) }} </option>
+                    <option value="{{ $status->value }}">{{ __('user.civil_status_name.' . $status->name) }}</option>
                 @endforeach
             </select>
-            @error('user.civil_status')
-                <div style="font-size: 0.75rem; color: red">{{ $message }}</div>
+            @error('civil_status')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
-        @if ($this->partnerVisible)
-            @livewire('antrag.parent-form')
-        @endif
 
-        <div class="col-md-4">
-            <label class="form-label" for="phone">{{ __('user.phone') }}</label>
-            <input wire:model.blur="user.phone" type="text" class="form-control" />
-        </div>
-        <div class="col-md-4">
-            <label class="form-label" for="mobile">{{ __('user.mobile') }}</label>
-            <input wire:model.blur="user.mobile" type="text" class="form-control" />
-        </div>
-        <div class="col-md-4">
-            <label class="form-label" for="soz_vers_nr">{{ __('user.soz_vers_nr') }}</label>
-            <input wire:model.blur="user.soz_vers_nr" type="text" class="form-control" />
+        <!-- Contact Information -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.phone') }}
+            </label>
+            <input wire:model.blur="phone" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
         </div>
 
-        <div class="col-sm-6">
-            <label class="form-label" for="in_ch_since">{{ __('user.in_ch_since') }}</label>
-            <input wire:model.live="user.in_ch_since" type="date" class="form-control" />
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.mobile') }}
+            </label>
+            <input wire:model.blur="mobile" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
         </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="granting">{{ __('user.granting') }}</label>
-            <select wire:model.blur="user.granting" class="form-select">
-                <option hidden>{{ __('attributes.please_select') }}</option>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.soz_vers_nr') }}
+            </label>
+            <input wire:model.blur="soz_vers_nr" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+        </div>
+
+        <!-- Switzerland Information -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.in_ch_since') }}
+            </label>
+            <input wire:model.live="in_ch_since" type="date"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('user.granting') }}
+            </label>
+            <select wire:model.blur="granting"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                <option value="">{{ __('attributes.please_select') }}</option>
                 @foreach (App\Enums\Bewilligung::cases() as $granting)
                     <option value="{{ $granting->value }}">{{ __('user.permit_name.' . $granting->name) }}</option>
                 @endforeach
             </select>
-            @error('user.granting')
-                <div style="font-size: 0.75rem; color: red">{{ $message }}</div>
+            @error('granting')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
+    </div>
 
-        <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-success">
-                <span class="align-middle d-sm-inline-block d-none">{{ __('attributes.save') }}</span>
-            </button>
-
+    <!-- Partner Form (Conditional) -->
+    @if ($this->partnerVisible)
+        <div class="mt-8">
+            @livewire('antrag.parent-form')
         </div>
+    @endif
+
+    <!-- Submit Button -->
+    <div class="mt-8 flex justify-center">
+        <button type="submit"
+            class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
+            {{ __('attributes.save') }}
+        </button>
     </div>
 </form>

@@ -20,4 +20,6 @@ return [
     'messageRequest' => 'Message for Request',
     'body' => 'Message',
     'no_appl' => 'No requests or projects available',
+    'writeMessage' => 'Write a message',
+    'writeReply' => 'Write a reply',
 ];

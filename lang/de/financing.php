@@ -15,6 +15,6 @@ return [
     'financing_name' => 'Einnahmen',
     'financing_amount' => 'Betrag',
     'addFinancing' => '+ Weitere Einnahmen hinzufügen',
-    'total' => 'Totale Kosten',
+    'total' => 'Gesamte Einnahmen',
     'other' => 'Anderweitige Einkünfte',
 ];

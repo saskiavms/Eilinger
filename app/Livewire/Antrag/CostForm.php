@@ -7,45 +7,59 @@ use App\Models\Cost;
 use App\Models\Currency;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class CostForm extends Component
 {
-    public $cost;
+    public $semester_fees;
+    public $fees;
+    public $educational_material;
+    public $excursion;
+    public $travel_expenses;
+    public $number_of_children;
+    public $cost_of_living_with_parents;
+    public $cost_of_living_alone;
+    public $cost_of_living_single_parent;
+    public $cost_of_living_with_partner;
 
     public $currency_id;
-
     public $myCurrency;
 
     protected function rules(): array
     {
         return [
-            'cost.semester_fees' => 'required|numeric',
-            'cost.fees' => 'required|numeric',
-            'cost.educational_material' => 'required|numeric',
-            'cost.excursion' => 'required|numeric',
-            'cost.travel_expenses' => 'required|numeric',
-            'cost.cost_of_living_with_parents' => 'nullable|required_without_all:cost.cost_of_living_alone,cost.cost_of_living_single_parent,cost.cost_of_living_with_partner|numeric',
-            'cost.cost_of_living_alone' => 'nullable|required_without_all:cost.cost_of_living_with_parents,cost.cost_of_living_single_parent,cost.cost_of_living_with_partner|numeric',
-            'cost.cost_of_living_single_parent' => 'nullable|required_without_all:cost.cost_of_living_with_parents,cost.cost_of_living_alone,cost.cost_of_living_with_partner|numeric',
-            'cost.cost_of_living_with_partner' => 'nullable|required_without_all:cost.cost_of_living_with_parents,cost.cost_of_living_alone,cost.cost_of_living_single_parent|numeric',
-            'cost.number_of_children' => 'required|numeric|between:0,100',
+            'semester_fees' => 'required|numeric',
+            'fees' => 'required|numeric',
+            'educational_material' => 'required|numeric',
+            'excursion' => 'required|numeric',
+            'travel_expenses' => 'required|numeric',
+            'cost_of_living_with_parents' => 'nullable|required_without_all:cost_of_living_alone,cost_of_living_single_parent,cost_of_living_with_partner|numeric',
+            'cost_of_living_alone' => 'nullable|required_without_all:cost_of_living_with_parents,cost_of_living_single_parent,cost_of_living_with_partner|numeric',
+            'cost_of_living_single_parent' => 'nullable|required_without_all:cost_of_living_with_parents,cost_of_living_alone,cost_of_living_with_partner|numeric',
+            'cost_of_living_with_partner' => 'nullable|required_without_all:cost_of_living_with_parents,cost_of_living_alone,cost_of_living_single_parent|numeric',
+            'number_of_children' => 'required|numeric|between:0,100',
         ];
     }
 
-    public function validationAttributes():array
+    public function validationAttributes(): array
     {
         return Lang::get('cost');
     }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     public function mount(): void
     {
-        $this->cost = Cost::where('application_id', session()->get('appl_id'))->first() ?? new Cost;
+        $cost = Cost::where('application_id', session()->get('appl_id'))->first() ?? new Cost;
+
+        $this->semester_fees = $cost->semester_fees;
+        $this->fees = $cost->fees;
+        $this->educational_material = $cost->educational_material;
+        $this->excursion = $cost->excursion;
+        $this->travel_expenses = $cost->travel_expenses;
+        $this->number_of_children = $cost->number_of_children;
+        $this->cost_of_living_with_parents = $cost->cost_of_living_with_parents;
+        $this->cost_of_living_alone = $cost->cost_of_living_alone;
+        $this->cost_of_living_single_parent = $cost->cost_of_living_single_parent;
+        $this->cost_of_living_with_partner = $cost->cost_of_living_with_partner;
+
         $this->currency_id = Application::where('id', session()->get('appl_id'))->pluck('currency_id');
         $this->myCurrency = Currency::where('id', $this->currency_id)->first();
     }
@@ -55,32 +69,31 @@ class CostForm extends Component
         return view('livewire.antrag.cost-form');
     }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     public function saveCost(): void
     {
-        $this->validate();
-        $this->cost->is_draft = false;
-        $this->cost->user_id = auth()->user()->id;
-        $this->cost->total_amount_costs = $this->getAmountCost();
-        $this->cost->application_id = session()->get('appl_id');
-        $this->cost->save();
+        $validatedData = $this->validate();
+
+        $cost = Cost::where('application_id', session()->get('appl_id'))->first() ?? new Cost;
+        $cost->fill($validatedData);
+        $cost->is_draft = false;
+        $cost->user_id = auth()->user()->id;
+        $cost->total_amount_costs = $this->getAmountCost();
+        $cost->application_id = session()->get('appl_id');
+        $cost->save();
+
         session()->flash('success', __('userNotification.costSaved'));
     }
 
     public function getAmountCost(): int
     {
-        return $this->cost->semester_fees +
-            $this->cost->fees +
-            $this->cost->educational_material +
-            $this->cost->excursion +
-            $this->cost->travel_expenses +
-            $this->cost->cost_of_living_with_parents +
-            $this->cost->cost_of_living_alone +
-            $this->cost->cost_of_living_single_parent +
-            $this->cost->cost_of_living_with_partner;
+        return (int) ($this->semester_fees +
+            $this->fees +
+            $this->educational_material +
+            $this->excursion +
+            $this->travel_expenses +
+            $this->cost_of_living_with_parents +
+            $this->cost_of_living_alone +
+            $this->cost_of_living_single_parent +
+            $this->cost_of_living_with_partner);
     }
-
 }

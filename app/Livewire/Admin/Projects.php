@@ -11,15 +11,22 @@ class Projects extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
+    protected $paginationTheme = 'tailwind';
 
-    #[Layout('components.layout.admin-dashboard')]
+    #[Layout('components.layout.admin-dashboard', ['header' => 'Projektübersicht'])]
     public function render()
     {
-        $applications = Application::where('appl_status', 'approved')->paginate(10);
-
         return view('livewire.admin.projects', [
-            'applications' => $applications,
+            'applications' => Application::query()
+                ->where('appl_status', 'approved')
+                ->with(['user', 'bereich']) // Eager load relationships
+                ->orderBy('created_at', 'desc')
+                ->paginate(10)
         ]);
+    }
+
+    public function placeholder()
+    {
+        return view('components.loading');
     }
 }

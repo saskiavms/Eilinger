@@ -1,27 +1,50 @@
-<div class="accordion-item">
-    <h2 class="accordion-header" id="headingAddress">
-        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
-                data-bs-target="#collapseAddress">Adresse
-        </button>
-    </h2>
-    <div id="collapseAddress" class="accordion-collapse collapse">
-        <div class="card-body">
-            <div class=row>
-                <div class="col-sm-4">
-                    <p>{{  __('address.street')  }}: {{ $address->street }}</p>
-                </div>
-                <div class="col-sm-4">
-                    <p>{{  __('address.number')  }}: {{ $address->number }}</p>
-                </div>
-                <div class="col-sm-4">
-                    <p>{{  __('address.plz')  }}: {{ $address->plz }}</p>
-                </div>
-                <div class="col-sm-4">
-                    <p>{{  __('address.town')  }}: {{ $address->town }}</p>
-                </div>
-                <div class="col-sm-4">
-                    <p>{{  __('address.country')  }}: {{ $address->country->name }}</p>
-                </div>
+<div class="border rounded-lg bg-white" x-data="{ open: false }">
+    <!-- Accordion Header -->
+    <button @click="open = !open"
+        class="w-full flex justify-between items-center p-4 bg-primary-300 hover:bg-primary-400 transition-colors">
+        <h2 class="text-lg font-medium text-gray-900">Adresse</h2>
+        <svg class="h-5 w-5 text-gray-500 transform transition-transform" :class="{ 'rotate-180': open }"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+
+    <!-- Accordion Content -->
+    <div x-show="open" class="p-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <p class="text-md">
+                    <span class="font-medium text-gray-700">{{ __('address.street') }}:</span>
+                    <span class="text-gray-900 ml-1">{{ $address->street }}</span>
+                </p>
+            </div>
+
+            <div>
+                <p class="text-md">
+                    <span class="font-medium text-gray-700">{{ __('address.number') }}:</span>
+                    <span class="text-gray-900 ml-1">{{ $address->number }}</span>
+                </p>
+            </div>
+
+            <div>
+                <p class="text-md">
+                    <span class="font-medium text-gray-700">{{ __('address.plz') }}:</span>
+                    <span class="text-gray-900 ml-1">{{ $address->plz }}</span>
+                </p>
+            </div>
+
+            <div>
+                <p class="text-md">
+                    <span class="font-medium text-gray-700">{{ __('address.town') }}:</span>
+                    <span class="text-gray-900 ml-1">{{ $address->town }}</span>
+                </p>
+            </div>
+
+            <div>
+                <p class="text-md">
+                    <span class="font-medium text-gray-700">{{ __('address.country') }}:</span>
+                    <span class="text-gray-900 ml-1">{{ $address->country->name }}</span>
+                </p>
             </div>
         </div>
     </div>

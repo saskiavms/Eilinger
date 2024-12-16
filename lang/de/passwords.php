@@ -18,5 +18,13 @@ return [
     'sent' => 'Passworterinnerung wurde gesendet!',
     'token' => 'Der Passwort-Wiederherstellungs-Schlüssel ist ungültig oder abgelaufen.',
     'user' => 'Es konnte leider kein Nutzer mit dieser E-Mail-Adresse gefunden werden.',
+    'throttled' => 'Bitte warten Sie, bevor Sie es erneut versuchen.',
+    'current' => 'Das aktuelle Passwort ist falsch.',
+    'min' => 'Das Passwort muss mindestens :min Zeichen lang sein.',
+    'letters' => 'Das Passwort muss mindestens einen Buchstaben enthalten.',
+    'mixedCase' => 'Das Passwort muss sowohl Groß- als auch Kleinbuchstaben enthalten.',
+    'numbers' => 'Das Passwort muss mindestens eine Zahl enthalten.',
+    'symbols' => 'Das Passwort muss mindestens ein Sonderzeichen enthalten.',
+    'uncompromised' => 'Das gewählte Passwort ist in einem Datenleck aufgetaucht. Bitte wählen Sie ein anderes Passwort.',
 
 ];

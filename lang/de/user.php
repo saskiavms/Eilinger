@@ -10,6 +10,7 @@ return [
     'subtitle' => 'Angaben über die in Ausbildung stehende Person, welche um Beiträge nachsucht',
     'subtitleOrg' => 'Angaben über die Organisation',
     'subTitleCandidate' => 'Angaben über den Gesuchssteller',
+    'details' => 'Angaben',
     'username' => 'Benutzername',
     'type' => 'Typ',
     'lastname' => 'Nachname',

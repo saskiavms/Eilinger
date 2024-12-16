@@ -11,4 +11,7 @@ return [
     'showMessages' => 'Nachrichten ansehen',
     'continue' => 'Weiter',
     'back' => 'Zurück',
+    'choose_file' => 'Datei auswählen',
+    'no_file_chosen' => 'Keine Datei ausgewählt',
+
 ];

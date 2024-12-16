@@ -1,11 +1,11 @@
-@props(['href', 'active' => false])
+@props(['active' => false])
+
+@php
+    $classes = $active ?? false ? 'text-accent' : 'text-white hover:text-accent transition-colors';
+@endphp
 
 <li>
-    <a href="{{ $href }}"
-        {{ $attributes->merge([
-            'class' =>
-                'nav-link' . ($active ? ' active' : '') . ($attributes->get('class') ? ' ' . $attributes->get('class') : ''),
-        ]) }}>
+    <a {{ $attributes->merge(['class' => $classes]) }}>
         {{ $slot }}
     </a>
 </li>

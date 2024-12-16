@@ -1,33 +1,11 @@
-@if (session()->has('info'))
-    <div class="alert alert-info">
-        {{ session('info') }}
-    </div>
-@endif
-
 @if (session()->has('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if (session()->has('warning'))
-    <div class="alert alert-warning">
-        {{ session('warning') }}
+    <div class="bg-success border border-success text-white px-4 py-3 rounded relative mb-4" role="alert">
+        <span class="block sm:inline">{{ session('success') }}</span>
     </div>
 @endif
 
 @if (session()->has('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
-
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <span class="block sm:inline">{{ session('error') }}</span>
     </div>
 @endif

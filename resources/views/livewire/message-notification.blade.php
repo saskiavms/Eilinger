@@ -1,80 +1,74 @@
+<div class="relative" x-data="{ open: false }">
+    <button @click="open = !open" class="relative text-primary hover:text-accent">
+        <i class="bi bi-bell text-xl"></i>
+        @if ($notificationCount > 0)
+            <span
+                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                {{ $notificationCount }}
+            </span>
+        @endif
+    </button>
 
-    <div class="dropdown d-inline-block">
-            <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="bi bi-bell "></i>
-                <span class="badge bg-danger rounded-pill">{{ $notificationCount }}</span>
-            </button>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-                 aria-labelledby="page-header-notifications-dropdown">
-                <div class="p-3">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h4 class="m-0" key="t-notifications"> {{__('message.messages')}} </h4>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div data-simplebar class="p-3">
-                    <a href="" class="text-reset notification-item" style="text-decoration: none;">
-                        <div class="simplebar-wrapper p-3" >
-                            <div class="simplebar-height-auto-observer-wrapper">
-                                <div class="simplebar-height-auto-observer"></div>
-                            </div>
-                            <div class="simplebar-mask p-3">
-                                <div class="simplebar-offset p-3">
-                                    <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content"
-                                         style="height: auto; overflow: hidden scroll;">
-                                        <div class="simplebar-content p-3">
-                                            @foreach ($notifications as $notification)
-                                @if ($notification->type == App\Notifications\MessageAddedAdmin::class ||
-                                    $notification->type == App\Notifications\MessageAddedUser::class)
-                                    <a href="{{ $notification->data['url'] }}" style="text-decoration: none;"
-                                       class="notification-list notification-list--unread text-dark">
-                                        <div class="flex-grow-1">
-                                            <div class="font-size-12 text-muted">
-                                                    <p><b>{{ $notification->data['username'] }}</b> <span class="text-muted">{{__('message.commented')}}
-                                                            {{ $notification->data['appl_name'] }}</span>
-                                                    <p class="nt-link text-truncate">{{ $notification->data['message_body'] }}</p>
-                                                    <p><small>{{ $notification->created_at->diffForHumans() }}</small></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                @elseif ($notification->type == App\Notifications\NewApplication::class)
-                                    <a href="{{ $notification->data['url'] }}" style="text-decoration: none;"
-                                       class="notification-list notification-list--unread text-dark">
-                                        <div class="flex-grow-1">
-                                            <p>{{__('message.newAppl')}}  <b>{{ $notification->data['appl_name'] }}</b>
-                                                <span class="text-muted">{{__('message.submitted')}}.</span>
-                                        </div>
-                                        <p><small>{{ $notification->created_at->diffForHumans() }}</small></p>
-                                    </a>
-                                @else
-                                    <a href="{{ $notification->data['url'] }}" style="text-decoration: none;"
-                                       class="notification-list notification-list--unread text-dark">
-                                        <div class="flex-grow-1">
-                                            <p>{{__('message.status')}} <b>{{ $notification->data['appl_name'] }}</b>
-                                                <span class="text-muted">{{__('message.changed')}}</span>
-                                                <b>{{ __('application.status_name.' . strtoupper($notification->data['appl_status'])) }}</b></p>
-                                        </div>
-                                        <p><small>{{ $notification->created_at->diffForHumans() }}</small></p>
-                                    </a>
-                                @endif
-                                <hr>
-                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="simplebar-placeholder" style="width: 320px; height: 388px;"></div>
-                        </div>
-                    </a>
-
-
-
-                </div>
-                <div class="p-2 border-top d-grid">
-                    <a wire:click.prevent="markAllAsRead" class="btn btn-success btn-block">{{__('message.markAllRead')}}</a>
-                </div>
-            </div>
+    <div x-show="open" @click.away="open = false"
+        class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg overflow-hidden z-50">
+        <!-- Header -->
+        <div class="px-4 py-3 border-b">
+            <h3 class="text-sm font-semibold text-gray-700">{{ __('message.messages') }}</h3>
         </div>
+
+        <!-- Notifications List -->
+        <div class="max-h-64 overflow-y-auto">
+            @forelse($notifications as $notification)
+                <div class="p-4 border-b hover:bg-gray-50">
+                    @if (
+                        $notification->type == App\Notifications\MessageAddedAdmin::class ||
+                            $notification->type == App\Notifications\MessageAddedUser::class)
+                        <a href="{{ $notification->data['url'] }}" class="block">
+                            <p class="text-sm text-gray-800">
+                                <span class="font-semibold">{{ $notification->data['username'] }}</span>
+                                {{ __('message.commented') }}
+                                <span class="font-medium">{{ $notification->data['appl_name'] }}</span>
+                            </p>
+                            <p class="text-sm text-gray-600 mt-1">{{ $notification->data['message_body'] }}</p>
+                            <p class="text-xs text-gray-500 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
+                        </a>
+                    @elseif($notification->type == App\Notifications\NewApplication::class)
+                        <a href="{{ $notification->data['url'] }}" class="block">
+                            <p class="text-sm text-gray-800">
+                                {{ __('message.newAppl') }}
+                                <span class="font-semibold">{{ $notification->data['appl_name'] }}</span>
+                                {{ __('message.submitted') }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
+                        </a>
+                    @else
+                        <a href="{{ $notification->data['url'] }}" class="block">
+                            <p class="text-sm text-gray-800">
+                                {{ __('message.status') }}
+                                <span class="font-semibold">{{ $notification->data['appl_name'] }}</span>
+                                {{ __('message.changed') }}
+                                <span
+                                    class="font-semibold">{{ __('application.status_name.' . strtoupper($notification->data['appl_status'])) }}</span>
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
+                        </a>
+                    @endif
+                </div>
+            @empty
+                <div class="p-4 text-sm text-gray-600 text-center">
+                    {{ __('message.noMessages') }}
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Footer -->
+        @if ($notificationCount > 0)
+            <div class="p-4 border-t">
+                <button wire:click="markAllAsRead"
+                    class="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors">
+                    {{ __('message.markAllRead') }}
+                </button>
+            </div>
+        @endif
+    </div>
+</div>

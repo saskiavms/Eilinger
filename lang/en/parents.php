@@ -7,6 +7,7 @@ return [
     'title' => 'Parents',
     'subtitle' => 'Parents of the applicant',
     'parent_type' => 'Parent',
+    'parent' => 'Parent :position',
     'lastname' => 'Last name',
     'firstname' => 'First name',
     'birthday' => 'Birthday',

@@ -5,6 +5,7 @@ use App\Enums\GetAmount;
 return [
     'title' => 'Siblings',
     'subtitle' => 'Siblings of the applicant',
+    'sibling' => 'Sibling :position',
     'lastname' => 'Last name',
     'firstname' => 'First name',
     'birthday' => 'Birthday',

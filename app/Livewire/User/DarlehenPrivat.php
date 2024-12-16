@@ -7,46 +7,49 @@ use Livewire\Component;
 class DarlehenPrivat extends Component
 {
     public $currentStep = 1;
-
     public $showModal = false;
-
-    public $completeApp;
+    public $completeApp = false;
 
     protected $listeners = ['completeApp' => 'completeApp'];
 
-    public function completeApp()
+    public function mount(): void
+    {
+        $this->currentStep = 1;
+    }
+
+    public function completeApp(): void
     {
         $this->completeApp = true;
     }
 
-    public function render()
-    {
-        return view('livewire.user.darlehen-privat');
-    }
-
-    public function increaseStep()
+    public function increaseStep(): void
     {
         $this->currentStep++;
     }
 
-    public function decreaseStep()
+    public function decreaseStep(): void
     {
         $this->currentStep--;
     }
 
-    public function saveApplication()
+    public function saveApplication(): void
     {
         $this->showModal = true;
     }
 
-    public function save()
+    public function save(): void
     {
         $this->dispatch('sendApplication');
         $this->showModal = false;
     }
 
-    public function close()
+    public function close(): void
     {
         $this->showModal = false;
+    }
+
+    public function render()
+    {
+        return view('livewire.user.darlehen-privat');
     }
 }

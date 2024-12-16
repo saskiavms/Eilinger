@@ -1,9 +1,10 @@
 @props(['amount', 'text', 'currency'])
 
-<div class="col-sm-4">
-    <p>{{ $text }}:
-        @if ($amount)
+
+<p class="text-md text-gray-700 font-medium">{{ $text }}:
+    @if ($amount)
+        <span class="text-gray-900 ml-1">
             @convert($amount, $currency)
-        @endif
-    </p>
-</div>
+        </span>
+    @endif
+</p>

@@ -1,37 +1,40 @@
 <x-layout.eilinger>
-    <main id="main">
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <x-heading.decorative class="text-center">
+                {{ __('regLog.2FA') }}
+            </x-heading.decorative>
 
-        <section>
-            <div class="container">
-                <div class="section-title">
-                    <h2>{{  __('regLog.2FA')  }}</h2>
-                </div>
+            <form method="POST" action="{{ route('verify.store', app()->getLocale()) }}" novalidate>
+                @csrf
+                <p class="text-muted">
+                    {{ __('regLog.2FANote') }}
+                    {{ __('regLog.2FAResend') }} <a href="{{ route('verify.resend', app()->getLocale()) }}"></a>.
+                </p>
 
-                <form method="POST" action="{{ route('verify.store', app()->getLocale()) }}">
-                    @csrf
-                    <p class="text-muted">
-                        {{  __('regLog.2FANote')  }}
-                        {{  __('regLog.2FAResend')  }} <a href="{{ route('verify.resend', app()->getLocale()) }}"></a>.
-                    </p>
-
-                    <div>
-                       <input name="two_factor_code" type="text" class="form-control{{ $errors->has('two_factor_code') ? ' is-invalid' : '' }}" required autofocus placeholder="Two Factor Code">
-                        @if($errors->has('two_factor_code'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('two_factor_code') }}
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="row">
-                        <div class="col-6">
-                            <button type="submit" class="btn btn-colour-1"> {{ __('notify.verify_button') }}</button>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div class="flex flex-col md:col-span-2">
+                        <div>
+                            <label for="two_factor_code" class="block text-sm font-medium text-primary mb-1">
+                                {{ __('regLog.2FA') }}
+                            </label>
+                            <input type="text" name="two_factor_code" id="two_factor_code"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50"
+                                required autofocus>
                         </div>
-
+                        <div class="mt-1">
+                            <x-input-error :messages="$errors->get('two_factor_code')" />
+                        </div>
                     </div>
-                </form>
 
-            </div>
-        </section>
-    </main>
+                    <div class="flex items-start pt-6">
+                        <button type="submit"
+                            class="w-full px-6 py-2 bg-primary text-white rounded-md hover:bg-danger-hover transition-colors">
+                            {{ __('notify.verify_button') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
 </x-layout.eilinger>

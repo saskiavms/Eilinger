@@ -20,5 +20,6 @@ return [
     'messageRequest' => 'Nachrichten für Gesuch',
     'body' => 'Nachricht',
     'no_appl' => 'Keine Gesuche oder Projekte vorhanden',
-
+    'writeMessage' => 'Schreiben Sie eine Nachricht',
+    'writeReply' => 'Schreiben Sie eine Antwort',
 ];

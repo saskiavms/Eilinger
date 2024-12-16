@@ -18,8 +18,8 @@ class CreateApplicationsTable extends Migration
             $table->string('form');
             $table->date('start_appl')->nullable();
             $table->date('end_appl')->nullable();
-            $table->longText('comment');
-            $table->longText('reason');
+            $table->longText('comment')->nullable();
+            $table->longText('reason')->nullable();
             $table->decimal('calc_amount', $precision = 19, $scale = 2)->nullable();
             $table->decimal('req_amount', $precision = 19, $scale = 2)->nullable();
             $table->string('payout_plan')->nullable();

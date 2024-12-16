@@ -11,7 +11,7 @@ class Stipendium extends Component
 
     public $showModal = false;
 
-    public $completeApp;
+    public $completeApp = false;
 
     public $isInitialAppl;
 

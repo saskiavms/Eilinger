@@ -3,11 +3,12 @@
 namespace App\Livewire\User;
 
 use App\Models\Application;
-use App\View\Components\Layout\UserDashboard;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
 class Gesuch extends Component
 {
+	#[Layout('components.layout.user-dashboard')]
     public function render()
     {
         $applications = Application::LoggedInUser()
@@ -16,7 +17,6 @@ class Gesuch extends Component
 
         return view('livewire.user.gesuch', [
             'applications' => $applications,
-        ])
-            ->layout(UserDashboard::class);
+        ]);
     }
 }

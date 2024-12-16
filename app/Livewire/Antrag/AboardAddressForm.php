@@ -9,42 +9,65 @@ use Livewire\Component;
 
 class AboardAddressForm extends Component
 {
-    public $aboardAddress;
-
+    public $street;
+    public $number;
+    public $town;
+    public $plz;
+    public $country_id;
     public $countries;
 
-    protected $rules = [
-        'aboardAddress.street' => 'required',
-        'aboardAddress.number' => 'nullable',
-        'aboardAddress.town' => 'required',
-        'aboardAddress.plz' => 'required',
-        'aboardAddress.country_id' => 'required',
-    ];
+    protected function rules(): array
+    {
+        return [
+            'street' => 'required',
+            'number' => 'nullable',
+            'town' => 'required',
+            'plz' => 'required',
+            'country_id' => 'required',
+        ];
+    }
 
     public function validationAttributes(): array
     {
         return Lang::get('address');
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->countries = Country::all();
-        $this->aboardAddress = Address::loggedInUser()
-            ->where('is_aboard', 1)->first() ?? new Address;
+
+        $aboardAddress = Address::loggedInUser()
+            ->where('is_aboard', 1)
+            ->first();
+
+        if ($aboardAddress) {
+            $this->street = $aboardAddress->street;
+            $this->number = $aboardAddress->number;
+            $this->town = $aboardAddress->town;
+            $this->plz = $aboardAddress->plz;
+            $this->country_id = $aboardAddress->country_id;
+        }
+    }
+
+    public function saveaboardAddress(): void
+    {
+        $validatedData = $this->validate();
+
+        $address = Address::loggedInUser()
+            ->where('is_aboard', 1)
+            ->first() ?? new Address;
+
+        $address->fill($validatedData);
+        $address->is_draft = false;
+        $address->user_id = auth()->user()->id;
+        $address->is_aboard = true;
+        $address->save();
+
+        session()->flash('success', __('userNotification.addressAboardSaved'));
     }
 
     public function render()
     {
         return view('livewire.antrag.aboard-address-form');
-    }
-
-    public function saveaboardAddress()
-    {
-        $this->validate();
-        $this->aboardAddress->is_draft = false;
-        $this->aboardAddress->user_id = auth()->user()->id;
-        $this->aboardAddress->is_aboard = true;
-        $this->aboardAddress->save();
-        session()->flash('success', __('userNotification.addressAboardSaved'));
     }
 }

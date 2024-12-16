@@ -14,54 +14,70 @@ use Livewire\Component;
 class SendingDarlehenForm extends Component
 {
     public $userNoDraft;
-
     public $addressNoDraft;
-
     public $aboardAddressNoDraft;
-
     public $costNoDraft;
-
     public $accountNoDraft;
-
     public $financingNoDraft;
-
     public $financingOrganisationNoDraft;
-
     public $enclosureNoDraft;
-
-    /**
-     * @var true
-     */
     private bool $completeApp;
 
-    public function mount()
+    public function mount(): void
     {
-        //wenn alle Tabellen is_draft = false zurückliefern, ist alles abgefüllt und der Antrag kann eingereicht werden.
-        $this->userNoDraft = (bool) User::where('id', auth()->user()->id)->where('is_draft', false)->exists();
-        $this->addressNoDraft = (bool) Address::where('user_id', auth()->user()->id)->where('is_wochenaufenthalt', 0)->where('is_draft', false)->exists();
-        $this->aboardAddressNoDraft = (bool) Address::where('user_id', auth()->user()->id)->where('is_aboard', 1)->where('is_draft', false)->exists();
-        $this->accountNoDraft = (bool) Account::where('application_id', session()->get('appl_id'))->where('is_draft', false)->exists();
-        $this->costNoDraft = (bool) CostDarlehen::where('application_id', session()->get('appl_id'))->where('is_draft', false)->exists();
-        $this->financingNoDraft = (bool) Financing::where('application_id', session()->get('appl_id'))->where('is_draft', false)->exists();
-        $this->financingOrganisationNoDraft = (bool) FinancingOrganisation::where('application_id', session()->get('appl_id'))->where('is_draft', false)->exists();
-        $this->enclosureNoDraft = (bool) Enclosure::where('application_id', session()->get('appl_id'))->where('is_draft', false)->exists();
+        $userId = auth()->id();
+        $applId = session()->get('appl_id');
+
+        $this->userNoDraft = User::where('id', $userId)
+            ->where('is_draft', false)
+            ->exists();
+
+        $this->addressNoDraft = Address::where('user_id', $userId)
+            ->where('is_wochenaufenthalt', 0)
+            ->where('is_draft', false)
+            ->exists();
+
+        $this->aboardAddressNoDraft = Address::where('user_id', $userId)
+            ->where('is_aboard', 1)
+            ->where('is_draft', false)
+            ->exists();
+
+        $this->accountNoDraft = Account::where('application_id', $applId)
+            ->where('is_draft', false)
+            ->exists();
+
+        $this->costNoDraft = CostDarlehen::where('application_id', $applId)
+            ->where('is_draft', false)
+            ->exists();
+
+        $this->financingNoDraft = Financing::where('application_id', $applId)
+            ->where('is_draft', false)
+            ->exists();
+
+        $this->financingOrganisationNoDraft = FinancingOrganisation::where('application_id', $applId)
+            ->where('is_draft', false)
+            ->exists();
+
+        $this->enclosureNoDraft = Enclosure::where('application_id', $applId)
+            ->where('is_draft', false)
+            ->exists();
+    }
+
+    public function completeApplication(): void
+    {
+        if ($this->userNoDraft &&
+            $this->addressNoDraft &&
+            $this->accountNoDraft &&
+            $this->costNoDraft &&
+            ($this->financingNoDraft || $this->financingOrganisationNoDraft) &&
+            $this->enclosureNoDraft) {
+            $this->completeApp = true;
+            $this->dispatch('completeApp');
+        }
     }
 
     public function render()
     {
         return view('livewire.antrag.sending-darlehen-form');
-    }
-
-    public function completeApplication()
-    {
-        if ($this->userNoDraft &&
-        $this->addressNoDraft &&
-        $this->accountNoDraft &&
-        $this->costNoDraft && ($this->financingNoDraft || $this->financingOrganisationNoDraft) &&
-        $this->enclosureNoDraft) {
-            $this->completeApp = true;
-            $this->dispatch('completeApp');
-        }
-
     }
 }

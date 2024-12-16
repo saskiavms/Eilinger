@@ -1,42 +1,73 @@
-<section class="home-section">
-    <div class="text">{{  __('application.proj_overview')  }}</div>
-    <p>{{  __('application.proj_overview_text')  }}</p>
+<div>
+    <!-- Header -->
+    <div class="mb-6">
+        <h1 class="text-3xl font-ubuntu text-primary font-semibold">{{ __('application.proj_overview') }}</h1>
+        <p class="mt-2 text-gray-600">{{ __('application.proj_overview_text') }}</p>
+    </div>
 
-    <div class="content">
-        <div class="shadow p-3 mb-5 bg-body rounded">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                <thead>
+    <!-- Content -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
                     <tr>
-                        <th>{{  __('application.name')  }}</th>
-                        <th>{{  __('application.area')  }}</th>
-                        <th>{{  __('user.lastname')  }}</th>
-                        <th>{{  __('user.firstname')  }}</th>
-                        <th>{{  __('user.email')  }}</th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ __('application.name') }}
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ __('application.area') }}
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ __('user.lastname') }}
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ __('user.firstname') }}
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ __('user.email') }}
+                        </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($applications as $application)
-                        <tr>
-                            <td>
-                                <a href="{{ route('admin_antrag' , ['application_id' => $application->id, 'locale'=> app()->getLocale()]) }}">{{ $application->name }} ({{ $application->appl_status }})</a>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <a href="{{ route('admin_antrag', ['application_id' => $application->id, 'locale' => app()->getLocale()]) }}"
+                                    class="text-primary-600 hover:text-primary-900">
+                                    {{ $application->name }}
+                                    <span class="text-gray-500">({{ $application->appl_status }})</span>
+                                </a>
                             </td>
-                            <td>{{ $application->bereich }}</td>
-                            <td>{{ $application->user->lastname }}</td>
-                            <td>{{ $application->user->firstname }}</td>
-                            <td>{{ $application->user->email }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">
+                                {{ $application->bereich }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">
+                                {{ $application->user->lastname }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">
+                                {{ $application->user->firstname }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">
+                                {{ $application->user->email }}
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">{{  __('application.no_projects')  }}</td>
+                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                {{ __('application.no_projects') }}
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
-            </div>
+        </div>
+        <div class="px-6 py-4 border-t border-gray-200">
             {{ $applications->links() }}
         </div>
     </div>
-</section>
-
-
+</div>

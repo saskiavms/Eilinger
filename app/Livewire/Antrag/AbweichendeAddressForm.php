@@ -9,17 +9,25 @@ use Livewire\Component;
 
 class AbweichendeAddressForm extends Component
 {
-    public $abweichendeAddress;
+    public $street;
+    public $number;
+    public $town;
+    public $plz;
+    public $country_id;
 
     public $countries;
 
-    protected $rules = [
-        'abweichendeAddress.street' => 'required',
-        'abweichendeAddress.number' => 'nullable',
-        'abweichendeAddress.town' => 'required',
-        'abweichendeAddress.plz' => 'required',
-        'abweichendeAddress.country_id' => 'required',
-    ];
+    protected function rules(): array
+    {
+        return [
+            'street' => 'required',
+            'number' => 'nullable',
+            'town' => 'required',
+            'plz' => 'required',
+            'country_id' => 'required',
+        ];
+    }
+
     public function validationAttributes(): array
     {
         return Lang::get('address');
@@ -28,8 +36,16 @@ class AbweichendeAddressForm extends Component
     public function mount()
     {
         $this->countries = Country::all();
-        $this->abweichendeAddress = Address::loggedInUser()
-            ->where('is_wochenaufenthalt', 1)->first() ?? new Address;
+        $address = Address::loggedInUser()
+            ->where('is_wochenaufenthalt', 1)
+            ->first() ?? new Address;
+
+        // Initialize properties from address model
+        $this->street = $address->street;
+        $this->number = $address->number;
+        $this->town = $address->town;
+        $this->plz = $address->plz;
+        $this->country_id = $address->country_id;
     }
 
     public function render()
@@ -39,11 +55,18 @@ class AbweichendeAddressForm extends Component
 
     public function saveAbweichendeAddress()
     {
-        $this->validate();
-        $this->abweichendeAddress->is_draft = false;
-        $this->abweichendeAddress->user_id = auth()->user()->id;
-        $this->abweichendeAddress->is_wochenaufenthalt = true;
-        $this->abweichendeAddress->save();
+        $validatedData = $this->validate();
+
+        $address = Address::loggedInUser()
+            ->where('is_wochenaufenthalt', 1)
+            ->first() ?? new Address;
+
+        $address->fill($validatedData);
+        $address->is_draft = false;
+        $address->user_id = auth()->user()->id;
+        $address->is_wochenaufenthalt = true;
+        $address->save();
+
         session()->flash('success', __('userNotification.addressWeeklySaved'));
     }
 }

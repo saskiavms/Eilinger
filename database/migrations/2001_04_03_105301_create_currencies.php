@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('currency');
             $table->string('abbreviation');
-            $table->string('symbol');
+            $table->string('symbol')->nullable();
             $table->index('currency');
             $table->boolean('is_pinned');
         });

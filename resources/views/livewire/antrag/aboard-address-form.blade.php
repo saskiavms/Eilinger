@@ -1,68 +1,81 @@
 <form wire:submit="saveaboardAddress">
     @csrf
-    <div class="content-header mb-3">
-        <h3 class="mb-0">{{ __('address.titleAboard') }}</h3>
-        <div class="d-flex justify-content-between">
-            <div>
-                <small>{{ __('address.subTitleAboard') }}</small>
-            </div>
-        </div>
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-2">{{ __('address.titleAboard') }}</h3>
+        <p class="text-sm text-gray-600">{{ __('address.subTitleAboard') }}</p>
     </div>
-    <div class="row g-3">
 
-        <x-notification />
+    <x-notification />
 
-        <div class="col-md-6">
-            <label class="form-label" for="street">{{ __('address.street') }}*</label>
-            <input wire:model.blur="aboardAddress.street" type="text" class="form-control" id="street" />
-            <span class="text-danger">
-                @error('aboardAddress.street')
-                    {{ $message }}
-                @enderror
-            </span>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="number">{{ __('address.number') }}*</label>
-            <input wire:model.blur="aboardAddress.number" type="text" class="form-control" id="number" />
-        </div>
-        <div class="col-md-5">
-            <label class="form-label" for="plz">{{ __('address.plz') }} *</label>
-            <input wire:model.blur="aboardAddress.plz" type="text" class="form-control" id="plz" />
-            <span class="text-danger">
-                @error('aboardAddress.plz')
-                    {{ $message }}
-                @enderror
-            </span>
-        </div>
-        <div class="col-md-5">
-            <label class="form-label" for="town">{{ __('address.town') }} *</label>
-            <input wire:model.blur="aboardAddress.town" type="text" class="form-control" id="town" />
-            <span class="text-danger">
-                @error('aboardAddress.town')
-                    {{ $message }}
-                @enderror
-            </span>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Street -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="street">
+                {{ __('address.street') }}*
+            </label>
+            <input wire:model.blur="street" type="text" id="street"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+            @error('street')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
-        <div class="col-sm-2">
-            <label class="form-label" for="country">{{ __('address.country') }} *</label>
-            <select wire:model.blur="aboardAddress.country_id" class="form-select" id="country">
-                <option hidden>{{ __('attributes.please_select') }}</option>
+        <!-- Number -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="number">
+                {{ __('address.number') }}*
+            </label>
+            <input wire:model.blur="number" type="text" id="number"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+        </div>
+
+        <!-- PLZ -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="plz">
+                {{ __('address.plz') }}*
+            </label>
+            <input wire:model.blur="plz" type="text" id="plz"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+            @error('plz')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Town -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="town">
+                {{ __('address.town') }}*
+            </label>
+            <input wire:model.blur="town" type="text" id="town"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+            @error('town')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Country -->
+        <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="country">
+                {{ __('address.country') }}*
+            </label>
+            <select wire:model.blur="country_id" id="country"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                <option value="">{{ __('attributes.please_select') }}</option>
                 @foreach ($countries as $country)
                     <option value="{{ $country->id }}">{{ $country->name }}</option>
                 @endforeach
             </select>
-            <span class="text-danger">
-                @error('aboardAddress.country_id')
-                    {{ $message }}
-                @enderror
-            </span>
+            @error('country_id')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
+    </div>
 
-        <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-success">
-                <span class="align-middle d-sm-inline-block d-none">{{ __('attributes.save') }}</span>
-            </button>
-        </div>
+    <!-- Submit Button -->
+    <div class="flex justify-center mt-6">
+        <button type="submit"
+            class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
+            {{ __('attributes.save') }}
+        </button>
     </div>
 </form>

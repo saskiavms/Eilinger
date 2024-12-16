@@ -10,6 +10,7 @@ return [
     'subtitle' => 'Details of the person in education who is applying for contributions',
     'subtitleOrg' => 'Details of the organisation',
     'subTitleCandidate' => 'Details of the candidate',
+    'details' => 'Details',
     'username' => 'Username',
     'type' => 'Type',
     'lastname' => 'Last name',

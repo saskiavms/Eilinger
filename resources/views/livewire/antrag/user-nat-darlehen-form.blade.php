@@ -1,81 +1,103 @@
 <form wire:submit="saveUserNat">
     @csrf
-    <div class="content-header mb-3">
-        <h3 class="mb-0">{{ __('user.candidate') }}</h3>
-        <div class="d-flex justify-content-between">
-            <div>
-                <small>{{ __('user.subTitleCandidate') }}</small>
-            </div>
-        </div>
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-2">{{ __('user.candidate') }}</h3>
+        <p> UserNatDarlehen Form </p>
+        <p class="text-sm text-gray-600">{{ __('user.subTitleCandidate') }}</p>
     </div>
 
-    <div class="row g-3">
+    <x-notification />
 
-        <x-notification />
-
-        <div class="col-sm-2">
-            <label class="form-label" for="user.salutation">{{ __('user.salutation') }}*</label>
-            <select wire:model.blur="user.salutation" class="form-select" id="user.salutation">
-                <option hidden>{{ __('attributes.please_select') }}</option>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Salutation -->
+        <div class="md:col-span-1">
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="salutation">
+                {{ __('user.salutation') }}*
+            </label>
+            <select wire:model.blur="salutation"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                <option value="">{{ __('attributes.please_select') }}</option>
                 @foreach (App\Enums\Salutation::cases() as $salutation)
                     <option value="{{ $salutation }}">{{ $salutation }}</option>
                 @endforeach
             </select>
-            @error('user.salutatiom')
-                <div style="font-size: 0.75rem; color: red">{{ $message }}</div>
+            @error('salutation')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
-        <div class="col-sm-5">
-            <label class="form-label" for="user.firstname">{{ __('user.firstname') }}*</label>
-            <input wire:model.blur="user.firstname" type="text" class="form-control" id="user.firstname" />
-            <span class="text-danger">
-                @error('user.firstname')
-                    {{ $message }}
-                @enderror
-            </span>
-        </div>
-        <div class="col-sm-5">
-            <label class="form-label" for="user.lastname">{{ __('user.lastname') }}*</label>
-            <input wire:model.blur="user.lastname" type="text" class="form-control" id="user.lastname" />
-            <span class="text-danger">
-                @error('user.lastname')
-                    {{ $message }}
-                @enderror
-            </span>
+
+        <!-- Firstname -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="firstname">
+                {{ __('user.firstname') }}*
+            </label>
+            <input wire:model.blur="firstname" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+            @error('firstname')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
-
-        <div class="col-sm-2">
-            <label for="user.birthday" class="form-label">{{ __('user.birthday') }}*</label>
-            <input wire:model.live="user.birthday" type="date" class="form-control" id="user.birthday">
-            <span class="text-danger">
-                @error('user.birthday')
-                    {{ $message }}
-                @enderror
-            </span>
+        <!-- Lastname -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="lastname">
+                {{ __('user.lastname') }}*
+            </label>
+            <input wire:model.blur="lastname" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+            @error('lastname')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
-
-        <div class="col-md-5">
-            <label class="form-label" for="user.phone">{{ __('user.phone') }}</label>
-            <input wire:model.blur="user.phone" type="text" class="form-control" id="user.phone" />
-        </div>
-        <div class="col-md-5">
-            <label class="form-label" for="user.mobile">{{ __('user.mobile') }}</label>
-            <input wire:model.blur="user.mobile" type="text" class="form-control" id="user.mobile" />
-        </div>
-
-        <div class="col-md-12">
-            <label class="form-label" for="user.contact_aboard">{{ __('user.contact_aboard') }}</label>
-            <input wire:model.blur="user.contact_aboard" type="text" class="form-control" id="user.contact_aboard" />
+        <!-- Birthday -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="birthday">
+                {{ __('user.birthday') }}*
+            </label>
+            <input wire:model.live="birthday" type="date"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+            @error('birthday')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
-
-        <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-success">
-                <span class="align-middle d-sm-inline-block d-none">{{ __('attributes.save') }}</span>
-            </button>
-
+        <!-- Phone -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="phone">
+                {{ __('user.phone') }}
+            </label>
+            <input wire:model.blur="phone" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+            @error('phone')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
+
+        <!-- Mobile -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="mobile">
+                {{ __('user.mobile') }}
+            </label>
+            <input wire:model.blur="mobile" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+        </div>
+
+        <!-- Contact Aboard -->
+        <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1" for="contact_aboard">
+                {{ __('user.contact_aboard') }}
+            </label>
+            <input wire:model.blur="contact_aboard" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-center mt-6">
+        <button type="submit"
+            class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
+            {{ __('attributes.save') }}
+        </button>
     </div>
 </form>

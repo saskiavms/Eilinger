@@ -1,37 +1,56 @@
-<div class="accordion-item">
-    <h2 class="accordion-header" id="headingAbwAddress">
-        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
-                data-bs-target="#collapseAbwAddress">Addresse im Ausland
-        </button>
-    </h2>
-    <div id="collapseAbwAddress" class="accordion-collapse collapse">
+<div class="border rounded-lg bg-white" x-data="{ open: false }">
+    <!-- Accordion Header -->
+    <button @click="open = !open"
+        class="w-full flex justify-between items-center p-4 bg-primary-300 hover:bg-primary-400 transition-colors">
+        <h2 class="text-lg font-medium text-gray-900">Addresse im Ausland</h2>
+        <svg class="h-5 w-5 text-gray-500 transform transition-transform" :class="{ 'rotate-180': open }"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+
+    <!-- Accordion Content -->
+    <div x-show="open" class="p-4">
         @if ($aboardAddress)
-            <div class="card-body">
-                <div class=row>
-                    <div class="col-sm-4">
-                        <p>{{ __('address.street') }}: {{ $aboardAddress->street }}</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <p>{{ __('address.number') }}: {{ $aboardAddress->number }}</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <p>{{ __('address.plz') }}: {{ $aboardAddress->plz }}</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <p>{{ __('address.town') }}: {{ $aboardAddress->town }}</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <p>{{ __('address.country') }}: {{ $aboardAddress->country->name }}</p>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <p class="text-md">
+                        <span class="font-medium text-gray-700">{{ __('address.street') }}:</span>
+                        <span class="text-gray-900 ml-1">{{ $aboardAddress->street }}</span>
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-md">
+                        <span class="font-medium text-gray-700">{{ __('address.number') }}:</span>
+                        <span class="text-gray-900 ml-1">{{ $aboardAddress->number }}</span>
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-md">
+                        <span class="font-medium text-gray-700">{{ __('address.plz') }}:</span>
+                        <span class="text-gray-900 ml-1">{{ $aboardAddress->plz }}</span>
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-md">
+                        <span class="font-medium text-gray-700">{{ __('address.town') }}:</span>
+                        <span class="text-gray-900 ml-1">{{ $aboardAddress->town }}</span>
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-md">
+                        <span class="font-medium text-gray-700">{{ __('address.country') }}:</span>
+                        <span class="text-gray-900 ml-1">{{ $aboardAddress->country->name }}</span>
+                    </p>
                 </div>
             </div>
         @else
-            <div class="card-body">
-                <div class=row>
-                    <div class="col-sm-12">
-                        <p>{{ __('address.noAddress') }}</p>
-                    </div>
-                </div>
+            <div class="text-sm text-gray-500">
+                {{ __('address.noAddress') }}
             </div>
         @endif
     </div>

@@ -5,32 +5,42 @@ namespace App\Livewire\Antrag;
 use App\Enums\Bewilligung;
 use App\Enums\CivilStatus;
 use App\Models\Country;
+use App\Models\User;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Component;
 
 class UserNatForm extends Component
 {
-    public $user;
+    public $firstname;
+    public $lastname;
+    public $birthday;
+    public $salutation;
+    public $nationality;
+    public $civil_status;
+    public $phone;
+    public $mobile;
+    public $soz_vers_nr;
+    public $in_ch_since;
+    public $granting;
 
     public $countries;
-
     public $partnerVisible = false;
 
     protected function rules(): array
     {
         return [
-            'user.firstname' => 'required',
-            'user.lastname' => 'required',
-            'user.birthday' => 'required|date',
-            'user.salutation' => 'required',
-            'user.nationality' => 'required',
-            'user.civil_status' => ['required', new Enum(CivilStatus::class)],
-            'user.phone' => 'sometimes',
-            'user.mobile' => 'sometimes',
-            'user.soz_vers_nr' => 'sometimes',
-            'user.in_ch_since' => 'sometimes',
-            'user.granting' => ['nullable', 'required_with:user.in_ch_since', new Enum(Bewilligung::class)],
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'birthday' => 'required|date',
+            'salutation' => 'required',
+            'nationality' => 'required',
+            'civil_status' => ['required', new Enum(CivilStatus::class)],
+            'phone' => 'sometimes',
+            'mobile' => 'sometimes',
+            'soz_vers_nr' => 'sometimes',
+            'in_ch_since' => 'sometimes',
+            'granting' => ['nullable', 'required_with:in_ch_since', new Enum(Bewilligung::class)],
         ];
     }
 
@@ -41,9 +51,20 @@ class UserNatForm extends Component
 
     public function mount()
     {
-        $this->user = auth()->user();
-        ray('User data:', $this->user);
-        $this->user->salutation = $this->user->salutation ?? '';
+        $user = auth()->user();
+
+        $this->firstname = $user->firstname;
+        $this->lastname = $user->lastname;
+        $this->birthday = $user->birthday;
+        $this->salutation = $user->salutation;
+        $this->nationality = $user->nationality;
+        $this->civil_status = $user->civil_status;
+        $this->phone = $user->phone;
+        $this->mobile = $user->mobile;
+        $this->soz_vers_nr = $user->soz_vers_nr;
+        $this->in_ch_since = $user->in_ch_since;
+        $this->granting = $user->granting;
+
         $this->countries = Country::all();
     }
 
@@ -54,9 +75,13 @@ class UserNatForm extends Component
 
     public function saveUserNat()
     {
-        $this->validate();
-        $this->user->is_draft = false;
-        $this->user->save();
+        $validatedData = $this->validate();
+
+        $user = auth()->user();
+        $user->fill($validatedData);
+        $user->is_draft = false;
+        $user->save();
+
         session()->flash('success', __('userNotification.userSaved'));
     }
 
@@ -65,11 +90,25 @@ class UserNatForm extends Component
         $civilStatus = CivilStatus::tryFrom($value);
         if ($civilStatus == CivilStatus::verheiratet) {
             $this->partnerVisible = true;
+        } else {
+            $this->partnerVisible = false;
         }
     }
 
     public function getState()
     {
-        return $this->user->toArray();
+        return [
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'birthday' => $this->birthday,
+            'salutation' => $this->salutation,
+            'nationality' => $this->nationality,
+            'civil_status' => $this->civil_status,
+            'phone' => $this->phone,
+            'mobile' => $this->mobile,
+            'soz_vers_nr' => $this->soz_vers_nr,
+            'in_ch_since' => $this->in_ch_since,
+            'granting' => $this->granting,
+        ];
     }
 }

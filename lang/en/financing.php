@@ -15,6 +15,6 @@ return [
     'financing_name' => 'Income',
     'financing_amount' => 'Amount',
     'addFinancing' => '+ Additional income',
-    'total' => 'Total financing',
+    'total' => 'Total income',
     'other' => 'Other income',
 ];

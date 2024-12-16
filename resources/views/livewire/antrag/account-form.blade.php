@@ -1,58 +1,67 @@
 <form wire:submit="saveAccount">
     @csrf
-    <div class="content-header mb-3">
-        <h3 class="mb-0">{{ __('account.title') }}</h3>
-        <div class="d-flex justify-content-between">
-            <div>
-                <small>{{ __('account.subtitle') }}</small>
-            </div>
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-2">{{ __('account.title') }}</h3>
+        <p class="text-sm text-gray-600">{{ __('account.subtitle') }}</p>
+    </div>
+
+    <x-notification />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Bank Name -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('account.name_bank') }} *
+            </label>
+            <input wire:model.blur="name_bank" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+            @error('name_bank')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Bank City -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('account.city_bank') }} *
+            </label>
+            <input wire:model.blur="city_bank" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+            @error('city_bank')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Account Owner -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('account.owner') }} *
+            </label>
+            <input wire:model.blur="owner" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+            @error('owner')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- IBAN -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('account.IBAN') }} *
+            </label>
+            <input wire:model.blur="IBAN" type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+            @error('IBAN')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
     </div>
-    <div class="row g-3">
 
-        <x-notification />
-
-        <div class="col-sm-6">
-            <label class="form-label" for="name_bank">{{ __('account.name_bank') }} *</label>
-            <input wire:model.blur="account.name_bank" type="text" class="form-control" />
-            <span class="text-danger">
-                @error('account.name_bank')
-                    {{ $message }}
-                @enderror
-            </span>
-        </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="city_bank">{{ __('account.city_bank') }} *</label>
-            <input wire:model.blur="account.city_bank" type="text" class="form-control" />
-            <span class="text-danger">
-                @error('account.city_bank')
-                    {{ $message }}
-                @enderror
-            </span>
-        </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="owner">{{ __('account.owner') }} *</label>
-            <input wire:model.blur="account.owner" type="text" class="form-control" />
-            <span class="text-danger">
-                @error('account.owner')
-                    {{ $message }}
-                @enderror
-            </span>
-        </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="IBAN">{{ __('account.IBAN') }} *</label>
-            <input wire:model.blur="account.IBAN" type="text" class="form-control" />
-            <span class="text-danger">
-                @error('account.IBAN')
-                    {{ $message }}
-                @enderror
-            </span>
-        </div>
-
-        <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-success">
-                <span class="align-middle d-sm-inline-block d-none">{{ __('attributes.save') }}</span>
-            </button>
-        </div>
+    <!-- Submit Button -->
+    <div class="mt-8 flex justify-center">
+        <button type="submit"
+            class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
+            {{ __('attributes.save') }}
+        </button>
     </div>
 </form>

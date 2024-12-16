@@ -7,16 +7,27 @@ use Livewire\Component;
 class DarlehenVerein extends Component
 {
     public $currentStep = 1;
-
+    public $completeApp = false;
     public $showModal = false;
 
-    public $completeApp;
+    protected $listeners = [
+        'completeApp' => 'completeApp',
+        'sendApplication' => 'sendApplication'
+    ];
 
-    protected $listeners = ['completeApp' => 'completeApp'];
-
-    public function completeApp()
+    public function mount(): void
     {
-        $this->completeApp = true;
+        $this->currentStep = 1;
+    }
+
+    public function increaseStep(): void
+    {
+        $this->currentStep++;
+    }
+
+    public function decreaseStep(): void
+    {
+        $this->currentStep--;
     }
 
     public function render()
@@ -24,14 +35,9 @@ class DarlehenVerein extends Component
         return view('livewire.user.darlehen-verein');
     }
 
-    public function increaseStep()
+    public function completeApp()
     {
-        $this->currentStep++;
-    }
-
-    public function decreaseStep()
-    {
-        $this->currentStep--;
+        $this->completeApp = true;
     }
 
     public function saveApplication()

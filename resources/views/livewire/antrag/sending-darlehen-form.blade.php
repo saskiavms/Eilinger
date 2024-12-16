@@ -1,102 +1,200 @@
 <div wire:init="completeApplication">
-    <div class="content-header mb-3">
-        <h3 class="mb-0">{{  __('sending.title')  }}</h3>
-        <div class="d-flex justify-content-between">
-            <div>
-                <p><small>{{  __('sending.subTitle')  }}</small></p>
-            </div>
-        </div>
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-2">{{ __('sending.title') }}</h3>
+        <p class="text-sm text-gray-600">{{ __('sending.subTitle') }}</p>
     </div>
-    <div class="table-responsive">
-        <table class="table table-striped" id="sortTable">
-        <thead>
-        <tr>
-            <th>{{ __('sending.step') }}</th>
-            <th>{{ __('sending.data') }}</th>
-            <th>{{ __('sending.status') }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>1</td>
-            <td><b>{{ __('sending.applicant') }} * </b></td>
-            <td>
-                    <span id="boot-icon" {!! $userNoDraft
-                        ? 'class="bi bi-check-circle" style="color: rgb(0, 128, 55);"'
-                        : 'class="bi bi-x-circle" style="color: rgb(255, 0, 0);"' !!}>
-                    </span>
-            </td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td><b>{{ __('sending.address') }} * </b></td>
-            <td>
-                    <span id="boot-icon" {!! $addressNoDraft
-                        ? 'class="bi bi-check-circle" style="color: rgb(0, 128, 55);"'
-                        : 'class="bi bi-x-circle" style="color: rgb(255, 0, 0);"' !!}>
-                    </span>
-            </td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>{{ __('sending.aboardAddress') }}</td>
-            <td>
-                    <span id="boot-icon" {!! $aboardAddressNoDraft
-                        ? 'class="bi bi-check-circle" style="color: rgb(0, 128, 55);"'
-                        : 'class="bi bi-x-circle" style="color: rgb(255, 0, 0);"' !!}>
-                    </span>
-            </td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td><b>{{ __('sending.account') }} * </b></td>
-            <td>
-                    <span id="boot-icon" {!! $accountNoDraft
-                        ? 'class="bi bi-check-circle" style="color: rgb(0, 128, 55);"'
-                        : 'class="bi bi-x-circle" style="color: rgb(255, 0, 0);"' !!}>
-                    </span>
-            </td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td><b>{{ __('sending.cost') }} * </b></td>
-            <td>
-                    <span id="boot-icon" {!! $costNoDraft
-                        ? 'class="bi bi-check-circle" style="color: rgb(0, 128, 55);"'
-                        : 'class="bi bi-x-circle" style="color: rgb(255, 0, 0);"' !!}>
-                    </span>
-            </td>
-        </tr>
-        <tr>
-        <td>6</td>
-        <td><b>{{ __('sending.financing') }} * </b></td>
-            @if (auth()->user()->type == 'nat')
-                <td>
-                        <span id="boot-icon" {!! $financingNoDraft
-                            ? 'class="bi bi-check-circle" style="color: rgb(0, 128, 55);"'
-                            : 'class="bi bi-x-circle" style="color: rgb(255, 0, 0);"' !!}>
-                        </span>
-                </td>
-            @else
-                <td>
-                        <span id="boot-icon" {!! $financingOrganisationNoDraft
-                            ? 'class="bi bi-check-circle" style="color: rgb(0, 128, 55);"'
-                            : 'class="bi bi-x-circle" style="color: rgb(255, 0, 0);"' !!}>
-                        </span>
-                </td>
-            @endif
-        </tr>
-        <tr>
-            <td>7</td>
-            <td><b>{{ __('sending.remark') }} * </b></td>
-            <td>
-                    <span id="boot-icon" {!! $enclosureNoDraft
-                        ? 'class="bi bi-check-circle" style="color: rgb(0, 128, 55);"'
-                        : 'class="bi bi-x-circle" style="color: rgb(255, 0, 0);"' !!}>
-                    </span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{ __('sending.step') }}
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{ __('sending.data') }}
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{ __('sending.status') }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <!-- Applicant -->
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ __('sending.applicant') }} *
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @if ($userNoDraft)
+                            <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                        @else
+                            <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        @endif
+                    </td>
+                </tr>
+
+                <!-- Address -->
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ __('sending.address') }} *
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @if ($addressNoDraft)
+                            <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                        @else
+                            <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        @endif
+                    </td>
+                </tr>
+
+                <!-- Aboard Address -->
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ __('sending.aboardAddress') }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @if ($aboardAddressNoDraft)
+                            <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                        @else
+                            <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        @endif
+                    </td>
+                </tr>
+
+                <!-- Account -->
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">4</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ __('sending.account') }} *
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @if ($accountNoDraft)
+                            <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                        @else
+                            <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        @endif
+                    </td>
+                </tr>
+
+                <!-- Cost -->
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ __('sending.cost') }} *
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @if ($costNoDraft)
+                            <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                        @else
+                            <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        @endif
+                    </td>
+                </tr>
+
+                <!-- Financing -->
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">6</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ __('sending.financing') }} *
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @if (auth()->user()->type == 'nat')
+                            @if ($financingNoDraft)
+                                <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                            @else
+                                <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            @endif
+                        @else
+                            @if ($financingOrganisationNoDraft)
+                                <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                            @else
+                                <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            @endif
+                        @endif
+                    </td>
+                </tr>
+
+                <!-- Remark -->
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">7</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ __('sending.remark') }} *
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @if ($enclosureNoDraft)
+                            <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                        @else
+                            <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        @endif
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

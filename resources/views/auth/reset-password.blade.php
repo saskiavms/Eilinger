@@ -1,66 +1,68 @@
 <x-layout.eilinger>
-    <main id="main">
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <x-heading.decorative class="text-center">
+                {{ __('regLog.resetPassword') }}
+            </x-heading.decorative>
 
-        <section>
-            <div class="container">
-                <div class="section-title">
-                    <h2>{{  __('regLog.resetPassword')  }}</h2>
-                </div>
+            <form method="POST" action="{{ route('password.store', app()->getLocale()) }}" novalidate>
+                @csrf
 
-                <form method="POST" action="{{ route('password.store', app()->getLocale()) }}">
-                    @csrf
+                <!-- Password Reset Token -->
+                <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-                    <!-- Password Reset Token -->
-                    <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-                    <!-- Email Address -->
-                    <div>
-                        <label class="form-label" for="email">Email *</label>
-                        <input id="email" name='email' class="form-control" type="email"
-                            value={{ $request->email }}>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Email -->
+                    <div class="flex flex-col">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-primary mb-1">
+                                {{ __('Email') }}
+                            </label>
+                            <input type="email" name="email" id="email"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50"
+                                value="{{ old('email', $request->email) }}">
+                        </div>
+                        <div class="mt-1">
+                            <x-input-error :messages="$errors->get('email')" />
+                        </div>
                     </div>
 
                     <!-- Password -->
-                    <div class="group">
-                        <label class="form-label" for="password">{{  __('user.password')  }} *</label>
-                        <input name="password" class="form-control @error('password') is-invalid @enderror @if (session('valid-password')) is-valid @endif"
-                            id="password" type="password" required autocomplete="new-password" />
-                        @error('password')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-password'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-password' => 'OK']) }}
-                            </div>
-                        @endif
+                    <div class="flex flex-col">
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-primary mb-1">
+                                {{ __('Password') }}
+                            </label>
+                            <input type="password" name="password" id="password"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                        </div>
+                        <div class="mt-1">
+                            <x-input-error :messages="$errors->get('password')" />
+                        </div>
                     </div>
 
-                    <div class="group">
-                        <label class="form-label" for="password_confirmation">{{  __('user.password_confirmation')  }}*</label>
-                        <input name="password_confirmation"
-                            class="form-control @error('password_confirmation') is-invalid @enderror @if (session('valid-password_confirmation')) is-valid @endif"
-                            id="password_confirmation" type="password" required autocomplete="new-password" />
-                        @error('password_confirmation')
-                            <div id="invalidFeedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        @if (session()->has('valid-password_confirmation'))
-                            <div class="valid-feedback">
-                                {{ session(['valid-password_confirmation' => 'OK']) }}
-                            </div>
-                        @endif
+                    <!-- Confirm Password -->
+                    <div class="flex flex-col">
+                        <div>
+                            <label for="password_confirmation" class="block text-sm font-medium text-primary mb-1">
+                                {{ __('Confirm Password') }}
+                            </label>
+                            <input type="password" name="password_confirmation" id="password_confirmation"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                        </div>
+                        <div class="mt-1">
+                            <x-input-error :messages="$errors->get('password_confirmation')" />
+                        </div>
                     </div>
+                </div>
 
-                    <div class="col-md-12 text-center">
-                        <x-primary-button>
-                            {{ __('Reset Password') }}
-                        </x-primary-button>
-                    </div>
-                </form>
-            </div>
-        </section>
-    </main>
+                <div class="flex justify-end mt-6">
+                    <button type="submit"
+                        class="px-6 py-2 bg-primary text-white rounded-md hover:bg-danger-hover transition-colors">
+                        {{ __('Reset Password') }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
 </x-layout.eilinger>

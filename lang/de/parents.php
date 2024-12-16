@@ -7,6 +7,7 @@ return [
     'title' => 'Eltern',
     'subtitle' => 'Leibliche Eltern der gesuchstellenden Person',
     'parent_type' => 'Elternteil',
+    'parent' => 'Elternteil :position',
     'lastname' => 'Nachname',
     'firstname' => 'Vorname',
     'birthday' => 'Geburtsdatum',

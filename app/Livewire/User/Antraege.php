@@ -7,7 +7,6 @@ use App\Enums\Form;
 use App\Enums\Types;
 use App\Models\Application;
 use App\Models\Currency;
-use App\View\Components\Layout\UserDashboard;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Component;
@@ -106,16 +105,24 @@ class Antraege extends Component
     }
     public function updateBereich($value)
     {
-        // Convert the string to an enum instance and compare
+        // Convert the string to an enum instance
         $bereichEnum = Bereich::tryFrom($value);
         $userTypeValue = auth()->user()->type->value;
 
-        if ($bereichEnum === Bereich::Bildung && $userTypeValue === 'nat') {
+        // For natural persons in education sector
+        if ($bereichEnum === Bereich::Bildung && $userTypeValue === Types::nat->value) {
             $this->formOptions = [
                 Form::Stipendium->value,
+            ];
+        }
+        // For natural persons NOT in education sector
+        elseif ($bereichEnum !== Bereich::Bildung && $userTypeValue === Types::nat->value) {
+            $this->formOptions = [
                 Form::Darlehen->value,
             ];
-        } else {
+        }
+        // For juristic persons (any sector)
+        else {
             $this->formOptions = [
                 Form::Spende->value,
             ];

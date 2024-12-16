@@ -17,27 +17,41 @@
     <link rel="alternate" hreflang="en" href="https://www.eilingerstiftung.ch/en/@yield('link')" />
     <link rel="alternate" hreflang="x-default" href="https://www.eilingerstiftung.ch/@yield('link')" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Scripts -->
-    @vite(['resources/js/app.js', 'resources/js/eilinger.js', 'resources/sass/eilinger.scss'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Livewire -->
     @livewireStyles
 
 </head>
 
-<body>
-    <x-layout.navbar />
+<body class="font-primary bg-bodyBg">
+    <div class="min-h-screen flex flex-col" x-data="navbar">
+        <x-layout.navbar />
 
-    <x-hero />
+        <!-- Flash Messages -->
+        @if (session()->has('success'))
+            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
+                class="fixed top-20 right-4 bg-success text-white px-6 py-3 rounded-lg shadow-lg z-50">
+                <p>{{ session('success') }}</p>
+            </div>
+        @endif
 
-    {{ $slot }}
 
-    @if (session()->has('success'))
-        <div class="position-absolute top-0 start-100 translate-middle p-3 mb-2 bg-success text-white">
-            <p>{{ session('success') }}</p>
-        </div>
-    @endif
-    <!-- ======= Footer ======= -->
-    @include('components.layout.footer')
+        <x-hero />
+
+
+        <!-- Main Content -->
+        <main class="flex-grow">
+            {{ $slot }}
+        </main>
+
+        <!-- Footer -->
+        @include('components.layout.footer')
+    </div>
 
     @livewireScripts
 </body>

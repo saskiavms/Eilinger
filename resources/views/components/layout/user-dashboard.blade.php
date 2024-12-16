@@ -1,50 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta name="keyword" content="">
     <title>Eilinger Stiftung - Dashboard</title>
 
-    @vite(['resources/js/app.js', 'resources/sass/dashboard.scss'])
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
 
-<body data-sidebar="dark" data-layout-mode="light">
-    <div id="layout-wrapper">
-        @include('components.layout.topbar')
-        @include('components.layout.sidebar')
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <!-- Sidebar -->
+        <div x-data="{ sidebarOpen: true }" class="relative">
+            <!-- Sidebar -->
+            <div :class="{ 'w-64': sidebarOpen, 'w-16': !sidebarOpen }"
+                class="fixed top-0 left-0 z-30 h-screen transition-all duration-300 transform bg-primary">
+                @include('components.layout.sidebar')
+            </div>
 
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    {{ $slot }}
-                </div>
+            <!-- Main Content -->
+            <div :class="{ 'ml-64': sidebarOpen, 'ml-16': !sidebarOpen }" class="transition-all duration-300">
+                <!-- Topbar -->
+                @include('components.layout.topbar')
+
+                <!-- Main Content Area -->
+                <main class="p-8">
+                    <div class="container mx-auto">
+                        {{ $slot }}
+                    </div>
+                </main>
             </div>
         </div>
     </div>
 
-    <script>
-        let sidebar = document.querySelector("#sidebar-menu");
-        let closeBtn = document.querySelector("#vertical-menu-btn");
-        let body = document.body;
-
-        closeBtn.addEventListener("click", function(event) {
-            event.preventDefault();
-            body.classList.toggle('sidebar-enable');
-            if (window.screen.availWidth >= 992) {
-                body.classList.toggle('vertical-collpsed');
-            } else {
-                body.classList.remove('vertical-collpsed');
-            }
-        });
-    </script>
     @livewireScripts
-
-
 </body>
 
 </html>

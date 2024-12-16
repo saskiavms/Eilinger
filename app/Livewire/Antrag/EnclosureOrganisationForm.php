@@ -23,13 +23,14 @@ class EnclosureOrganisationForm extends BaseEnclosureForm
         ];
     }
 
+    public function saveEnclosure(): void
+    {
+        $this->save();
+        $this->dispatch('completeApp');
+    }
+
     public function render()
     {
         return view('livewire.antrag.enclosure-organisation-form');
-    }
-
-    public function saveEnclosureOrg()
-    {
-        $this->save();
     }
 }

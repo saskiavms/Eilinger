@@ -11,4 +11,7 @@ return [
     'showMessages' => 'Show Messages',
     'continue' => 'Continue',
     'back' => 'Back',
+    'choose_file' => 'Choose File',
+    'no_file_chosen' => 'No File Chosen',
+
 ];

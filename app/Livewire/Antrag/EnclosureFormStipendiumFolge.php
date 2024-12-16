@@ -23,13 +23,14 @@ class EnclosureFormStipendiumFolge extends BaseEnclosureForm
         ];
     }
 
+    public function saveEnclosure(): void
+    {
+        $this->save();
+        $this->dispatch('completeApp');
+    }
+
     public function render()
     {
         return view('livewire.antrag.enclosure-form-stipendium-folge');
-    }
-
-    public function saveEnclosure()
-    {
-        $this->save();
     }
 }

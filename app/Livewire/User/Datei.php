@@ -4,17 +4,16 @@ namespace App\Livewire\User;
 
 use App\Models\Application;
 use App\Models\Enclosure;
-use App\View\Components\Layout\UserDashboard;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Layout;
 
 class Datei extends Component
 {
     use WithFileUploads;
 
     public $showModal = false;
-    public $enclosures;
     public $applications;
     public $userName;
     public $application_id;
@@ -22,6 +21,31 @@ class Datei extends Component
     public $file;
     public $columns = [];
     public $enclosure;
+
+    // Search/Filter properties
+    public $applicationFilter = '';
+    public $contentFilter = '';
+
+    // Add a computed property for available content types
+    public function getContentTypesProperty()
+    {
+        return Enclosure::query()
+            ->whereHas('application', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->get()
+            ->flatMap(function ($enclosure) {
+                return collect($enclosure->getAttributes())
+                    ->filter(function ($value, $column) {
+                        return !in_array($column, ['id', 'created_at', 'updated_at', 'application_id', 'remark', 'is_draft', 'deleted_at'])
+                            && !str_ends_with($column, 'SendLater')
+                            && !is_null($value);
+                    })
+                    ->keys();
+            })
+            ->unique()
+            ->values();
+    }
 
     protected function rules(): array
     {
@@ -32,20 +56,40 @@ class Datei extends Component
         ];
     }
 
-    protected $listeners = ['refreshComponent' => '$refresh'];
-
     public function mount()
     {
         $this->applications = Application::with('enclosures')->LoggedInUser()->get();
-
         $user = auth()->user();
         $this->userName = "{$user->lastname}_{$user->firstname}";
     }
 
+    #[Layout('components.layout.user-dashboard')]
     public function render()
     {
-        return view('livewire.user.datei')
-            ->layout(UserDashboard::class);
+        $fileColumns = collect(Schema::getColumnListing((new Enclosure)->getTable()))
+            ->filter(function ($column) {
+                return !in_array($column, ['id', 'created_at', 'updated_at', 'application_id', 'remark', 'is_draft', 'deleted_at'])
+                    && !str_ends_with($column, 'SendLater');
+            })
+            ->values()
+            ->toArray();
+
+        $query = Enclosure::query()
+            ->whereHas('application', function ($query) {
+                $query->where('user_id', auth()->id());
+                if ($this->applicationFilter) {
+                    $query->where('id', $this->applicationFilter);
+                }
+            });
+
+        if ($this->contentFilter) {
+            $query->whereNotNull($this->contentFilter);
+        }
+
+        return view('livewire.user.datei', [
+            'enclosuresList' => $query->get(),
+            'selectedContentType' => $this->contentFilter,
+        ]);
     }
 
     public function addEnclosure()
@@ -58,8 +102,7 @@ class Datei extends Component
         $this->validate();
 
         try {
-            $fileName = $this->generateFileName();
-            $filePath = $this->storeFile($fileName);
+            $filePath = $this->upload($this->file, $this->column);
 
             $this->enclosure = $this->enclosure ?? new Enclosure();
             $this->enclosure->application_id = $this->application_id;
@@ -89,14 +132,17 @@ class Datei extends Component
         $this->showModal = false;
     }
 
-    private function generateFileName()
-    {
-        return "Appl{$this->application_id}_{$this->column}.{$this->file->getClientOriginalExtension()}";
-    }
-
     private function storeFile($fileName)
     {
-        return $this->file->storeAs($this->userName, $fileName, 'uploads');
+        return $this->file->storeAs($this->userName, $fileName, 's3');
+    }
+
+    private function upload($file, $text)
+    {
+        if (!is_null($file)) {
+            $fileName = 'Appl' . $this->application_id . '_' . $text . '.' . $file->getClientOriginalExtension();
+            return $file->storeAs($this->userName, $fileName, 's3');
+        }
     }
 
     private function resetForm()

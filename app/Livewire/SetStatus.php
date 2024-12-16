@@ -12,24 +12,45 @@ class SetStatus extends Component
 {
     public Application $application;
 
-    public function render()
+    public function mount(Application $application)
     {
-        return view('livewire.set-status');
+        $this->application = $application;
     }
 
     public function setStatus()
     {
+        $this->validate();
+
         $this->application->save();
-        session()->flash('message', 'Status des Antrags gespeichert');
 
         $this->application->user->notify(new StatusUpdated($this->application));
+
+        session()->flash('message', 'Status des Antrags gespeichert');
     }
 
-    protected function rules(): array
+    public function rules()
     {
         return [
             'application.appl_status' => ['required', new Enum(ApplStatus::class)],
-            'application.reason_rejected' => 'required_if:application, ApplStatus::BLOCKED',
+            'application.reason_rejected' => [
+                'required_if:application.appl_status,' . ApplStatus::BLOCKED->value,
+                'nullable',
+                'string',
+                'max:255'
+            ],
         ];
+    }
+
+    public function messages()
+    {
+        return [
+            'application.appl_status.required' => 'Bitte wählen Sie einen Status aus.',
+            'application.reason_rejected.required_if' => 'Bei Ablehnung muss ein Grund angegeben werden.',
+        ];
+    }
+
+    public function render()
+    {
+        return view('livewire.set-status');
     }
 }

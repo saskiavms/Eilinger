@@ -21,13 +21,14 @@ class EnclosureFormDarlehenPrivat extends BaseEnclosureForm
         return ['open_invoice'];
     }
 
+    public function saveEnclosure(): void
+    {
+        $this->save();
+        $this->dispatch('completeApp');
+    }
+
     public function render()
     {
         return view('livewire.antrag.enclosure-form-darlehen_privat');
-    }
-
-    public function saveEnclosureDarlehen()
-    {
-        $this->save();
     }
 }

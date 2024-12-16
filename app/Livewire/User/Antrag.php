@@ -6,8 +6,8 @@ use App\Enums\ApplStatus;
 use App\Models\Application;
 use App\Models\User;
 use App\Notifications\NewApplication;
-use App\View\Components\Layout\UserDashboard;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
 class Antrag extends Component
 {
@@ -23,10 +23,10 @@ class Antrag extends Component
         session(['appl_id' => $application_id]);
     }
 
+    #[Layout('components.layout.user-dashboard')]
     public function render()
     {
-        return view('livewire.user.antrag')
-            ->layout(UserDashboard::class);
+        return view('livewire.user.antrag');
     }
 
     public function sendApplication()
@@ -42,7 +42,6 @@ class Antrag extends Component
 
     public function increaseStep()
     {
-        ray('INcresase');
         $this->currentStep++;
     }
 

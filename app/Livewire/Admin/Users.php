@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\User;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,94 +12,63 @@ class Users extends Component
 {
     use WithPagination;
 
-    public $searchUsername;
-
-    public $searchUserEmail;
-
-    public $filterStatus;
-
-    public $filterBereich;
-
-    public $searchNameInst;
-
-    public $sortCol;
-    public $sortAsc = false;
-
-    protected $paginationTheme = 'bootstrap';
-
-    public function mount()
-    {
-        $this->searchUsername = '';
-        $this->searchUserEmail = '';
-        $this->searchNameInst = '';
-        $this->filterBereich = '';
-        $this->filterStatus = '';
-    }
-
-    protected function applySorting($query)
-    {
-    }
-
-    protected function searchUsername($query)
-    {
-        return $this->searchUsername === ''
-            ? $query
-            : $query->where('username', 'like', '%' . $this->searchUsername . '%');
-    }
-
-    protected function searchUserEmail($query)
-    {
-        return $this->searchUserEmail === ''
-            ? $query
-            : $query->where('email', 'like', '%' . $this->searchUserEmail . '%');
-        ;
-    }
-
-    protected function searchNameInst($query)
-    {
-        return $this->searchNameInst === ''
-            ? $query
-            : $query->where('name_inst', 'like', '%' . $this->searchNameInst . '%');
-        ;
-    }
-
-    protected function filterBereich($query)
-    {
-        return $this->filterBereich === ''
-            ? $query
-            : $query->where('bereich', 'like', '%' . $this->filterBereich . '%');
-        ;
-    }
-
-    protected function filterStatus($query)
-    {
-        return $this->filterStatus === ''
-            ? $query
-            : $query->where('status', 'like', '%' . $this->filterStatus . '%');
-        ;
-    }
-
     #[Layout('components.layout.admin-dashboard')]
+    #[Title('Benutzerübersicht')]
+
+    public $searchUsername = '';
+    public $searchUserEmail = '';
+    public $searchNameInst = '';
+    public $filterBereich = '';
+    public $filterStatus = '';
+
+    protected $queryString = [
+        'searchUsername' => ['except' => ''],
+        'searchUserEmail' => ['except' => ''],
+        'searchNameInst' => ['except' => ''],
+        'filterBereich' => ['except' => ''],
+        'filterStatus' => ['except' => ''],
+    ];
+
+    public function updatedSearchUsername()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSearchUserEmail()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSearchNameInst()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedFilterBereich()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedFilterStatus()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
-        $users = User::with('lastLogin')
+        $users = User::with(['lastLogin', 'sendApplications'])
             ->where('is_admin', 0)
-            ->with('sendApplications')
+            ->when($this->searchUsername, function ($query) {
+                $query->where('username', 'like', '%' . $this->searchUsername . '%');
+            })
+            ->when($this->searchUserEmail, function ($query) {
+                $query->where('email', 'like', '%' . $this->searchUserEmail . '%');
+            })
+            ->when($this->searchNameInst, function ($query) {
+                $query->where('name_inst', 'like', '%' . $this->searchNameInst . '%');
+            })
             ->orderBy('lastname')
-            ->when($this->searchUsername != '', function ($query) {
-                $this->searchUsername($query);
-            })
-            ->when($this->searchUserEmail != '', function ($query) {
-                $this->searchUserEmail($query);
-            })
-            ->when($this->searchNameInst != '', function ($query) {
-                $this->searchNameInst($query);
-            })
-            ->when($this->filterBereich != '', function ($query) {
-                // Add your filter logic here
-            })
             ->paginate(20);
-
 
         return view('livewire.admin.users', [
             'users' => $users,

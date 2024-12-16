@@ -1,49 +1,68 @@
-<section class="home-section">
-    <h2>{{  __('userDashboard.delAccount')  }}</h2>
-    <div class="home-content">
-        <div class="shadow p-3 mb-5 bg-body rounded">
-            <div class="row">
+<div class="py-6">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-ubuntu text-primary font-semibold">
+            {{ __('userDashboard.delAccount') }}
+        </h2>
+
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
+            <div class="p-6">
+                <p class="text-gray-700">{{ __('user.deleteAccountText') }}</p>
+
                 <div class="mt-6">
-                    <p>{{  __('user.deleteAccountText')  }}</p>
-                </div>
-
-                <div class="modal" @if ($showModal) style="display:block" @endif>
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <form wire:submit="destroy()">
-                                @csrf
-                                @method('delete')
-                                <div class="modal-header">
-                                    <h5 class="modal-title">{{  __('userDashboard.delAccount')  }}</h5>
-                                    <button wire:click="close" type="button" class="close" data-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>{{  __('user.delAccountConfirmation')  }}</p>
-                                    <br />
-                                    <label class="form-label" for="password">{{  __('user.password')  }} *</label>
-                                    <input wire:model.live="current_password" type="password" class="form-control" />
-                                    <span class="text-danger">@error('current_password'){{ $message }}@enderror</span>
-
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">{{  __('userDashboard.delAccount')  }}</button>
-                                    <button wire:click="close" type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">Close
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex mt-3">
-                    <button class="btn btn-colour-1  btn-next pull-right" wire:click="delete()">{{  __('userDashboard.delAccount')  }}</button>
+                    <button wire:click="delete"
+                        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+                        {{ __('userDashboard.delAccount') }}
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
+        @if ($showModal)
+            <div class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+            <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+                    <div class="flex items-center justify-between px-6 py-4 border-b">
+                        <h3 class="text-lg font-semibold text-gray-900">
+                            {{ __('userDashboard.delAccount') }}
+                        </h3>
+                        <button wire:click="close" type="button" class="text-gray-400 hover:text-gray-500">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <form wire:submit="destroy">
+                        <div class="px-6 py-4 space-y-4">
+                            <p class="text-gray-700">{{ __('user.delAccountConfirmation') }}</p>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    {{ __('user.password') }}*
+                                </label>
+                                <input wire:model.live="current_password" type="password"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                                @error('current_password')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="px-6 py-4 bg-gray-50 flex justify-end space-x-2 rounded-b-lg">
+                            <button wire:click="close" type="button"
+                                class="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors">
+                                {{ __('attributes.close') }}
+                            </button>
+                            <button type="submit"
+                                class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+                                {{ __('userDashboard.delAccount') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        @endif
+    </div>
+</div>

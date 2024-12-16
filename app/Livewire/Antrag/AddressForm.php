@@ -9,17 +9,24 @@ use Livewire\Component;
 
 class AddressForm extends Component
 {
-    public $address;
+    public $street;
+    public $number;
+    public $town;
+    public $plz;
+    public $country_id;
 
     public $countries;
 
-    protected $rules = [
-        'address.street' => 'required|min:3',
-        'address.number' => 'nullable',
-        'address.town' => 'required|min:3',
-        'address.plz' => 'required|min:4',
-        'address.country_id' => 'required',
-    ];
+    protected function rules(): array
+    {
+        return [
+            'street' => 'required|min:3',
+            'number' => 'nullable',
+            'town' => 'required|min:3',
+            'plz' => 'required|min:4',
+            'country_id' => 'required',
+        ];
+    }
 
     public function validationAttributes(): array
     {
@@ -29,7 +36,14 @@ class AddressForm extends Component
     public function mount()
     {
         $this->countries = Country::all();
-        $this->address = Address::loggedInUser()->first();
+        $address = Address::loggedInUser()->first();
+
+        // Initialize properties from address model
+        $this->street = $address->street;
+        $this->number = $address->number;
+        $this->town = $address->town;
+        $this->plz = $address->plz;
+        $this->country_id = $address->country_id;
     }
 
     public function render()
@@ -39,10 +53,13 @@ class AddressForm extends Component
 
     public function saveAddress()
     {
+        $validatedData = $this->validate();
 
-        $this->validate();
-        $this->address->is_draft = false;
-        $this->address->save();
+        $address = Address::loggedInUser()->first();
+        $address->fill($validatedData);
+        $address->is_draft = false;
+        $address->save();
+
         session()->flash('success', __('userNotification.addressSaved'));
     }
 }

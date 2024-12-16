@@ -1,37 +1,38 @@
 <x-layout.eilinger>
-    @section('title', 'Bestätigung')
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <x-heading.decorative class="text-center">
+                {{ __('notice.verify') }}
+            </x-heading.decorative>
+            <p>{{ __('notice.verify_line1') }}</p>
+            <p>{{ __('notice.verify_line2') }}</p>
 
-    <main id="main">
-        <section id="contact" class="contact">
-            <div class="container">
-                <div class="section-title">
-                    <h2>{{__('notice.verify')}}</h2>
-                    <p>{{__('notice.verify_line1')}}</p>
-                    <p>{{__('notice.verify_line2')}}</p>
-                </div>
+            <div>
 
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <form method="POST" action="{{ route('verification.send', app()->getLocale()) }}">
-                            @csrf
-
-                            <div>
-                                <button type="submit" class="btn btn-colour-1"> {{ __('notice.verify_resend') }}</button>
-                            </div>
-                        </form>
+                @if (session('status') == 'verification-link-sent')
+                    <div class="text-green-500 mb-6">
+                        {{ __('notice.verify_email_sent') }}
                     </div>
+                @endif
 
-                    <div class="col-md-6">
-                        <div>
-                            <button class="btn btn-colour-1">
-                                <a class="nav-link" href="{{ route('logout', app()->getLocale()) }}">Logout</a>
-                            </button>
-                        </div>
-                    </div>
+                <div class="flex items-center justify-between gap-4 mt-4 mx-auto">
+                    <form method="POST" action="{{ route('verification.send', app()->getLocale()) }}">
+                        @csrf
+                        <button type="submit"
+                            class="px-6 py-2 bg-primary text-white rounded-md hover:bg-danger-hover transition-colors">
+                            {{ __('notice.verify_resend') }}
+                        </button>
+                    </form>
+
+                    <form method="POST" action="{{ route('logout', app()->getLocale()) }}">
+                        @csrf
+                        <button type="submit"
+                            class="px-6 py-2 bg-primary text-white rounded-md hover:bg-danger-hover transition-colors">
+                            Logout
+                        </button>
+                    </form>
                 </div>
             </div>
-        </section>
-    </main>
-
+        </div>
+    </section>
 </x-layout.eilinger>

@@ -1,42 +1,50 @@
-<div class="shadow p-3 mb-5 bg-body rounded">
-    <div>
-        @if (session()->has('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
-            </div>
-        @endif
-    </div>
-    <div class="col-md-12">
-        <h3>{{__('message.messages')}} </h3>
+<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+    @if (session()->has('message'))
+        <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg">
+            {{ session('message') }}
+        </div>
+    @endif
 
-        <form wire:submit="postMessage">
-            <div class="blog-comment">
-                <textarea wire:model="body" id="textareaID" class="form-control"></textarea>
+    <div class="p-6">
+        <h3 class="text-2xl font-ubuntu text-primary font-semibold mb-6">
+            {{ __('message.messages') }}
+        </h3>
 
-                @error('body')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
-            </div>
-            <br />
-            <div class="col-md-12 text-end">
-                <button class="btn btn-colour-1" type="submit">
-                    <span class="align-middle d-sm-inline-block d-none">{{__('message.saveMessage')}}</span>
-                </button>
+        <form wire:submit="postMessage" class="mb-8">
+            <div class="space-y-4">
+                <div>
+                    <textarea wire:model="body" rows="4"
+                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50"
+                        placeholder="{{ __('message.writeMessage') }}"></textarea>
+
+                    @error('body')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors">
+                        {{ __('message.saveMessage') }}
+                    </button>
+                </div>
             </div>
         </form>
 
-    </div>
-    <div class="blog-comment">
-        <ul class="comments">
+        <div class="space-y-6">
             @forelse ($messages as $message)
-                <li class="clearfix">
-                    @livewire('message', ['message' => $message],  key('message-'.$message->id))
-                </li>
-
+                <div class="border rounded-lg p-4 bg-gray-50">
+                    @livewire('message', ['message' => $message], key('message-' . $message->id))
+                </div>
             @empty
-                {{__('message.noMessages')}}
+                <p class="text-gray-500 text-center py-4">
+                    {{ __('message.noMessages') }}
+                </p>
             @endforelse
-        </ul>
+        </div>
+
+        <div class="mt-6">
+            {{ $messages->links() }}
+        </div>
     </div>
-    {{ $messages->links('pagination::bootstrap-5') }}
 </div>

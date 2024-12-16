@@ -1,100 +1,118 @@
-<section class="home-section">
-    <h2>{{ __('userOverview.welcome') }}</h2>
+<div class="py-6">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-ubuntu text-primary mb-6 font-semibold">
+            {{ __('userOverview.welcome') }}
+        </h2>
 
-    <div class="home-content">
-        <div class="shadow p-3 mb-5 bg-body rounded">
-            <section class="bg-light pt-5 pb-5 shadow-sm">
-                <div class="container">
-                    <div class="row pt-5">
-                        <div class="col-12">
-                            <h4 class="text-uppercase border-bottom mb-4">{{ __('userOverview.overview') }}</h4>
-                        </div>
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <h3 class="text-xl font-ubuntu text-primary border-b pb-3 mb-6">
+                {{ __('userOverview.overview') }}
+            </h3>
+
+            <!-- First Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                <!-- Applications Card -->
+                <div class="bg-white rounded-lg shadow-md border border-gray-200 flex flex-col">
+                    <div class="px-6 py-4 border-b bg-gray-50">
+                        <h4 class="font-semibold text-primary">{{ __('userOverview.applications_header') }}</h4>
                     </div>
-
-                    <div class="row">
-                        <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                            <div class="card">
-                                <h5 class="card-header">{{ __('userOverview.applications_header') }}</h5>
-                                <div class="card-body">
-                                    <p class="card-text">{{ __('userOverview.applications_body') }}</p>
-                                </div>
-                                <div class="card-footer p-3">
-                                    <a href="{{ route('user_antraege', app()->getLocale()) }}"
-                                        class="btn btn-colour-1">{{ __('userOverview.applications_button') }}</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                            <div class="card">
-                                <h5 class="card-header">{{ __('userOverview.projects_header') }}</h5>
-                                <div class="card-body">
-                                    <p class="card-text">{{ __('userOverview.projects_body') }}</p>
-                                </div>
-                                <div class="card-footer p-3">
-                                    <a href="{{ route('user_gesuch', app()->getLocale()) }}"
-                                        class="btn btn-colour-1">{{ __('userOverview.projects_button') }}</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                            <div class="card">
-                                <h5 class="card-header">{{ __('userOverview.message_header') }}</h5>
-                                <div class="card-body">
-                                    <p class="card-text">{{ __('userOverview.message_body') }} </p>
-                                </div>
-                                <div class="card-footer p-3">
-                                    <a href="{{ route('user_nachrichten', app()->getLocale()) }}"
-                                        class="btn btn-colour-1">{{ __('userOverview.message_button') }}</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="px-6 py-4 flex-grow">
+                        <p class="text-gray-600">{{ __('userOverview.applications_body') }}</p>
                     </div>
-
-                    <div class="row">
-                        <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                            <div class="card">
-                                <h5 class="card-header">{{ __('userOverview.profil_header') }}</h5>
-                                <div class="card-body">
-                                    <p class="card-text">{{ __('userOverview.profile_body') }}</p>
-                                </div>
-                                <div class="card-footer p-3">
-                                    <a href="{{ route('user_profile.edit', app()->getLocale()) }}"
-                                        class="btn btn-colour-1">{{ __('userOverview.profile_button') }}</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                            <div class="card">
-                                <h5 class="card-header">{{ __('userOverview.files_header') }}</h5>
-                                <div class="card-body">
-                                    <p class="card-text">{{ __('userOverview.files_body') }}</p>
-                                </div>
-                                <div class="card-footer p-3">
-                                    <a href="{{ route('user_dateien', app()->getLocale()) }}"
-                                        class="btn btn-colour-1">{{ __('userOverview.files_button') }}</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 mb-3 d-flex align-items-stretch">
-                            <div class="card">
-                                <h5 class="card-header">{{ __('userOverview.logout_header') }}</h5>
-                                <div class="card-body">
-                                    <p class="card-text">{{ __('userOverview.logout_body') }}</p>
-                                </div>
-                                <div class="card-footer p-3">
-                                    <a href="{{ route('logout', app()->getLocale()) }}"
-                                        class="btn btn-colour-1">{{ __('userOverview.logout_button') }}</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="px-6 py-4 bg-gray-50">
+                        <a href="{{ route('user_antraege', app()->getLocale()) }}"
+                            class="inline-block w-full px-4 py-2 bg-primary text-white text-center rounded-md hover:bg-primary-600 transition-colors">
+                            {{ __('userOverview.applications_button') }}
+                        </a>
                     </div>
                 </div>
-            </section>
 
+                <!-- Projects Card -->
+                <div class="bg-white rounded-lg shadow-md border border-gray-200 flex flex-col">
+                    <div class="px-6 py-4 border-b bg-gray-50">
+                        <h4 class="font-semibold text-primary">{{ __('userOverview.projects_header') }}</h4>
+                    </div>
+                    <div class="px-6 py-4 flex-grow">
+                        <p class="text-gray-600">{{ __('userOverview.projects_body') }}</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50">
+                        <a href="{{ route('user_gesuch', app()->getLocale()) }}"
+                            class="inline-block w-full px-4 py-2 bg-primary text-white text-center rounded-md hover:bg-primary-600 transition-colors">
+                            {{ __('userOverview.projects_button') }}
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Messages Card -->
+                <div class="bg-white rounded-lg shadow-md border border-gray-200 flex flex-col">
+                    <div class="px-6 py-4 border-b bg-gray-50">
+                        <h4 class="font-semibold text-primary">{{ __('userOverview.message_header') }}</h4>
+                    </div>
+                    <div class="px-6 py-4 flex-grow">
+                        <p class="text-gray-600">{{ __('userOverview.message_body') }}</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50">
+                        <a href="{{ route('user_nachrichten', app()->getLocale()) }}"
+                            class="inline-block w-full px-4 py-2 bg-primary text-white text-center rounded-md hover:bg-primary-600 transition-colors">
+                            {{ __('userOverview.message_button') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Profile Card -->
+                <div class="bg-white rounded-lg shadow-md border border-gray-200 flex flex-col">
+                    <div class="px-6 py-4 border-b bg-gray-50">
+                        <h4 class="font-semibold text-primary">{{ __('userOverview.profil_header') }}</h4>
+                    </div>
+                    <div class="px-6 py-4 flex-grow">
+                        <p class="text-gray-600">{{ __('userOverview.profile_body') }}</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50">
+                        <a href="{{ route('user_profile.edit', app()->getLocale()) }}"
+                            class="inline-block w-full px-4 py-2 bg-primary text-white text-center rounded-md hover:bg-primary-600 transition-colors">
+                            {{ __('userOverview.profile_button') }}
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Files Card -->
+                <div class="bg-white rounded-lg shadow-md border border-gray-200 flex flex-col">
+                    <div class="px-6 py-4 border-b bg-gray-50">
+                        <h4 class="font-semibold text-primary">{{ __('userOverview.files_header') }}</h4>
+                    </div>
+                    <div class="px-6 py-4 flex-grow">
+                        <p class="text-gray-600">{{ __('userOverview.files_body') }}</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50">
+                        <a href="{{ route('user_dateien', app()->getLocale()) }}"
+                            class="inline-block w-full px-4 py-2 bg-primary text-white text-center rounded-md hover:bg-primary-600 transition-colors">
+                            {{ __('userOverview.files_button') }}
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Logout Card -->
+                <div class="bg-white rounded-lg shadow-md border border-gray-200 flex flex-col">
+                    <div class="px-6 py-4 border-b bg-gray-50">
+                        <h4 class="font-semibold text-primary">{{ __('userOverview.logout_header') }}</h4>
+                    </div>
+                    <div class="px-6 py-4 flex-grow">
+                        <p class="text-gray-600">{{ __('userOverview.logout_body') }}</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50">
+                        <form method="POST" action="{{ route('logout', app()->getLocale()) }}">
+                            @csrf
+                            <button type="submit"
+                                class="w-full px-4 py-2 bg-primary text-white text-center rounded-md hover:bg-primary-600 transition-colors">
+                                {{ __('userOverview.logout_button') }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</section>
+</div>

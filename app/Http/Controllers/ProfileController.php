@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -14,15 +15,9 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        if (auth()->user()->is_admin) {
-            return view('admin.profile-edit', [
-                'user' => $request->user(),
-            ]);
-        } else {
-            return view('user.profile-edit', [
-                'user' => $request->user(),
-            ]);
-        }
+        return view(auth()->user()->is_admin ? 'admin.profile-edit' : 'user.profile-edit', [
+            'user' => $request->user(),
+        ]);
     }
 
     /**
@@ -34,16 +29,17 @@ class ProfileController extends Controller
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
+            $request->user()->save();
             $request->user()->sendEmailVerificationNotification();
-        }
-
-        $request->user()->save();
-
-        if (auth()->user()->is_admin) {
-            return redirect()->route('admin_dashboard', app()->getLocale())->with('success', 'Profil wurde aktualisiert');
         } else {
-            return redirect()->route('user_dashboard', app()->getLocale())->with('success', 'Profil wurde aktualisiert');
+            $request->user()->save();
         }
 
+        Session::flash('success', __('profile.profile_updated'));
+
+        return redirect()->route(
+            auth()->user()->is_admin ? 'admin_dashboard' : 'user_dashboard',
+            app()->getLocale()
+        );
     }
 }

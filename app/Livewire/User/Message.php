@@ -3,8 +3,8 @@
 namespace App\Livewire\User;
 
 use App\Models\Application;
-use App\View\Components\Layout\UserDashboard;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
 class Message extends Component
 {
@@ -17,9 +17,9 @@ class Message extends Component
             ->first();
     }
 
+    #[Layout('components.layout.user-dashboard')]
     public function render()
     {
-        return view('livewire.user.message')
-            ->layout(UserDashboard::class);
+        return view('livewire.user.message');
     }
 }

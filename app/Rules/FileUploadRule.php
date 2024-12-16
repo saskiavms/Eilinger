@@ -9,9 +9,7 @@ use Illuminate\Http\UploadedFile;
 class FileUploadRule implements ValidationRule
 {
     private $isRequired;
-
     private $allowedMimes;
-
     private $maxSize;
 
     public function __construct($isRequired = false)
