@@ -11,7 +11,7 @@
 }
 
 @font-face {
-    font-family: 'TheSalvadorCondensed';
+    font-family: 'the_salvador_condensedregular';
     src: url('@/fonts/thesalvador-condensed-webfont.woff2') format('woff2'),
          url('@/fonts/thesalvador-condensed-webfont.woff') format('woff');
     font-weight: normal;
