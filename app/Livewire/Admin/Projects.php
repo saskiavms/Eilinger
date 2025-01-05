@@ -19,7 +19,7 @@ class Projects extends Component
         return view('livewire.admin.projects', [
             'applications' => Application::query()
                 ->where('appl_status', 'approved')
-                ->with(['user', 'bereich']) // Eager load relationships
+                ->with(['user']) // Only eager load the user relationship
                 ->orderBy('created_at', 'desc')
                 ->paginate(10)
         ]);
