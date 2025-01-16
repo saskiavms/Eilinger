@@ -23,15 +23,15 @@
             <div>
                 <p class="text-md font-medium text-gray-700 mb-2">Neuer Status:</p>
                 <div class="space-y-2">
-                    @foreach (ApplStatus::cases() as $status)
+                    @foreach (ApplStatus::cases() as $applStatus)
                         <label class="flex items-center">
-                            <input type="radio" wire:model.blur="application.appl_status" value="{{ $status->value }}"
+                            <input type="radio" wire:model="status" value="{{ $applStatus->value }}"
                                 class="form-radio h-4 w-4 text-primary-600 border-gray-300 focus:ring-primary-500">
-                            <span class="ml-2 text-gray-700">{{ __('application.status_name.' . $status->name) }}</span>
+                            <span class="ml-2 text-gray-700">{{ __('application.status_name.' . $applStatus->name) }}</span>
                         </label>
                     @endforeach
                 </div>
-                @error('application.appl_status')
+                @error('status')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
@@ -41,9 +41,9 @@
                 <label for="reason_rejected" class="block text-md font-medium text-gray-700">
                     {{ __('application.reason_rejected') }}
                 </label>
-                <input wire:model.blur="application.reason_rejected" type="text" id="reason_rejected"
+                <input wire:model="reason_rejected" type="text" id="reason_rejected"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
-                @error('application.reason_rejected')
+                @error('reason_rejected')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
