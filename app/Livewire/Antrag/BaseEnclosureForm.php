@@ -55,6 +55,12 @@ abstract class BaseEnclosureForm extends Component
         $this->enclosure = Enclosure::where('application_id', session()->get('appl_id'))
             ->first() ?? new Enclosure();
 
+		if ($this->enclosure->remark === null) {
+			$this->enclosure->remark = '';
+			Log::debug("Remark set to empty string");
+		}
+
+
         // Initialize sendLater fields for both required and optional fields
         $allFields = array_merge($this->getRequiredFields(), $this->getOptionalFields());
         foreach ($allFields as $field) {

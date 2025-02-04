@@ -47,28 +47,9 @@ class ReqAmountForm extends Component
                 ->value('total_amount_costs') ?? 0;
         } else {
             $this->total_amount_costs = CostDarlehen::where('application_id', session()->get('appl_id'))
-                ->value('cost_amount') ?? 0;
+                ->sum('cost_amount');
         }
 
-        // Debug output
-        logger()->debug('Application Details:', [
-            'user_type_value' => $this->application->user->type->value,
-            'form_type_value' => $this->application->form->value,
-            'form_enum_value' => Form::Stipendium->value,
-            'comparison_result' => $this->application->form->value === Form::Stipendium->value
-        ]);
-
-        logger()->debug('Amounts:', [
-            'financing' => $this->total_amount_financing,
-            'costs' => [
-                'value' => $this->total_amount_costs,
-                'raw_query' => Cost::where('application_id', session()->get('appl_id'))
-                    ->select('total_amount_costs')
-                    ->toSql(),
-                'bindings' => [session()->get('appl_id')]
-            ],
-            'difference' => $this->diffAmount
-        ]);
 
         // Initialize form fields
         $this->req_amount = $this->application->req_amount;
