@@ -13,9 +13,9 @@
             <br>
             <x-heading.h3>{{ __('dataprotection.responsible') }}</x-heading.h3>
             <address>
-                <strong>Eilinger Stiftung</strong><br>
-                Seeweg 45<br>
-                8264 Eschenz, CH<br>
+                <strong>{{ $foundation->name }}</strong><br>
+                {{ $foundation->strasse }}<br>
+                {{ $foundation->ort }}, {{ $foundation->land }}<br>
                 <a href="mailto:{{ config('mail.from.address') }}" target="_blank">{{ config('mail.from.address') }}</a>
             </address>
             <br>

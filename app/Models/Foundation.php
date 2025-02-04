@@ -16,7 +16,4 @@ class Foundation extends Model
         'nextCouncilMeeting'
     ];
 
-    protected $casts = [
-        'nextCouncilMeeting' => 'date',
-    ];
 }

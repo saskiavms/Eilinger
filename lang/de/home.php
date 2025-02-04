@@ -67,4 +67,5 @@ return [
     'to_portal' => 'Zum Gesuchsportal',
     'desired_contact' => 'Nur Gesuche, die vollständig und fristgerecht über die Webseite eingereicht wurden, werden berücksichtigt. Postalische oder telefonische Kontaktaufnahme ist explizit nicht erwünscht und wird von der Eilinger Stifung nicht beantwortet oder weiterverfolgt.',
     'links' => 'Nützliche Links',
+	'nextCouncilMeeting'=> 'Nächste Ratssitzung',
 ];

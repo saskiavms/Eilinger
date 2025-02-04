@@ -66,4 +66,5 @@ return [
     'to_portal' => 'To the application portal',
     'desired_contact' => 'Only applications that have been submitted in full and on time via the website will be considered. Contact by post or telephone is explicitly not welcome and will not be answered or followed up by the Eilinger Foundation.',
     'links' => 'Useful links',
+	'nextCouncilMeeting'=> 'Next Council Meeting',
 ];

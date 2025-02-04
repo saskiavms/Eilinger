@@ -5,34 +5,40 @@ namespace App\Livewire\Admin;
 use App\Models\Foundation;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Log;
 
 class FoundationSettings extends Component
 {
-    public $foundation;
+    public $name;
+	public $strasse;
+	public $ort;
+	public $land;
+	public $nextCouncilMeeting;
 
     protected $rules = [
-        'foundation.name' => 'required|string|max:255',
-        'foundation.strasse' => 'required|string|max:255',
-        'foundation.ort' => 'required|string|max:255',
-        'foundation.land' => 'required|string|max:255',
-        'foundation.nextCouncilMeeting' => 'nullable|date',
+        'name' => 'required|string|max:255',
+        'strasse' => 'required|string|max:255',
+        'ort' => 'required|string|max:255',
+        'land' => 'required|string|max:255',
+        'nextCouncilMeeting' => 'nullable|date',
     ];
 
     public function mount()
     {
-        $this->foundation = Foundation::firstOrCreate([
-            'name' => 'Eilinger Stiftung'
-        ], [
-            'strasse' => 'Seeweg 45',
-            'ort' => '8264 Eschenz',
-            'land' => 'Schweiz'
-        ]);
+        $foundation = Foundation::first();
+		$this->name = $foundation->name;
+		$this->strasse = $foundation->strasse;
+		$this->ort = $foundation->ort;
+		$this->land = $foundation->land;
+		$this->nextCouncilMeeting = $foundation->nextCouncilMeeting;
     }
 
     public function save()
     {
-        $this->validate();
-        $this->foundation->save();
+        $validatedData = $this->validate();
+		$foundation = Foundation::first();
+        $foundation->fill($validatedData);
+		$foundation->save();
 
         session()->flash('message', 'Foundation settings updated successfully.');
     }

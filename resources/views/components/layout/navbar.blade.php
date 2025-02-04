@@ -33,10 +33,17 @@
 
                     @auth
                         <li class="flex items-center space-x-4">
-                            <a href="{{ route('user_dashboard', app()->getLocale()) }}"
-                                class="inline-block py-2 px-4 text-white bg-accent hover:bg-accent-hover rounded-md transition-colors">
-                                Dashboard
-                            </a>
+							@if (auth()->user()->is_admin)
+								<a href="{{ route('admin_dashboard', app()->getLocale()) }}"
+									class="inline-block py-2 px-4 text-white bg-accent hover:bg-accent-hover rounded-md transition-colors">
+									Dashboard
+								</a>
+							@else
+								<a href="{{ route('user_dashboard', app()->getLocale()) }}"
+									class="inline-block py-2 px-4 text-white bg-accent hover:bg-accent-hover rounded-md transition-colors">
+									Dashboard
+								</a>
+							@endif
                             <form method="POST" action="{{ route('logout', app()->getLocale()) }}" class="inline">
                                 @csrf
                                 <button type="submit" class="py-2 px-4 text-white hover:text-accent transition-colors">

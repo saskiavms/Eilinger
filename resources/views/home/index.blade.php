@@ -348,6 +348,7 @@
                     </ol>
                     <p>{{ __('home.request_disclaimer') }}</p>
                     <p>{{ __('home.request_meeting') }}</p>
+					<p><strong>{{ __('home.nextCouncilMeeting') }}: {{$foundation->nextCouncilMeeting}}</strong></p>
                 </div>
 
                 <!-- Request Cards Grid -->

@@ -5,11 +5,11 @@
             <div class="grid md:grid-cols-2 gap-12">
                 <!-- Contact Info -->
                 <div>
-                    <h3 class="font-ubuntu text-2xl font-bold mb-6 text-primary-700">EILINGER STIFTUNG</h3>
+                    <h3 class="font-ubuntu text-2xl font-bold mb-6 text-primary-700">{{ $foundation->name }}</h3>
                     <div class="space-y-2 text-footerText">
-                        <p>Seeweg 45</p>
-                        <p>8264 Eschenz</p>
-                        <p>Schweiz</p>
+                        <p>{{ $foundation->strasse }}</p>
+                        <p>{{ $foundation->ort }}</p>
+                        <p>{{ $foundation->land }}</p>
                         <div class="mt-4">
                             <p>
                                 <span class="font-bold">Email:</span>
@@ -60,7 +60,7 @@
     <div class="border-t border-gray-700 py-4 bg-primary-700">
         <div class="container mx-auto px-4">
             <div class="text-center text-footerText">
-                &copy; Copyright <span class="font-bold text-white">Eilinger Stiftung</span>. All Rights Reserved
+                &copy; Copyright <span class="font-bold text-white">{{ $foundation->name }}</span>. All Rights Reserved
             </div>
         </div>
     </div>

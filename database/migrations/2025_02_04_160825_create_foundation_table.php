@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('foundation', function (Blueprint $table) {
             $table->id();
-			$table->string('name')->default('Eilinger Stiftung');
-			$table->string('strasse')->default('Seeweg 45');
-			$table->string('ort')->default('8264 Eschenz');
-			$table->string('land')->default('Schweiz');
-			$table->date('nextCouncilMeeting')->nullable();
+			$table->string('name');
+			$table->string('strasse');
+			$table->string('ort');
+			$table->string('land');
+			$table->date('nextCouncilMeeting');
             $table->timestamps();
         });
     }
