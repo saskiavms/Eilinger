@@ -47,7 +47,7 @@
                             <form method="POST" action="{{ route('logout', app()->getLocale()) }}" class="inline">
                                 @csrf
                                 <button type="submit" class="py-2 px-4 text-white hover:text-accent transition-colors">
-                                    {{ __('home.logout') }}
+                                    Logout
                                 </button>
                             </form>
                         </li>
