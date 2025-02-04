@@ -10,7 +10,7 @@
     <!-- Remarks Section -->
     <div class="mb-8">
         <h4 class="text-md font-medium text-gray-900 mb-3">{{ __('enclosure.remark') }}</h4>
-        <textarea wire:model.blur="enclosure.remark"
+        <textarea wire:model="remark"
             class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
             rows="3"></textarea>
     </div>

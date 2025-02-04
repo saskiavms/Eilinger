@@ -16,6 +16,7 @@ abstract class BaseEnclosureForm extends Component
     use WithFileUploads;
 
     public $enclosure;
+    public $remark;
     public $UserName;
     public $isInitialAppl;
     public $sendLaterFields = [];
@@ -55,11 +56,13 @@ abstract class BaseEnclosureForm extends Component
         $this->enclosure = Enclosure::where('application_id', session()->get('appl_id'))
             ->first() ?? new Enclosure();
 
-		if ($this->enclosure->remark === null) {
-			$this->enclosure->remark = '';
-			Log::debug("Remark set to empty string");
-		}
+        // Initialize the enclosure with empty values if new
+        if (!$this->enclosure->exists) {
+            $this->enclosure->remark = '';
+            $this->enclosure->application_id = session()->get('appl_id');
+        }
 
+        $this->remark = $this->enclosure->remark ?? '';
 
         // Initialize sendLater fields for both required and optional fields
         $allFields = array_merge($this->getRequiredFields(), $this->getOptionalFields());
@@ -84,7 +87,7 @@ abstract class BaseEnclosureForm extends Component
         return Lang::get('enclosure');
     }
 
-    protected function rules(): array
+    public function rules(): array
     {
         $rules = [
             'enclosure.remark' => 'nullable',
@@ -137,6 +140,9 @@ abstract class BaseEnclosureForm extends Component
     {
         $validatedData = $this->validate();
         Log::debug('Validated Data:', $validatedData);
+
+        // Update remark from the component property
+        $this->enclosure->remark = $this->remark;
 
         $allFields = array_merge($this->getRequiredFields(), $this->getOptionalFields());
         foreach ($allFields as $field) {

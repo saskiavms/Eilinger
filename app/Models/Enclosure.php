@@ -10,8 +10,6 @@ class Enclosure extends Model
 {
     use HasFactory, SoftDeletes;
 
-	public $remark;
-
     protected $fillable = [
 		'remark',
         'user_id',
@@ -82,11 +80,6 @@ class Enclosure extends Model
         'statuteSendLater' => 'boolean',
         'is_draft' => 'boolean',
     ];
-
-	public function __construct()
-    {
-        $this->remark = '';
-    }
 
     public function user()
     {
