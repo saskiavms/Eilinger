@@ -39,6 +39,10 @@ return [
     'status' => 'State',
     'is_first' => 'First Application',
     'currency_id' => 'Currency',
+	'proj_blocked' => 'Blocked Applications',
+	'proj_blocked_text' => 'Applications with status "blocked"',
+	'proj_notsend' => 'Not Send Applications',
+	'proj_notsend_text'=> 'Application with status "not send"',
 
     'status_name' => [
         ApplStatus::NOTSEND->name => 'Not send',

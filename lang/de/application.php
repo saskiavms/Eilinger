@@ -40,6 +40,10 @@ return [
     'status' => 'Status',
     'is_first' => 'Erstantrag',
     'currency_id' => 'Währung',
+	'proj_blocked' => 'Abgelehnte Anträge',
+	'proj_blocked_text' => 'Anträge mit Status "Abgelehnt"',
+	'proj_notsend' => 'Nicht eingereichte Anträge',
+	'proj_notsend_text'=> 'Anträge mit Status "Nicht eingereicht"',
 
     'status_name' => [
         ApplStatus::NOTSEND->name => 'Nicht eingereicht',

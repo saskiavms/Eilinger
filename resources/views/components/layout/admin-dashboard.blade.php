@@ -65,6 +65,22 @@
                             <span x-show="sidebarOpen">Projektübersicht</span>
                         </a>
 
+						<a href="{{ route('admin_blocked', app()->getLocale()) }}"
+                            class="flex items-center text-white hover:bg-primary-600"
+                            :class="sidebarOpen ? 'px-6' : 'justify-center px-3'"
+                            :title="!sidebarOpen ? 'Abgelehnt' : ''">
+                            <i class="bi bi-ban text-xl" :class="sidebarOpen ? 'mr-3' : ''"></i>
+                            <span x-show="sidebarOpen">Abgelehnt</span>
+                        </a>
+
+						<a href="{{ route('admin_notsend', app()->getLocale()) }}"
+                            class="flex items-center text-white hover:bg-primary-600"
+                            :class="sidebarOpen ? 'px-6' : 'justify-center px-3'"
+                            :title="!sidebarOpen ? 'Nicht eingereicht' : ''">
+                            <i class="bi bi-send-dash text-xl" :class="sidebarOpen ? 'mr-3' : ''"></i>
+                            <span x-show="sidebarOpen">Nicht eingereicht</span>
+                        </a>
+
                         <a href="{{ route('admin_profile.edit', app()->getLocale()) }}"
                             class="flex items-center text-white hover:bg-primary-600"
                             :class="sidebarOpen ? 'px-6' : 'justify-center px-3'"
