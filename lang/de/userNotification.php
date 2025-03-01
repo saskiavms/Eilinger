@@ -14,4 +14,6 @@ return [
     'partnerSaved' => 'Partner aktualisiert',
     'reqAmountSaved' => 'Gewünschter Betrag aktualisiert.',
     'siblingSaved' => 'Geschwister aktualisiert.',
+    'sessionExpired' => 'Ihre Sitzung ist abgelaufen, bitte melden Sie sich neu an.',
+    'pageExpired' => 'Die Seite ist abgelaufen. Bitte versuchen Sie es erneut.',
 ];

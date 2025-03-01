@@ -14,4 +14,7 @@ return [
     'partnerSaved' => 'Partnerdata saved',
     'reqAmountSaved' => 'Required amount saved.',
     'siblingSaved' => 'Siblingsdata saved.',
+    'sessionExpired' => 'Your session has expired. Please login again.',
+    'pageExpired' => 'The page expired. Please try again.',
+
 ];

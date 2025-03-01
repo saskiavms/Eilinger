@@ -115,8 +115,6 @@ abstract class BaseEnclosureForm extends Component
             $rules[$field] = ['nullable', new FileUploadRule(false)];
         }
 
-        Log::debug('Validation Rules:', $rules);
-        Log::debug('SendLater Fields:', $this->sendLaterFields);
         return $rules;
     }
 
@@ -139,7 +137,6 @@ abstract class BaseEnclosureForm extends Component
     public function save(): void
     {
         $validatedData = $this->validate();
-        Log::debug('Validated Data:', $validatedData);
 
         // Update remark from the component property
         $this->enclosure->remark = $this->remark;

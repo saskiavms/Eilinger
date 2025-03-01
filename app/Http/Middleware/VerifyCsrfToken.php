@@ -33,25 +33,17 @@ class VerifyCsrfToken extends Middleware
         try {
             return parent::handle($request, $next);
         } catch (TokenMismatchException $e) {
-            Log::debug('CSRF token mismatch in middleware', [
-                'url' => $request->url(),
-                'method' => $request->method(),
-                'session' => session()->all(),
-                'has_2fa' => session()->has('auth.2fa'),
-                'is_verify_page' => $request->is('*/verify')
-            ]);
-
             // Clear session and logout
             session()->forget('auth.2fa');
             Auth::logout();
 
             if ($request->is('*/verify')) {
                 return redirect()->route('login', app()->getLocale())
-                    ->withErrors(['email' => __('Your session has expired. Please login again.')]);
+                    ->withErrors(['email' => __('userNotification.sessionExpired')]);
             }
 
             return redirect()->back()
-                ->withErrors(['error' => __('The page expired. Please try again.')]);
+                ->withErrors(['error' => __('userNotification.pageExpired')]);
         }
     }
 }

@@ -31,13 +31,6 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => '{locale}', 'middleware' => 'setLocale'], function () {
-    Route::get('debug/routes', function () {
-        Log::debug('Available routes', [
-            'routes' => Route::getRoutes()->getRoutesByName()
-        ]);
-        return 'Routes dumped to log';
-    });
-
     Route::view('/', 'home.index')->name('index');
     Route::view('impressum', 'home.impressum')->name('impressum');
     Route::view('datenschutz', 'home.datenschutz')->name('datenschutz');

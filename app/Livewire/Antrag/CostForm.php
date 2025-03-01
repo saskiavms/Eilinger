@@ -10,16 +10,16 @@ use Livewire\Component;
 
 class CostForm extends Component
 {
-    public $semester_fees;
-    public $fees;
-    public $educational_material;
-    public $excursion;
-    public $travel_expenses;
-    public $number_of_children;
-    public $cost_of_living_with_parents;
-    public $cost_of_living_alone;
-    public $cost_of_living_single_parent;
-    public $cost_of_living_with_partner;
+    public ?float $semester_fees = 0;
+    public ?float $fees = 0;
+    public ?float $educational_material = 0;
+    public ?float $excursion = 0;
+    public ?float $travel_expenses = 0;
+    public ?float $number_of_children = 0;
+    public ?float $cost_of_living_with_parents = 0;
+    public ?float $cost_of_living_alone = 0;
+    public ?float $cost_of_living_single_parent = 0;
+    public ?float $cost_of_living_with_partner = 0;
 
     public $currency_id;
     public $myCurrency;
@@ -47,18 +47,18 @@ class CostForm extends Component
 
     public function mount(): void
     {
-        $cost = Cost::where('application_id', session()->get('appl_id'))->first() ?? new Cost;
+        $cost = Cost::where('application_id', session()->get('appl_id'))->first() ?? new Cost();
 
-        $this->semester_fees = $cost->semester_fees;
-        $this->fees = $cost->fees;
-        $this->educational_material = $cost->educational_material;
-        $this->excursion = $cost->excursion;
-        $this->travel_expenses = $cost->travel_expenses;
-        $this->number_of_children = $cost->number_of_children;
-        $this->cost_of_living_with_parents = $cost->cost_of_living_with_parents;
-        $this->cost_of_living_alone = $cost->cost_of_living_alone;
-        $this->cost_of_living_single_parent = $cost->cost_of_living_single_parent;
-        $this->cost_of_living_with_partner = $cost->cost_of_living_with_partner;
+        $this->semester_fees = floatval($cost->semester_fees ?? 0);
+        $this->fees = floatval($cost->fees ?? 0);
+        $this->educational_material = floatval($cost->educational_material ?? 0);
+        $this->excursion = floatval($cost->excursion ?? 0);
+        $this->travel_expenses = floatval($cost->travel_expenses ?? 0);
+        $this->number_of_children = floatval($cost->number_of_children ?? 0);
+        $this->cost_of_living_with_parents = floatval($cost->cost_of_living_with_parents ?? 0);
+        $this->cost_of_living_alone = floatval($cost->cost_of_living_alone ?? 0);
+        $this->cost_of_living_single_parent = floatval($cost->cost_of_living_single_parent ?? 0);
+        $this->cost_of_living_with_partner = floatval($cost->cost_of_living_with_partner ?? 0);
 
         $this->currency_id = Application::where('id', session()->get('appl_id'))->pluck('currency_id');
         $this->myCurrency = Currency::where('id', $this->currency_id)->first();
@@ -73,7 +73,7 @@ class CostForm extends Component
     {
         $validatedData = $this->validate();
 
-        $cost = Cost::where('application_id', session()->get('appl_id'))->first() ?? new Cost;
+        $cost = Cost::where('application_id', session()->get('appl_id'))->first() ?? new Cost();
         $cost->fill($validatedData);
         $cost->is_draft = false;
         $cost->user_id = auth()->user()->id;
@@ -86,14 +86,16 @@ class CostForm extends Component
 
     public function getAmountCost(): int
     {
-        return (int) ($this->semester_fees +
-            $this->fees +
-            $this->educational_material +
-            $this->excursion +
-            $this->travel_expenses +
-            $this->cost_of_living_with_parents +
-            $this->cost_of_living_alone +
-            $this->cost_of_living_single_parent +
-            $this->cost_of_living_with_partner);
+        return (int) (
+            floatval($this->semester_fees ?? 0) +
+            floatval($this->fees ?? 0) +
+            floatval($this->educational_material ?? 0) +
+            floatval($this->excursion ?? 0) +
+            floatval($this->travel_expenses ?? 0) +
+            floatval($this->cost_of_living_with_parents ?? 0) +
+            floatval($this->cost_of_living_alone ?? 0) +
+            floatval($this->cost_of_living_single_parent ?? 0) +
+            floatval($this->cost_of_living_with_partner ?? 0)
+        );
     }
 }

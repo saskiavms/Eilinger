@@ -26,24 +26,14 @@ class TwoFactorController extends Controller
         }
 
         if (!session()->has('auth.2fa')) {
-            Log::debug('No 2FA session found', [
-                'session' => session()->all(),
-                'url' => request()->url()
-            ]);
-
             return redirect()->route('login', app()->getLocale())
-                ->withErrors(['email' => __('Please login first.')]);
+                ->withErrors(['email' => __('userNotification.sessionExpired')]);
         }
 
         if (!auth()->check()) {
-            Log::debug('User not authenticated', [
-                'session' => session()->all(),
-                'url' => request()->url()
-            ]);
-
             session()->forget('auth.2fa');
             return redirect()->route('login', app()->getLocale())
-                ->withErrors(['email' => __('Your session has expired. Please login again.')]);
+            ->withErrors(['email' =>  __('userNotification.sessionExpired')]);
         }
 
         return view('auth.twoFactor');
@@ -52,15 +42,9 @@ class TwoFactorController extends Controller
     public function store(Request $request)
     {
         if (!session()->has('auth.2fa') || !auth()->check()) {
-            Log::debug('Invalid session state in store', [
-                'has_2fa' => session()->has('auth.2fa'),
-                'is_authenticated' => auth()->check(),
-                'session' => session()->all()
-            ]);
-
             session()->forget('auth.2fa');
             return redirect()->route('login', app()->getLocale())
-                ->withErrors(['email' => __('Your session has expired. Please login again.')]);
+            ->withErrors(['email' =>  __('userNotification.sessionExpired')]);
         }
 
         $request->validate([
@@ -72,7 +56,7 @@ class TwoFactorController extends Controller
 
         if (!$user) {
             return redirect()->route('login', app()->getLocale())
-                ->withErrors(['email' => 'Your session has expired. Please login again.']);
+                ->withErrors(['email' =>  __('userNotification.sessionExpired')]);
         }
 
         if ($user->two_factor_expires_at < now()) {
@@ -104,7 +88,7 @@ class TwoFactorController extends Controller
 
         if (!$user) {
             return redirect()->route('login', app()->getLocale())
-                ->withErrors(['email' => 'Your session has expired. Please login again.']);
+                ->withErrors(['email' =>  __('userNotification.sessionExpired')]);
         }
 
         $user->generateTwoFactorCode();

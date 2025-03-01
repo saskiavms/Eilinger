@@ -5,12 +5,6 @@
                 {{ __('regLog.2FA') }}
             </x-heading.decorative>
 
-            @inject('log', 'Illuminate\Support\Facades\Log')
-            {{ $log::debug('Two Factor View Loaded', [
-                'url' => request()->url(),
-                'session' => session()->all()
-            ]) }}
-
             <form method="POST" action="{{ route('verify.store', app()->getLocale()) }}">
                 @csrf
                 <p class="text-muted">
