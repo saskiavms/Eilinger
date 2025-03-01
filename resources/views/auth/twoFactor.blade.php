@@ -5,7 +5,13 @@
                 {{ __('regLog.2FA') }}
             </x-heading.decorative>
 
-            <form method="POST" action="{{ route('verify.store', app()->getLocale()) }}" novalidate>
+            @inject('log', 'Illuminate\Support\Facades\Log')
+            {{ $log::debug('Two Factor View Loaded', [
+                'url' => request()->url(),
+                'session' => session()->all()
+            ]) }}
+
+            <form method="POST" action="{{ route('verify.store', app()->getLocale()) }}">
                 @csrf
                 <p class="text-muted">
                     {{ __('regLog.2FANote') }}
@@ -37,4 +43,26 @@
             </form>
         </div>
     </section>
+
+    @push('scripts')
+    <script>
+        // Check if browser is online and session storage is available
+        window.addEventListener('online', function() {
+            fetch('{{ route("verify.index", app()->getLocale()) }}', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            }).catch(function(error) {
+                window.location.href = '{{ route("login", app()->getLocale()) }}';
+            });
+        });
+
+        // Listen for storage changes
+        window.addEventListener('storage', function(e) {
+            if (!sessionStorage.length) {
+                window.location.href = '{{ route("login", app()->getLocale()) }}';
+            }
+        });
+    </script>
+    @endpush
 </x-layout.eilinger>

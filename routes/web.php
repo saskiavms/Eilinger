@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\UploadEnclosure;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,11 +31,22 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => '{locale}', 'middleware' => 'setLocale'], function () {
+    Route::get('debug/routes', function () {
+        Log::debug('Available routes', [
+            'routes' => Route::getRoutes()->getRoutesByName()
+        ]);
+        return 'Routes dumped to log';
+    });
+
     Route::view('/', 'home.index')->name('index');
     Route::view('impressum', 'home.impressum')->name('impressum');
     Route::view('datenschutz', 'home.datenschutz')->name('datenschutz');
-    Route::get('verify/resend', [TwoFactorController::class, 'resend'])->name('verify.resend');
-    Route::resource('verify', TwoFactorController::class)->only(['index', 'store']);
+
+    // Two Factor Routes with specific middleware
+    Route::group(['middleware' => ['web']], function () {
+        Route::get('verify/resend', [TwoFactorController::class, 'resend'])->name('verify.resend');
+        Route::resource('verify', TwoFactorController::class)->only(['index', 'store']);
+    });
 
     Route::middleware('guest')->group(function () {
         Route::get('register-inst', App\Livewire\Auth\RegisterInst::class)->name('registerInst');
@@ -62,12 +74,12 @@ Route::group(['prefix' => '{locale}', 'middleware' => 'setLocale'], function () 
         Route::get('admin/antrag/{application_id}', App\Livewire\Admin\Antrag::class)->name('admin_antrag');
         Route::get('admin/applications', App\Livewire\Admin\Applications::class)->name('admin_applications');
         Route::get('admin/projects', App\Livewire\Admin\Projects::class)->name('admin_projects');
-		Route::get('admin/blocked', App\Livewire\Admin\Blocked::class)->name('admin_blocked');
-		Route::get('admin/notsend', App\Livewire\Admin\NotSend::class)->name('admin_notsend');
+        Route::get('admin/blocked', App\Livewire\Admin\Blocked::class)->name('admin_blocked');
+        Route::get('admin/notsend', App\Livewire\Admin\NotSend::class)->name('admin_notsend');
         Route::get('admin/settings', App\Livewire\Admin\Settings::class)->name('admin_settings');
         Route::get('admin/profile', [ProfileController::class, 'edit'])->name('admin_profile.edit');
         Route::patch('admin/profile', [ProfileController::class, 'update'])->name('admin_profile.update');
-		Route::get('admin/foundation-settings', App\Livewire\Admin\FoundationSettings::class)->name('admin_foundation_settings');
+        Route::get('admin/foundation-settings', App\Livewire\Admin\FoundationSettings::class)->name('admin_foundation_settings');
     });
 
     Route::middleware('guest')->group(function () {

@@ -3,6 +3,9 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -41,10 +44,35 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (Throwable $e, $request) {
+            if ($e instanceof TokenMismatchException) {
+                Log::debug('Token mismatch exception caught', [
+                    'url' => $request->url(),
+                    'method' => $request->method(),
+                    'session' => session()->all(),
+                    'has_2fa' => session()->has('auth.2fa'),
+                    'is_verify_page' => $request->is('*/verify'),
+                    'exception' => get_class($e)
+                ]);
+
+                // Clear any remaining session data
+                session()->forget('auth.2fa');
+                Auth::logout();
+
+                if ($request->is('*/verify')) {
+                    return redirect()->route('login', app()->getLocale())
+                        ->withErrors(['email' => __('Your session has expired. Please login again.')]);
+                }
+
+                return redirect()->back()
+                    ->withErrors(['error' => __('The page expired. Please try again.')]);
+            }
         });
     }
 }

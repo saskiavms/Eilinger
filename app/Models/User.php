@@ -17,7 +17,9 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory;
+    use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -113,7 +115,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new VerifyEmail);
+        $this->notify(new VerifyEmail());
     }
 
     public function sendPasswordResetNotification($token)
@@ -121,17 +123,23 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new ResetPassword($token));
     }
 
-    public function generateTwoFactorCode(): void
+    /**
+     * Generate a new two factor code for the user
+     */
+    public function generateTwoFactorCode()
     {
-        $this->timestamps = false;
+        $this->timestamps = false;  // Prevent updated_at from being modified
         $this->two_factor_code = rand(100000, 999999);
         $this->two_factor_expires_at = now()->addMinutes(10);
         $this->save();
     }
 
-    public function resetTwoFactorCode(): void
+    /**
+     * Reset the two factor code
+     */
+    public function resetTwoFactorCode()
     {
-        $this->timestamps = false;
+        $this->timestamps = false;  // Prevent updated_at from being modified
         $this->two_factor_code = null;
         $this->two_factor_expires_at = null;
         $this->save();

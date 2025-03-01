@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -27,6 +28,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        Log::debug('Login attempt started', [
+            'email' => $request->email
+        ]);
+
         $request->authenticate();
 
         $request->session()->regenerate();
@@ -36,16 +41,18 @@ class AuthenticatedSessionController extends Controller
             'ip_address' => $request->getClientIp(),
         ]);
 
-        $request->user()->generateTwoFactorCode();
+        session(['auth.2fa' => true]);
 
+        Log::debug('2FA process started', [
+            'user_id' => auth()->user()->id,
+            'session' => session()->all(),
+            'has_2fa_session' => session()->has('auth.2fa')
+        ]);
+
+        $request->user()->generateTwoFactorCode();
         $request->user()->notify(new TwoFactorCode());
 
-        if (auth()->user()->is_admin) {
-            return redirect()->route('admin_dashboard', app()->getLocale())->with('success', 'Sie sind eingeloggt');
-        } else {
-            return redirect()->route('user_dashboard', app()->getLocale())->with('success', 'Sie sind eingeloggt');
-        }
-
+        return redirect()->route('verify.index', app()->getLocale());
     }
 
     /**
