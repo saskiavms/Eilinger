@@ -38,7 +38,7 @@ class ReqAmountForm extends Component
                 ->value('total_amount_financing') ?? 0;
         } else {
             $this->total_amount_financing = FinancingOrganisation::where('application_id', session()->get('appl_id'))
-                ->value('financing_amount') ?? 0;
+                ->sum('financing_amount') ?? 0;
         }
 
         // Get costs based on application form type

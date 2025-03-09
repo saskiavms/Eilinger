@@ -14,7 +14,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 {{ __('financing.personal_contribution') }} *
             </label>
-            <input wire:model.blur="personal_contribution" type="number"
+            <input wire:model.blur="personal_contribution" type="number" step="0.01"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
             @error('personal_contribution')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -26,7 +26,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 {{ __('financing.netto_income') }} *
             </label>
-            <input wire:model.blur="netto_income" type="number"
+            <input wire:model.blur="netto_income" type="number" step="0.01"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
             @error('netto_income')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -38,7 +38,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 {{ __('financing.assets') }} *
             </label>
-            <input wire:model.blur="assets" type="number"
+            <input wire:model.blur="assets" type="number" step="0.01"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
             @error('assets')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -50,7 +50,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 {{ __('financing.scholarship') }} *
             </label>
-            <input wire:model.blur="scholarship" type="number"
+            <input wire:model.blur="scholarship" type="number" step="0.01"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
             @error('scholarship')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -68,7 +68,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">
                     {{ __('financing.other_income') }}
                 </label>
-                <input wire:model.blur="other_income" type="number"
+                <input wire:model.blur="other_income" type="number" step="0.01"
                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
                 @error('other_income')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

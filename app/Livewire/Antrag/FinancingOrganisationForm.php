@@ -9,10 +9,10 @@ use Livewire\Component;
 
 class FinancingOrganisationForm extends Component
 {
-    public $financings;
+    public array $financings = [];
     public $currency_id;
     public $myCurrency;
-    public $total_amount = 0;
+    public float $total_amount = 0;
 
     protected function rules(): array
     {
@@ -35,8 +35,14 @@ class FinancingOrganisationForm extends Component
         $existingFinancings = FinancingOrganisation::where('application_id', session()->get('appl_id'))->get();
 
         $this->financings = $existingFinancings->isEmpty()
-            ? [['financing_name' => '', 'financing_amount' => 0]]
-            : $existingFinancings->toArray();
+            ? [['financing_name' => '', 'financing_amount' => 0.00]]
+            : $existingFinancings->map(function ($financing) {
+                return [
+                    'id' => $financing->id,
+                    'financing_name' => $financing->financing_name,
+                    'financing_amount' => floatval($financing->financing_amount)
+                ];
+            })->toArray();
 
         $application = Application::find(session()->get('appl_id'));
         $this->currency_id = $application->currency_id;
@@ -47,14 +53,16 @@ class FinancingOrganisationForm extends Component
 
     public function calculateTotal(): void
     {
-        $this->total_amount = collect($this->financings)->sum('financing_amount');
+        $this->total_amount = collect($this->financings)->sum(function ($financing) {
+            return floatval($financing['financing_amount'] ?? 0);
+        });
     }
 
     public function addFinancing(): void
     {
         $this->financings[] = [
             'financing_name' => '',
-            'financing_amount' => 0
+            'financing_amount' => 0.00
         ];
     }
 

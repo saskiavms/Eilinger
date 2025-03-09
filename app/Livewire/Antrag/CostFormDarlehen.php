@@ -10,10 +10,10 @@ use Livewire\Component;
 
 class CostFormDarlehen extends Component
 {
-    public $costs;
+    public array $costs = [];
     public $currency_id;
     public $myCurrency;
-    public $total_amount = 0;
+    public float $total_amount = 0;
 
     protected function rules(): array
     {
@@ -36,8 +36,14 @@ class CostFormDarlehen extends Component
         $existingCosts = CostDarlehen::where('application_id', session()->get('appl_id'))->get();
 
         $this->costs = $existingCosts->isEmpty()
-            ? [['cost_name' => '', 'cost_amount' => 0]]
-            : $existingCosts->toArray();
+            ? [['cost_name' => '', 'cost_amount' => 0.00]]
+            : $existingCosts->map(function ($cost) {
+                return [
+                    'id' => $cost->id,
+                    'cost_name' => $cost->cost_name,
+                    'cost_amount' => floatval($cost->cost_amount)
+                ];
+            })->toArray();
 
         $application = Application::find(session()->get('appl_id'));
         $this->currency_id = $application->currency_id;
@@ -48,14 +54,16 @@ class CostFormDarlehen extends Component
 
     public function calculateTotal(): void
     {
-        $this->total_amount = collect($this->costs)->sum('cost_amount');
+        $this->total_amount = collect($this->costs)->sum(function ($cost) {
+            return floatval($cost['cost_amount'] ?? 0);
+        });
     }
 
     public function addCost(): void
     {
         $this->costs[] = [
             'cost_name' => '',
-            'cost_amount' => 0
+            'cost_amount' => 0.00
         ];
     }
 

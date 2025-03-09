@@ -27,7 +27,8 @@
                     {{ __('financing.financing_amount') }}
                 </label>
                 <div class="flex items-center">
-                    <input type="number" step="0.01"
+                    <input type="number"
+                        step="0.01"
                         wire:model.blur="financings.{{ $index }}.financing_amount"
                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
 
