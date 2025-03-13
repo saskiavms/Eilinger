@@ -97,6 +97,14 @@
                             <span x-show="sidebarOpen">Stiftung</span>
                         </a>
 
+						<a href="{{ route('admin_reports', app()->getLocale()) }}"
+                            class="flex items-center text-white hover:bg-primary-600"
+                            :class="sidebarOpen ? 'px-6' : 'justify-center px-3'"
+                            :title="!sidebarOpen ? 'Stiftung' : ''">
+                            <i class="bi bi-clipboard-data text-xl" :class="sidebarOpen ? 'mr-3' : ''"></i>
+                            <span x-show="sidebarOpen">Report Generator</span>
+                        </a>
+
                         <a href="{{ route('admin_settings', app()->getLocale()) }}"
                             class="flex items-center text-white hover:bg-primary-600"
                             :class="sidebarOpen ? 'px-6' : 'justify-center px-3'"

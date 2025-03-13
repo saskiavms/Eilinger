@@ -13,7 +13,9 @@ use Illuminate\Notifications\Notifiable;
 
 class Application extends Model
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory;
+    use Notifiable;
+    use SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -76,7 +78,38 @@ class Application extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function enclosures() {
+    public function enclosures()
+    {
         return $this->hasMany(Enclosure::class, 'application_id');
+    }
+
+    public function education()
+    {
+        return $this->hasOne(Education::class, 'application_id');
+    }
+
+    public function account()
+    {
+        return $this->hasOne(Account::class, 'application_id');
+    }
+
+    public function cost()
+    {
+        return $this->hasOne(Cost::class, 'application_id');
+    }
+
+    public function costDarlehen()
+    {
+        return $this->hasMany(CostDarlehen::class, 'application_id');
+    }
+
+    public function financing()
+    {
+        return $this->hasOne(Financing::class, 'application_id');
+    }
+
+    public function financingOrganisation()
+    {
+        return $this->hasMany(FinancingOrganisation::class, 'application_id');
     }
 }
