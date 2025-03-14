@@ -189,14 +189,29 @@ class ReportGenerator extends Component
             return;
         }
 
-        // Clear the download URL before sending the response
-        // This will make the button disappear after download
+        // Clear the download URL and session before streaming
         $this->downloadUrl = null;
-
-        // Clear the session data
+        $filePath = $fileInfo['path'];
+        $fileName = $fileInfo['name'];
         session()->forget('report_file');
 
-        return response()->download($fileInfo['path'], $fileInfo['name'])->deleteFileAfterSend(true);
+        // Stream the file with minimal memory usage
+        return response()->stream(
+            function () use ($filePath) {
+                $stream = fopen($filePath, 'rb');
+                while (!feof($stream)) {
+                    echo fread($stream, 8192); // Stream in 8KB chunks
+                    flush();
+                }
+                fclose($stream);
+                unlink($filePath); // Delete the file after streaming
+            },
+            200,
+            [
+                'Content-Type' => 'application/zip',
+                'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+            ]
+        );
     }
 
     public function placeholder()
