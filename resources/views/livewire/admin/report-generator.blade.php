@@ -16,10 +16,16 @@
 					@endforeach
 				</select>
 
-				<button wire:click="generateReports" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors">
+				<button wire:click="generateReports" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors" @if($isGenerating) disabled @endif>
 					<span wire:loading.remove wire:target="generateReports">Generiere Report</span>
 					<span wire:loading wire:target="generateReports">Generating...</span>
 				</button>
+
+				@if($downloadUrl)
+					<button wire:click="downloadReport" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+						Download Reports
+					</button>
+				@endif
 			</div>
 			<table class="min-w-full divide-y divide-gray-200">
 				<thead class="bg-gray-50">

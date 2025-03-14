@@ -10,7 +10,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 use ZipArchive;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Str;
 
 class ReportGenerator extends Component
 {
@@ -20,6 +20,7 @@ class ReportGenerator extends Component
 
     public $selectedYear;
     public $isGenerating = false;
+    public $downloadUrl = null;
 
     #[Layout('components.layout.admin-dashboard', ['header' => 'Report Generator'])]
     public function render()
@@ -52,6 +53,27 @@ class ReportGenerator extends Component
             Log::info('Starting report generation process');
             $this->isGenerating = true;
 
+            $uniqueId = Str::random(16);
+            $zipFileName = 'reports_' . ($this->selectedYear ?? 'all') . '_' . $uniqueId . '.zip';
+
+            // Create directory in storage/app/public/reports
+            $storagePath = storage_path('app/public/reports');
+            if (!file_exists($storagePath)) {
+                mkdir($storagePath, 0755, true);
+                Log::info('Created storage directory at: ' . $storagePath);
+            }
+
+            // Full path for the ZIP file
+            $fullZipPath = $storagePath . '/' . $zipFileName;
+            Log::info('Will create ZIP file at: ' . $fullZipPath);
+
+            // Create ZIP file
+            $zip = new ZipArchive();
+            if (($zipError = $zip->open($fullZipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE)) !== true) {
+                Log::error('Failed to create ZIP file. Error code: ' . $zipError);
+                throw new \Exception('Could not create ZIP file');
+            }
+
             $applications = Application::query()
                 ->where('appl_status', 'approved')
                 ->when($this->selectedYear, function ($query) {
@@ -70,19 +92,6 @@ class ReportGenerator extends Component
                 ->get();
 
             Log::info('Found ' . $applications->count() . ' applications to process');
-
-            $zipFileName = 'reports_' . ($this->selectedYear ?? 'all') . '.zip';
-            $zipPath = storage_path('app/public/reports/' . $zipFileName);
-
-            // Ensure the reports directory exists
-            Storage::makeDirectory('public/reports');
-
-            // Create ZIP file
-            $zip = new ZipArchive();
-            if (($zipError = $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE)) !== true) {
-                Log::error('Failed to create ZIP file. Error code: ' . $zipError);
-                throw new \Exception('Could not create ZIP file');
-            }
 
             // Process each application
             foreach ($applications as $application) {
@@ -108,8 +117,8 @@ class ReportGenerator extends Component
                 $pdfContent = $pdf->output();
                 $pdfFileName = "application_{$application->id}.pdf";
                 $zip->addFromString($pdfFileName, $pdfContent);
-                unset($pdfContent); // Free memory
-                unset($pdf); // Free memory
+                unset($pdfContent);
+                unset($pdf);
 
                 // Process enclosures
                 if ($application->enclosures && $application->enclosures->count() > 0) {
@@ -122,12 +131,10 @@ class ReportGenerator extends Component
 
                             if ($path && Storage::disk('s3')->exists($path)) {
                                 try {
-                                    // Get file contents from S3
                                     $contents = Storage::disk('s3')->get($path);
                                     if ($contents) {
-                                        // Add file contents directly to ZIP
                                         $zip->addFromString("documents/{$application->id}/" . basename($path), $contents);
-                                        unset($contents); // Free memory
+                                        unset($contents);
                                     }
                                 } catch (\Exception $e) {
                                     Log::error("Failed to add file to ZIP: {$path} - Error: " . $e->getMessage());
@@ -137,34 +144,59 @@ class ReportGenerator extends Component
                     }
                 }
 
-                // Clear some memory after each application
                 gc_collect_cycles();
             }
 
             $zip->close();
             Log::info('ZIP file created successfully');
 
-            // Stream the download response
-            return new StreamedResponse(function () use ($zipPath) {
-                if (file_exists($zipPath)) {
-                    $stream = fopen($zipPath, 'rb');
-                    while (!feof($stream)) {
-                        echo fread($stream, 8192);
-                        flush();
-                    }
-                    fclose($stream);
-                    unlink($zipPath); // Delete the file after streaming
-                }
-            }, 200, [
-                'Content-Type' => 'application/zip',
-                'Content-Disposition' => 'attachment; filename="' . basename($zipPath) . '"',
-            ]);
+            // Verify file exists and log details
+            if (!file_exists($fullZipPath)) {
+                Log::error('ZIP file not found after creation at: ' . $fullZipPath);
+                throw new \Exception('ZIP file not found after creation');
+            }
+
+            Log::info('ZIP file exists at: ' . $fullZipPath);
+            Log::info('ZIP file size: ' . filesize($fullZipPath) . ' bytes');
+
+            // Store file information in the session
+            session(['report_file' => [
+                'path' => $fullZipPath,
+                'name' => $zipFileName,
+                'created_at' => now(),
+            ]]);
+
+            // Set the download URL - this points to public/storage/reports/filename.zip
+            $this->downloadUrl = url('storage/reports/' . $zipFileName);
+            Log::info('Download URL set to: ' . $this->downloadUrl);
+
+            $this->isGenerating = false;
 
         } catch (\Exception $e) {
             Log::error('Fatal error in report generation: ' . $e->getMessage());
             $this->isGenerating = false;
             throw $e;
         }
+    }
+
+    public function downloadReport()
+    {
+        $fileInfo = session('report_file');
+
+        if (!$fileInfo || !file_exists($fileInfo['path'])) {
+            Log::error('Report file not found for download');
+            $this->addError('download', 'Report file not found. Please generate the report again.');
+            return;
+        }
+
+        // Clear the download URL before sending the response
+        // This will make the button disappear after download
+        $this->downloadUrl = null;
+
+        // Clear the session data
+        session()->forget('report_file');
+
+        return response()->download($fileInfo['path'], $fileInfo['name'])->deleteFileAfterSend(true);
     }
 
     public function placeholder()
