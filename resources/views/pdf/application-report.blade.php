@@ -47,20 +47,86 @@
     <p>Generated on: {{ now()->format('Y-m-d H:i:s') }}</p>
 
     <div class="section">
-        <div class="section-title">Personal Information</div>
+        <div class="section-title">Persönliche Informationen</div>
         <div class="field">
-            <span class="field-label">Name:</span> {{ $user->name }}
+            <span class="field-label">Name:</span> {{ $user->lastname }}, {{ $user->firstname }}
         </div>
         <div class="field">
             <span class="field-label">Email:</span> {{ $user->email }}
         </div>
-        <div class="field">
-            <span class="field-label">Application Status:</span> {{ $application->appl_status }}
+		<div class="field">
+            <span class="field-label">Projektname:</span> {{ $application->name }}
         </div>
         <div class="field">
-            <span class="field-label">Created At:</span> {{ $application->created_at->format('Y-m-d') }}
+            <span class="field-label">Projektstatus:</span> {{ $application->appl_status }}
+        </div>
+        <div class="field">
+            <span class="field-label">Erstellt am:</span> {{ $application->created_at->format('Y-m-d') }}
         </div>
     </div>
+
+    @if($address)
+    <div class="section">
+        <div class="section-title">Hauptadresse</div>
+        <div class="field">
+            <span class="field-label">Strasse:</span> {{ $address->street }}
+        </div>
+        <div class="field">
+            <span class="field-label">Hausnummer:</span> {{ $address->number }}
+        </div>
+        <div class="field">
+            <span class="field-label">PLZ:</span> {{ $address->plz }}
+        </div>
+        <div class="field">
+            <span class="field-label">Stadt:</span> {{ $address->town }}
+        </div>
+        <div class="field">
+            <span class="field-label">Land:</span> {{ $address->country->name }}
+        </div>
+    </div>
+    @endif
+
+    @if($abweichendeAddress)
+    <div class="section">
+        <div class="section-title">Wochenaufenthalt</div>
+        <div class="field">
+            <span class="field-label">Strasse:</span> {{ $address->street }}
+        </div>
+        <div class="field">
+            <span class="field-label">Hausnummer:</span> {{ $address->number }}
+        </div>
+        <div class="field">
+            <span class="field-label">PLZ:</span> {{ $address->plz }}
+        </div>
+        <div class="field">
+            <span class="field-label">Stadt:</span> {{ $address->town }}
+        </div>
+        <div class="field">
+            <span class="field-label">Land:</span> {{ $address->country->name }}
+        </div>
+    </div>
+    @endif
+
+    @if($aboardAddress)
+    <div class="section">
+        <div class="section-title">Adresse im Ausland</div>
+        <div class="field">
+            <span class="field-label">Strasse:</span> {{ $address->street }}
+        </div>
+        <div class="field">
+            <span class="field-label">Hausnummer:</span> {{ $address->number }}
+        </div>
+        <div class="field">
+            <span class="field-label">PLZ:</span> {{ $address->plz }}
+        </div>
+        <div class="field">
+            <span class="field-label">Stadt:</span> {{ $address->town }}
+        </div>
+        <div class="field">
+            <span class="field-label">Land:</span> {{ $address->country->name }}
+        </div>
+    </div>
+    @endif
 
     @if($education)
     <div class="section">

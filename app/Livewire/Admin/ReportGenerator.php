@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Application;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -46,68 +47,144 @@ class ReportGenerator extends Component
 
     public function generateReports()
     {
-        $this->isGenerating = true;
+        try {
+            Log::info('Starting report generation process');
+            $this->isGenerating = true;
 
-        $applications = Application::query()
-            ->where('appl_status', 'approved')
-            ->when($this->selectedYear, function ($query) {
-                return $query->whereYear('created_at', $this->selectedYear);
-            })
-            ->with([
-                'user',
-                'education',
-                'account',
-                'enclosures',
-                'cost',
-                'costDarlehen',
-                'financing',
-                'financingOrganisation'
-            ])
-            ->get();
+            $applications = Application::query()
+                ->where('appl_status', 'approved')
+                ->when($this->selectedYear, function ($query) {
+                    return $query->whereYear('created_at', $this->selectedYear);
+                })
+                ->with([
+                    'user',
+                    'education',
+                    'account',
+                    'enclosures',
+                    'cost',
+                    'costDarlehen',
+                    'financing',
+                    'financingOrganisation'
+                ])
+                ->get();
 
-        $zipFileName = 'reports_' . ($this->selectedYear ?? 'all') . '.zip';
-        $zipPath = storage_path('app/public/reports/' . $zipFileName);
+            Log::info('Found ' . $applications->count() . ' applications to process');
 
-        // Ensure the reports directory exists
-        Storage::makeDirectory('public/reports');
+            $zipFileName = 'reports_' . ($this->selectedYear ?? 'all') . '.zip';
+            $zipPath = storage_path('app/public/reports/' . $zipFileName);
 
-        $zip = new ZipArchive();
-        $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+            // Ensure the reports directory exists
+            Storage::makeDirectory('public/reports');
+            Log::info('Created reports directory at: ' . $zipPath);
 
-        foreach ($applications as $application) {
-            $pdf = PDF::loadView('pdf.application-report', [
-                'application' => $application,
-                'user' => $application->user,
-                'education' => $application->education,
-                'account' => $application->account,
-                'enclosure' => $application->enclosure,
-                'cost' => $application->cost,
-                'costDarlehen' => $application->costDarlehen,
-                'financing' => $application->financing,
-                'financingOrganisation' => $application->financingOrganisation,
-            ]);
+            $zip = new ZipArchive();
+            if (($zipError = $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE)) !== true) {
+                Log::error('Failed to create ZIP file. Error code: ' . $zipError);
+                throw new \Exception('Could not create ZIP file');
+            }
 
-            // Generate PDF for the application data
-            $pdfContent = $pdf->output();
-            $pdfFileName = "application_{$application->id}.pdf";
-            $zip->addFromString($pdfFileName, $pdfContent);
+            $tempFiles = [];
 
-            // Add enclosure documents if they exist
-            if ($application->enclosure) {
-                foreach (['cv', 'motivation_letter', 'diplomas', 'language_certificates', 'acceptance_letter', 'registration_confirmation', 'budget_plan', 'transcript_records'] as $documentType) {
-                    $path = $application->enclosure->$documentType;
-                    if ($path && Storage::exists('public/' . $path)) {
-                        $zip->addFile(storage_path('app/public/' . $path), "documents/{$application->id}/" . basename($path));
+            foreach ($applications as $application) {
+                Log::info('Processing application ID: ' . $application->id);
+
+                $pdf = PDF::loadView('pdf.application-report', [
+                    'application' => $application,
+                    'user' => $application->user,
+                    'education' => $application->education,
+                    'account' => $application->account,
+                    'enclosure' => $application->enclosure,
+                    'cost' => $application->cost,
+                    'costDarlehen' => $application->costDarlehen,
+                    'financing' => $application->financing,
+                    'financingOrganisation' => $application->financingOrganisation,
+                    'address' => $application->user->address()->where('is_wochenaufenthalt', 0)->where('is_aboard', 0)->first(),
+                    'abweichendeAddress' => $application->user->address()->where('is_wochenaufenthalt', 1)->first(),
+                    'aboardAddress' => $application->user->address()->where('is_aboard', 1)->first(),
+                ]);
+
+                // Generate PDF for the application data
+                $pdfContent = $pdf->output();
+                $pdfFileName = "application_{$application->id}.pdf";
+                $zip->addFromString($pdfFileName, $pdfContent);
+                Log::info('Added PDF for application: ' . $pdfFileName);
+
+                // Add enclosure documents if they exist
+                if ($application->enclosures && $application->enclosures->count() > 0) {
+                    Log::info('Processing enclosures for application: ' . $application->id);
+
+                    foreach ($application->enclosures as $enclosure) {
+                        foreach (['cv', 'apprenticeship_contract', 'diploma', 'divorce', 'rental_contract',
+                        'certificate_of_study', 'tax_assessment', 'expense_receipts','partner_tax_assessment',
+                        'supplementary_services', 'ects_points', 'parents_tax_factors', 'activity', 'activity_report',
+                         'balance_sheet', 'cost_receipts', 'open_invoice', 'commercial_register_extract', 'statute' ] as $documentType) {
+                            $path = $enclosure->$documentType;
+
+                            if ($path) {
+                                Log::info("Processing document type: {$documentType}, path: {$path}");
+
+                                try {
+                                    // Check if file exists in S3
+                                    if (!Storage::disk('s3')->exists($path)) {
+                                        Log::error("File does not exist in S3: {$path}");
+                                        continue;
+                                    }
+
+                                    // Create a temporary file
+                                    $tempFile = tempnam(sys_get_temp_dir(), 'report_');
+                                    Log::info("Created temp file: {$tempFile}");
+
+                                    // Get file contents directly using Storage facade
+                                    $contents = Storage::disk('s3')->get($path);
+
+                                    if ($contents) {
+                                        // Save to temporary file
+                                        file_put_contents($tempFile, $contents);
+
+                                        // Add to ZIP using the original filename
+                                        $zip->addFile($tempFile, "documents/{$application->id}/" . basename($path));
+
+                                        // Track temporary files for cleanup
+                                        $tempFiles[] = $tempFile;
+
+                                        Log::info("Successfully added file to ZIP: " . basename($path));
+                                    } else {
+                                        Log::error("Failed to get file contents from S3: " . $path);
+                                    }
+                                } catch (\Exception $e) {
+                                    Log::error("Failed to add file to ZIP: {$path} - Error: " . $e->getMessage());
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    Log::info('No enclosures found for application: ' . $application->id);
+                }
+            }
+
+            $zip->close();
+            Log::info('ZIP file closed successfully');
+
+            // Clean up all temporary files
+            if (!empty($tempFiles)) {
+                foreach ($tempFiles as $tempFile) {
+                    if (file_exists($tempFile)) {
+                        unlink($tempFile);
+                        Log::info('Cleaned up temp file: ' . $tempFile);
                     }
                 }
             }
+
+            $this->isGenerating = false;
+            Log::info('Report generation completed successfully');
+
+            return response()->download($zipPath)->deleteFileAfterSend();
+        } catch (\Exception $e) {
+            Log::error('Fatal error in report generation: ' . $e->getMessage());
+            $this->isGenerating = false;
+            throw $e;
         }
-
-        $zip->close();
-
-        $this->isGenerating = false;
-
-        return response()->download($zipPath)->deleteFileAfterSend();
     }
 
     public function placeholder()
