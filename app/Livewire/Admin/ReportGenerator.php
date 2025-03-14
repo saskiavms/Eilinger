@@ -10,6 +10,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 use ZipArchive;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportGenerator extends Component
 {
@@ -75,19 +76,19 @@ class ReportGenerator extends Component
 
             // Ensure the reports directory exists
             Storage::makeDirectory('public/reports');
-            Log::info('Created reports directory at: ' . $zipPath);
 
+            // Create ZIP file
             $zip = new ZipArchive();
             if (($zipError = $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE)) !== true) {
                 Log::error('Failed to create ZIP file. Error code: ' . $zipError);
                 throw new \Exception('Could not create ZIP file');
             }
 
-            $tempFiles = [];
-
+            // Process each application
             foreach ($applications as $application) {
                 Log::info('Processing application ID: ' . $application->id);
 
+                // Generate PDF with lower memory usage
                 $pdf = PDF::loadView('pdf.application-report', [
                     'application' => $application,
                     'user' => $application->user,
@@ -101,18 +102,17 @@ class ReportGenerator extends Component
                     'address' => $application->user->address()->where('is_wochenaufenthalt', 0)->where('is_aboard', 0)->first(),
                     'abweichendeAddress' => $application->user->address()->where('is_wochenaufenthalt', 1)->first(),
                     'aboardAddress' => $application->user->address()->where('is_aboard', 1)->first(),
-                ]);
+                ])->setPaper('a4');
 
-                // Generate PDF for the application data
+                // Add PDF to ZIP
                 $pdfContent = $pdf->output();
                 $pdfFileName = "application_{$application->id}.pdf";
                 $zip->addFromString($pdfFileName, $pdfContent);
-                Log::info('Added PDF for application: ' . $pdfFileName);
+                unset($pdfContent); // Free memory
+                unset($pdf); // Free memory
 
-                // Add enclosure documents if they exist
+                // Process enclosures
                 if ($application->enclosures && $application->enclosures->count() > 0) {
-                    Log::info('Processing enclosures for application: ' . $application->id);
-
                     foreach ($application->enclosures as $enclosure) {
                         foreach (['cv', 'apprenticeship_contract', 'diploma', 'divorce', 'rental_contract',
                         'certificate_of_study', 'tax_assessment', 'expense_receipts','partner_tax_assessment',
@@ -120,66 +120,46 @@ class ReportGenerator extends Component
                          'balance_sheet', 'cost_receipts', 'open_invoice', 'commercial_register_extract', 'statute' ] as $documentType) {
                             $path = $enclosure->$documentType;
 
-                            if ($path) {
-                                Log::info("Processing document type: {$documentType}, path: {$path}");
-
+                            if ($path && Storage::disk('s3')->exists($path)) {
                                 try {
-                                    // Check if file exists in S3
-                                    if (!Storage::disk('s3')->exists($path)) {
-                                        Log::error("File does not exist in S3: {$path}");
-                                        continue;
-                                    }
-
-                                    // Create a temporary file
-                                    $tempFile = tempnam(sys_get_temp_dir(), 'report_');
-                                    Log::info("Created temp file: {$tempFile}");
-
-                                    // Get file contents directly using Storage facade
+                                    // Get file contents from S3
                                     $contents = Storage::disk('s3')->get($path);
-
                                     if ($contents) {
-                                        // Save to temporary file
-                                        file_put_contents($tempFile, $contents);
-
-                                        // Add to ZIP using the original filename
-                                        $zip->addFile($tempFile, "documents/{$application->id}/" . basename($path));
-
-                                        // Track temporary files for cleanup
-                                        $tempFiles[] = $tempFile;
-
-                                        Log::info("Successfully added file to ZIP: " . basename($path));
-                                    } else {
-                                        Log::error("Failed to get file contents from S3: " . $path);
+                                        // Add file contents directly to ZIP
+                                        $zip->addFromString("documents/{$application->id}/" . basename($path), $contents);
+                                        unset($contents); // Free memory
                                     }
                                 } catch (\Exception $e) {
                                     Log::error("Failed to add file to ZIP: {$path} - Error: " . $e->getMessage());
-                                    continue;
                                 }
                             }
                         }
                     }
-                } else {
-                    Log::info('No enclosures found for application: ' . $application->id);
                 }
+
+                // Clear some memory after each application
+                gc_collect_cycles();
             }
 
             $zip->close();
-            Log::info('ZIP file closed successfully');
+            Log::info('ZIP file created successfully');
 
-            // Clean up all temporary files
-            if (!empty($tempFiles)) {
-                foreach ($tempFiles as $tempFile) {
-                    if (file_exists($tempFile)) {
-                        unlink($tempFile);
-                        Log::info('Cleaned up temp file: ' . $tempFile);
+            // Stream the download response
+            return new StreamedResponse(function () use ($zipPath) {
+                if (file_exists($zipPath)) {
+                    $stream = fopen($zipPath, 'rb');
+                    while (!feof($stream)) {
+                        echo fread($stream, 8192);
+                        flush();
                     }
+                    fclose($stream);
+                    unlink($zipPath); // Delete the file after streaming
                 }
-            }
+            }, 200, [
+                'Content-Type' => 'application/zip',
+                'Content-Disposition' => 'attachment; filename="' . basename($zipPath) . '"',
+            ]);
 
-            $this->isGenerating = false;
-            Log::info('Report generation completed successfully');
-
-            return response()->download($zipPath)->deleteFileAfterSend();
         } catch (\Exception $e) {
             Log::error('Fatal error in report generation: ' . $e->getMessage());
             $this->isGenerating = false;
