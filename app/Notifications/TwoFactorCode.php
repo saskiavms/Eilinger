@@ -14,6 +14,27 @@ class TwoFactorCode extends Notification implements ShouldQueue
     use Queueable;
 
     /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 120;
+
+    /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 3;
+
+    /**
+     * The number of seconds to wait before retrying the job.
+     *
+     * @var int
+     */
+    public $backoff = 10;
+
+    /**
      * Create a new notification instance.
      */
     public function __construct()
@@ -40,7 +61,14 @@ class TwoFactorCode extends Notification implements ShouldQueue
         Log::info('TwoFactorCode toMail method called', [
             'user_id' => $notifiable->id,
             'code' => $notifiable->two_factor_code,
-            'locale' => app()->getLocale()
+            'locale' => app()->getLocale(),
+            'mail_config' => [
+                'driver' => config('mail.default'),
+                'host' => config('mail.mailers.smtp.host'),
+                'port' => config('mail.mailers.smtp.port'),
+                'from_address' => config('mail.from.address'),
+                'encryption' => config('mail.mailers.smtp.encryption')
+            ]
         ]);
 
         try {
@@ -52,7 +80,11 @@ class TwoFactorCode extends Notification implements ShouldQueue
                 ->line(__('notify.two_factor_line2'))
                 ->line(__('notify.two_factor_line3'));
 
-            Log::info('TwoFactorCode email message built successfully');
+            Log::info('TwoFactorCode email message built successfully', [
+                'to' => $notifiable->email,
+                'subject' => __('notify.two_factor')
+            ]);
+
             return $message;
         } catch (\Exception $e) {
             Log::error('Error building 2FA email', [
