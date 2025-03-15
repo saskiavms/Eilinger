@@ -85,15 +85,29 @@ class TwoFactorController extends Controller
     {
         /** @var User $user */
         $user = auth()->user();
+        Log::info('2FA resend requested for user', ['user_id' => $user?->id, 'email' => $user?->email]);
 
         if (!$user) {
+            Log::error('2FA resend failed: No authenticated user');
             return redirect()->route('login', app()->getLocale())
                 ->withErrors(['email' =>  __('userNotification.sessionExpired')]);
         }
 
-        $user->generateTwoFactorCode();
-        $user->notify(new TwoFactorCode());
+        try {
+            $user->generateTwoFactorCode();
+            Log::info('2FA code generated', ['user_id' => $user->id, 'code' => $user->two_factor_code]);
 
-        return redirect()->back()->withMessage('The two factor code has been sent again');
+            $user->notify(new TwoFactorCode());
+            Log::info('2FA notification sent', ['user_id' => $user->id]);
+
+            return redirect()->back()->withMessage('The two factor code has been sent again');
+        } catch (\Exception $e) {
+            Log::error('2FA notification failed', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
     }
 }
