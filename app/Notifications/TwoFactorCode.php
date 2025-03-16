@@ -88,4 +88,17 @@ class TwoFactorCode extends Notification
             //
         ];
     }
+
+    /**
+     * Handle a notification failure.
+     */
+    public function failed(\Exception $e, $notifiable)
+    {
+        Log::error('Email notification failed', [
+            'error' => $e->getMessage(),
+            'recipient' => $notifiable->email,
+            'bounce_type' => $e->getCode(),
+            'user_id' => $notifiable->id
+        ]);
+    }
 }
