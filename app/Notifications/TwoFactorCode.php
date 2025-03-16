@@ -18,7 +18,7 @@ class TwoFactorCode extends Notification implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        Log::info('TwoFactorCode notification instantiated');
     }
 
     /**
@@ -28,6 +28,7 @@ class TwoFactorCode extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
+        Log::info('TwoFactorCode via method called', ['user_id' => $notifiable->id]);
         return ['mail'];
     }
 
@@ -36,6 +37,16 @@ class TwoFactorCode extends Notification implements ShouldQueue
      */
     public function toMail(User $notifiable): MailMessage
     {
+        Log::info('TwoFactorCode toMail method called', [
+            'user_id' => $notifiable->id,
+            'code' => $notifiable->two_factor_code,
+            'locale' => app()->getLocale()
+        ]);
+
+        if (empty($notifiable->two_factor_code)) {
+            Log::error('Two factor code is empty', ['user_id' => $notifiable->id]);
+        }
+
         return (new MailMessage())
             ->subject(__('notify.two_factor'))
             ->greeting(__('notify.greeting'))
