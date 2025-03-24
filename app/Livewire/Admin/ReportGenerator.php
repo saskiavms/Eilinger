@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Application;
+use App\Enums\ApplStatus;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -26,19 +27,26 @@ class ReportGenerator extends Component
     public function render()
     {
         $years = Application::query()
-            ->where('appl_status', 'approved')
-            ->selectRaw('YEAR(created_at) as year')
+            ->where('appl_status', ApplStatus::APPROVED->value)
+            ->whereNotNull('approval_appl')
+            ->selectRaw('YEAR(approval_appl) as year')
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year');
 
         $applications = Application::query()
-            ->where('appl_status', 'approved')
-            ->when($this->selectedYear, function ($query) {
-                return $query->whereYear('created_at', $this->selectedYear);
+            ->where('appl_status', ApplStatus::APPROVED->value)
+            ->when($this->selectedYear === 'no_date', function ($query) {
+                return $query->whereNull('approval_appl');
+            })
+            ->when($this->selectedYear && $this->selectedYear !== 'no_date', function ($query) {
+                return $query->whereYear('approval_appl', $this->selectedYear);
+            })
+            ->when(!$this->selectedYear, function ($query) {
+                return $query; // Show all approved applications if no year is selected
             })
             ->with(['user', 'education', 'account', 'enclosures', 'cost', 'costDarlehen', 'financing', 'financingOrganisation'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('approval_appl', 'desc')
             ->paginate(10);
 
         return view('livewire.admin.report-generator', [
@@ -75,9 +83,10 @@ class ReportGenerator extends Component
             }
 
             $applications = Application::query()
-                ->where('appl_status', 'approved')
+                ->where('appl_status', ApplStatus::APPROVED->value)
+                ->whereNotNull('approval_appl')
                 ->when($this->selectedYear, function ($query) {
-                    return $query->whereYear('created_at', $this->selectedYear);
+                    return $query->whereYear('approval_appl', $this->selectedYear);
                 })
                 ->with([
                     'user',
@@ -212,6 +221,98 @@ class ReportGenerator extends Component
                 'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
             ]
         );
+    }
+
+    public function generateReport($applicationId)
+    {
+        try {
+            Log::info('Starting report generation for application: ' . $applicationId);
+
+            $application = Application::query()
+                ->where('id', $applicationId)
+                ->where('appl_status', ApplStatus::APPROVED->value)
+                ->with([
+                    'user',
+                    'education',
+                    'account',
+                    'enclosures',
+                    'cost',
+                    'costDarlehen',
+                    'financing',
+                    'financingOrganisation'
+                ])
+                ->firstOrFail();
+
+            // Get the approval year for the filename, or use "no_date" if no approval date
+            $approvalYear = $application->approval_appl
+                ? $application->approval_appl->format('Y')
+                : 'no_date';
+
+            $zipFileName = "report_{$approvalYear}_application_{$application->id}.zip";
+            $tempPath = storage_path('app/livewire-tmp');
+            $fullZipPath = $tempPath . '/' . $zipFileName;
+
+            // Create ZIP file
+            $zip = new ZipArchive();
+            if (($zipError = $zip->open($fullZipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE)) !== true) {
+                Log::error('Failed to create ZIP file. Error code: ' . $zipError);
+                throw new \Exception('Could not create ZIP file');
+            }
+
+            // Generate PDF
+            $pdf = PDF::loadView('pdf.application-report', [
+                'application' => $application,
+                'user' => $application->user,
+                'education' => $application->education,
+                'account' => $application->account,
+                'enclosure' => $application->enclosure,
+                'cost' => $application->cost,
+                'costDarlehen' => $application->costDarlehen,
+                'financing' => $application->financing,
+                'financingOrganisation' => $application->financingOrganisation,
+                'address' => $application->user->address()->where('is_wochenaufenthalt', 0)->where('is_aboard', 0)->first(),
+                'abweichendeAddress' => $application->user->address()->where('is_wochenaufenthalt', 1)->first(),
+                'aboardAddress' => $application->user->address()->where('is_aboard', 1)->first(),
+            ])->setPaper('a4');
+
+            // Add PDF to ZIP
+            $zip->addFromString('application.pdf', $pdf->output());
+
+            // Process enclosures
+            if ($application->enclosures && $application->enclosures->count() > 0) {
+                foreach ($application->enclosures as $enclosure) {
+                    foreach ([
+                        'cv', 'apprenticeship_contract', 'diploma', 'divorce', 'rental_contract',
+                        'certificate_of_study', 'tax_assessment', 'expense_receipts', 'partner_tax_assessment',
+                        'supplementary_services', 'ects_points', 'parents_tax_factors', 'activity', 'activity_report',
+                        'balance_sheet', 'cost_receipts', 'open_invoice', 'commercial_register_extract', 'statute'
+                    ] as $documentType) {
+                        $path = $enclosure->$documentType;
+
+                        if ($path && Storage::disk('s3')->exists($path)) {
+                            try {
+                                $contents = Storage::disk('s3')->get($path);
+                                if ($contents) {
+                                    $zip->addFromString("documents/" . basename($path), $contents);
+                                }
+                            } catch (\Exception $e) {
+                                Log::error("Failed to add file to ZIP: {$path} - Error: " . $e->getMessage());
+                            }
+                        }
+                    }
+                }
+            }
+
+            $zip->close();
+
+            return response()->download($fullZipPath, $zipFileName, ['Content-Type' => 'application/zip'])
+                ->deleteFileAfterSend(true);
+
+        } catch (\Exception $e) {
+            Log::error('Error generating report: ' . $e->getMessage());
+            session()->flash('error', 'Fehler beim Generieren des Reports.');
+            return null;
+        }
     }
 
     public function placeholder()
