@@ -11,6 +11,9 @@
 			<div class="mb-4 flex items-center space-x-4">
 				<select wire:model.live="selectedYear" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
 					<option value="">Alle Jahre</option>
+					@if($hasNoDateApplications)
+						<option value="no_date">Kein Datum</option>
+					@endif
 					@foreach($years as $year)
 						<option value="{{ $year }}">{{ $year }}</option>
 					@endforeach

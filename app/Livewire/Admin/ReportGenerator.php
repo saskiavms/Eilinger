@@ -26,6 +26,13 @@ class ReportGenerator extends Component
     #[Layout('components.layout.admin-dashboard', ['header' => 'Report Generator'])]
     public function render()
     {
+        // First, check if we have any applications without approval date
+        $hasNoDateApplications = Application::query()
+            ->where('appl_status', ApplStatus::APPROVED->value)
+            ->whereNull('approval_appl')
+            ->exists();
+
+        // Get years from applications with approval dates
         $years = Application::query()
             ->where('appl_status', ApplStatus::APPROVED->value)
             ->whereNotNull('approval_appl')
@@ -42,16 +49,14 @@ class ReportGenerator extends Component
             ->when($this->selectedYear && $this->selectedYear !== 'no_date', function ($query) {
                 return $query->whereYear('approval_appl', $this->selectedYear);
             })
-            ->when(!$this->selectedYear, function ($query) {
-                return $query; // Show all approved applications if no year is selected
-            })
             ->with(['user', 'education', 'account', 'enclosures', 'cost', 'costDarlehen', 'financing', 'financingOrganisation'])
-            ->orderBy('approval_appl', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return view('livewire.admin.report-generator', [
             'applications' => $applications,
             'years' => $years,
+            'hasNoDateApplications' => $hasNoDateApplications,
         ]);
     }
 
