@@ -283,7 +283,7 @@
 			<span class="field-label">Reisespesen:</span> {{ $cost->travel_expenses }}
 		</div>
 		<div class="field">
-			<span class="field-label">Anzahl unterhaltsberechtigte Kinder:</span> {{ $cost->semester_fees }}
+			<span class="field-label">Anzahl unterhaltsberechtigte Kinder:</span> {{ $cost->number_of_children }}
 		</div>
 
 		<div class="section-title">Übrige Lebenshaltung</div>

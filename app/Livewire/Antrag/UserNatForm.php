@@ -55,7 +55,7 @@ class UserNatForm extends Component
 
         $this->firstname = $user->firstname;
         $this->lastname = $user->lastname;
-        $this->birthday = $user->birthday;
+        $this->birthday = $user->birthday ? $user->birthday->format('Y-m-d') : null;
         $this->salutation = $user->salutation;
         $this->nationality = $user->nationality;
         $this->civil_status = $user->civil_status;

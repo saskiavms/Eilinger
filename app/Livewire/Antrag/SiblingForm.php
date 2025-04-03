@@ -19,7 +19,7 @@ class SiblingForm extends Component
             'siblingsList.*.lastname' => 'required',
             'siblingsList.*.firstname' => 'required',
             'siblingsList.*.education' => 'nullable',
-            'siblingsList.*.graduation_year' => 'nullable|digits:min:1900|max:'.(date('Y') + 10),
+            'siblingsList.*.graduation_year' => 'nullable|digits:4|max:'.(date('Y') + 10),
             'siblingsList.*.place_of_residence' => 'nullable',
             'siblingsList.*.get_amount' => ['required', new Enum(GetAmount::class)],
             'siblingsList.*.support_site' => [
