@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sibling extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $connection = 'mysql';
 
@@ -33,6 +34,7 @@ class Sibling extends Model
 
     protected $casts = [
        'get_amount' => GetAmount::class,
+       'birthday' => 'date'
     ];
 
     public function user()

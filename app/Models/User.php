@@ -71,6 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birthday' => 'date',
         'granting' => Bewilligung::class,
         'civil_status' => CivilStatus::class,
         'salutation' => Salutation::class,
@@ -81,6 +82,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Address::class);
     }
+
+    public function parents()
+    {
+        return $this->hasMany(Parents::class);
+    }
+
 
     public function siblings()
     {

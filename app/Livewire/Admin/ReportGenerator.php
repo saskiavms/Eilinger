@@ -49,7 +49,18 @@ class ReportGenerator extends Component
             ->when($this->selectedYear && $this->selectedYear !== 'no_date', function ($query) {
                 return $query->whereYear('approval_appl', $this->selectedYear);
             })
-            ->with(['user', 'education', 'account', 'enclosures', 'cost', 'costDarlehen', 'financing', 'financingOrganisation'])
+            ->with([
+                'user.parents',
+                'user.siblings',
+                'user',
+                'education',
+                'account',
+                'enclosures',
+                'cost',
+                'costDarlehen',
+                'financing',
+                'financingOrganisation'
+            ])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -94,6 +105,8 @@ class ReportGenerator extends Component
                     return $query->whereYear('approval_appl', $this->selectedYear);
                 })
                 ->with([
+                    'user.parents',
+                    'user.siblings',
                     'user',
                     'education',
                     'account',
@@ -125,6 +138,8 @@ class ReportGenerator extends Component
                     'address' => $application->user->address()->where('is_wochenaufenthalt', 0)->where('is_aboard', 0)->first(),
                     'abweichendeAddress' => $application->user->address()->where('is_wochenaufenthalt', 1)->first(),
                     'aboardAddress' => $application->user->address()->where('is_aboard', 1)->first(),
+                    'parents' => $application->user->parents,
+                    'siblings' => $application->user->siblings,
                 ])->setPaper('a4');
 
                 // Add PDF to ZIP
@@ -237,6 +252,8 @@ class ReportGenerator extends Component
                 ->where('id', $applicationId)
                 ->where('appl_status', ApplStatus::APPROVED->value)
                 ->with([
+                    'user.parents',
+                    'user.siblings',
                     'user',
                     'education',
                     'account',
@@ -278,6 +295,8 @@ class ReportGenerator extends Component
                 'address' => $application->user->address()->where('is_wochenaufenthalt', 0)->where('is_aboard', 0)->first(),
                 'abweichendeAddress' => $application->user->address()->where('is_wochenaufenthalt', 1)->first(),
                 'aboardAddress' => $application->user->address()->where('is_aboard', 1)->first(),
+                'parents' => $application->user->parents,
+                'siblings' => $application->user->siblings,
             ])->setPaper('a4');
 
             // Add PDF to ZIP

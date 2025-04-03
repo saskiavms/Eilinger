@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Parents extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $connection = 'mysql';
 
@@ -42,6 +43,8 @@ class Parents extends Model
     protected $casts = [
         'parent_type' => ParentType::class,
         'job_type' => JobType::class,
+        'birthday' => 'date',
+        'since' => 'date',
     ];
 
     public function user()

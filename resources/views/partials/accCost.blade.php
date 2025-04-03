@@ -21,10 +21,8 @@
                     <x-convert-money :amount="$cost->travel_expenses" :text="__('cost.travel_expenses')" :currency="$application->currency->abbreviation" />
 
                     <div>
-                        <p class="text-sm">
-                            <span class="font-medium text-gray-700">{{ __('cost.number_of_children') }}:</span>
-                            <span class="text-gray-900 ml-1">{{ $cost->number_of_children }}</span>
-                        </p>
+						<span class="font-medium text-gray-700">{{ __('cost.number_of_children') }}:</span>
+						<span class="text-gray-900 ml-1">{{ $cost->number_of_children }}</span>
                     </div>
                 </div>
 
