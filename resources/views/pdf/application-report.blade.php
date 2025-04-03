@@ -330,7 +330,7 @@
 
     @if($financing)
     <div class="section">
-        <div class="section-title">Financing</div>
+        <div class="section-title">Finanzierung</div>
 		<div class="field">
             <span class="field-label">Eigenleistung vom Bewerber selbst:</span> {{ $financing->personal_contribution }}
         </div>
@@ -361,7 +361,7 @@
 
     @if($financingOrganisation && $financingOrganisation->count() > 0)
     <div class="section">
-        <div class="section-title">Financing Organizations</div>
+        <div class="section-title">Finanzierung Organisation</div>
         <table>
             <thead>
                 <tr>
@@ -372,8 +372,8 @@
             <tbody>
                 @foreach($financingOrganisation as $org)
                 <tr>
-                    <td>{{ $org->financing_organisation }}</td>
-                    <td>{{ $org->financing_amount }}</td>
+                    <td>{{ $financing->financing_name }}</td>
+                    <td>{{ $financing->financing_amount }}</td>
                 </tr>
                 @endforeach
             </tbody>
