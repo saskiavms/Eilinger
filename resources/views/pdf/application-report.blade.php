@@ -370,7 +370,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($financingOrganisation as $org)
+                @foreach($financingOrganisation as $financing)
                 <tr>
                     <td>{{ $financing->financing_name }}</td>
                     <td>{{ $financing->financing_amount }}</td>
