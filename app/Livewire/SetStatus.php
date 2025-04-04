@@ -16,14 +16,18 @@ class SetStatus extends Component
     public $status;
     public $reason_rejected;
     public $approval_appl;
+    public $payment_amount;
+    public $payment_date;
 
     public function mount(Application $application)
     {
         $this->application = $application;
-        // Initialize the properties with current values
         $this->status = $application->appl_status->value;
         $this->reason_rejected = $application->reason_rejected;
-        $this->approval_appl = $application->approval_appl;
+        // Format dates for the date input fields
+        $this->approval_appl = $application->approval_appl ? $application->approval_appl->format('Y-m-d') : null;
+        $this->payment_date = $application->payment_date ? $application->payment_date->format('Y-m-d') : null;
+        $this->payment_amount = $application->payment_amount;
     }
 
     public function setStatus()
@@ -41,6 +45,15 @@ class SetStatus extends Component
                 'nullable',
                 'date'
             ],
+            'payment_amount' => [
+                'nullable',
+                'numeric',
+                'min:0'
+            ],
+            'payment_date' => [
+                'nullable',
+                'date'
+            ]
         ]);
 
         $this->application->appl_status = $validated['status'];
@@ -49,9 +62,12 @@ class SetStatus extends Component
         if ($validated['status'] === ApplStatus::APPROVED->value) {
             $this->application->approval_appl = $validated['approval_appl'];
         } elseif ($this->application->appl_status !== ApplStatus::APPROVED->value) {
-            // Clear approval date if status is changed from approved to something else
             $this->application->approval_appl = null;
         }
+
+        // Handle payment information
+        $this->application->payment_amount = $validated['payment_amount'];
+        $this->application->payment_date = $validated['payment_date'];
 
         // Handle rejection reason
         if ($validated['status'] === ApplStatus::BLOCKED->value) {

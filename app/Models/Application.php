@@ -45,6 +45,7 @@ class Application extends Model
         'end_appl' => 'date',
         'payout_plan' => PayoutPlan::class,
         'approval_appl' => 'date',
+        'payment_date' => 'date',
     ];
 
     public function messages()

@@ -261,7 +261,8 @@ class ReportGenerator extends Component
                     'cost',
                     'costDarlehen',
                     'financing',
-                    'financingOrganisation'
+                    'financingOrganisation',
+                    'messages'
                 ])
                 ->firstOrFail();
 
@@ -297,6 +298,7 @@ class ReportGenerator extends Component
                 'aboardAddress' => $application->user->address()->where('is_aboard', 1)->first(),
                 'parents' => $application->user->parents,
                 'siblings' => $application->user->siblings,
+                'messages' => $application->messages
             ])->setPaper('a4');
 
             // Add PDF to ZIP

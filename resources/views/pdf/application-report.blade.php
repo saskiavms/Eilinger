@@ -67,6 +67,13 @@
             <span class="field-label">Gewünschter Betrag:</span> {{ $application->req_amount }}
         </div>
 		<div class="field">
+            <span class="field-label">Ausgezahlter Betrag:</span> {{ $application->payment_amount }}
+        </div>
+		<div class="field">
+            <span class="field-label">Auszahlungsdatum:</span>
+			{{ $application->payment_date ? $application->payment_date->format('d.m.Y') : '-' }}
+        </div>
+		<div class="field">
             <span class="field-label">Beginn des Projekts:</span>
             {{ $application->start_appl ? $application->start_appl->format('d.m.Y') : '-' }}
         </div>
@@ -381,36 +388,30 @@
     </div>
     @endif
 
-    @if($enclosure)
-    <div class="section">
-        <div class="section-title">Submitted Documents</div>
-        <ul>
-            @if($enclosure->cv)
-                <li>CV</li>
-            @endif
-            @if($enclosure->motivation_letter)
-                <li>Motivation Letter</li>
-            @endif
-            @if($enclosure->diplomas)
-                <li>Diplomas</li>
-            @endif
-            @if($enclosure->language_certificates)
-                <li>Language Certificates</li>
-            @endif
-            @if($enclosure->acceptance_letter)
-                <li>Acceptance Letter</li>
-            @endif
-            @if($enclosure->registration_confirmation)
-                <li>Registration Confirmation</li>
-            @endif
-            @if($enclosure->budget_plan)
-                <li>Budget Plan</li>
-            @endif
-            @if($enclosure->transcript_records)
-                <li>Transcript Records</li>
-            @endif
-        </ul>
-    </div>
-    @endif
+	@if($messages && $messages->count() > 0)
+<div class="section">
+    <div class="section-title">Kommunikation</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Von</th>
+                <th>Nachricht</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($messages->sortBy('created_at') as $message)
+            <tr>
+                <td>{{ $message->created_at->format('d.m.Y H:i') }}</td>
+                <td>{{ $message->user->firstname }} {{ $message->user->lastname }}</td>
+                <td>{{ $message->body }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endif
+
+
 </body>
 </html>

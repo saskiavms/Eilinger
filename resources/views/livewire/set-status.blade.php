@@ -12,52 +12,83 @@
     <form wire:submit="setStatus">
         <div class="space-y-6">
             <!-- Current Status -->
-            <div>
+            <div class="p-4 bg-gray-50 rounded-lg">
                 <p class="text-md text-gray-700">
                     <span class="font-medium">Aktueller Status:</span>
                     <span class="ml-2">{{ __('application.status_name.' . $application->appl_status->name) }}</span>
                 </p>
             </div>
 
-            <!-- New Status Selection -->
-            <div>
-                <p class="text-md font-medium text-gray-700 mb-2">Neuer Status:</p>
-                <div class="space-y-2">
-                    @foreach (ApplStatus::cases() as $applStatus)
-                        <label class="flex items-center">
-                            <input type="radio" wire:model="status" value="{{ $applStatus->value }}"
-                                class="form-radio h-4 w-4 text-primary-600 border-gray-300 focus:ring-primary-500">
-                            <span class="ml-2 text-gray-700">{{ __('application.status_name.' . $applStatus->name) }}</span>
-                        </label>
-                    @endforeach
+            <!-- Status Selection -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Left Column: Status Selection -->
+                <div>
+                    <p class="text-md font-medium text-gray-700 mb-2">Neuer Status:</p>
+                    <div class="space-y-2">
+                        @foreach (ApplStatus::cases() as $applStatus)
+                            <label class="flex items-center">
+                                <input type="radio" wire:model="status" value="{{ $applStatus->value }}"
+                                    class="form-radio h-4 w-4 text-primary-600 border-gray-300 focus:ring-primary-500">
+                                <span class="ml-2 text-gray-700">{{ __('application.status_name.' . $applStatus->name) }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                    @error('status')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
-                @error('status')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
 
-            <!-- Approval Date (shown when status is approved) -->
-            <div x-show="$wire.status === '{{ ApplStatus::APPROVED->value }}'">
-                <label for="approval_appl" class="block text-md font-medium text-gray-700">
-                    Genehmigungsdatum
-                </label>
-                <input wire:model="approval_appl" type="date" id="approval_appl"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
-                @error('approval_appl')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
+                <!-- Right Column: Status-specific fields -->
+                <div>
+                    <!-- Approval Date -->
+                    <div x-show="$wire.status === '{{ ApplStatus::APPROVED->value }}'" class="space-y-4">
+                        <div>
+                            <label for="approval_appl" class="block text-md font-medium text-gray-700">
+                                Genehmigungsdatum
+                            </label>
+                            <input wire:model="approval_appl" type="date" id="approval_appl"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                            @error('approval_appl')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
 
-            <!-- Rejection Reason (shown when status is rejected) -->
-            <div x-show="$wire.status === '{{ ApplStatus::BLOCKED->value }}'">
-                <label for="reason_rejected" class="block text-md font-medium text-gray-700">
-                    {{ __('application.reason_rejected') }}
-                </label>
-                <input wire:model="reason_rejected" type="text" id="reason_rejected"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
-                @error('reason_rejected')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                        <!-- Payment Information -->
+                        <div>
+                            <label for="payment_amount" class="block text-md font-medium text-gray-700">
+                                Auszahlungsbetrag (CHF)
+                            </label>
+                            <input wire:model="payment_amount" type="number" step="0.01" id="payment_amount"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                            @error('payment_amount')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="payment_date" class="block text-md font-medium text-gray-700">
+                                Auszahlungsdatum
+                            </label>
+                            <input wire:model="payment_date" type="date" id="payment_date"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                            @error('payment_date')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Rejection Reason -->
+                    <div x-show="$wire.status === '{{ ApplStatus::BLOCKED->value }}'">
+                        <label for="reason_rejected" class="block text-md font-medium text-gray-700">
+                            {{ __('application.reason_rejected') }}
+                        </label>
+                        <input wire:model="reason_rejected" type="text" id="reason_rejected"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                        @error('reason_rejected')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
             <!-- Submit Button -->
