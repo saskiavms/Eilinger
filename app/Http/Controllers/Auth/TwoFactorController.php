@@ -8,6 +8,7 @@ use App\Notifications\TwoFactorCode;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
 
 class TwoFactorController extends Controller
 {
@@ -47,6 +48,15 @@ class TwoFactorController extends Controller
             ->withErrors(['email' =>  __('userNotification.sessionExpired')]);
         }
 
+        // Rate limiting for 2FA attempts - 5 attempts per minute per user
+        $key = 'two-factor-attempts:' . auth()->id();
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $seconds = RateLimiter::availableIn($key);
+            throw ValidationException::withMessages([
+                'two_factor_code' => __('Too many attempts. Please try again in :seconds seconds.', ['seconds' => $seconds]),
+            ]);
+        }
+
         $request->validate([
             'two_factor_code' => 'integer|required',
         ]);
@@ -66,13 +76,19 @@ class TwoFactorController extends Controller
             ]);
         }
 
-        if ($request->input('two_factor_code') !== $user->two_factor_code) {
+        if ((int) $request->input('two_factor_code') !== (int) $user->two_factor_code) {
+            RateLimiter::hit($key, 60); // Record failed attempt, available for 60 seconds
             throw ValidationException::withMessages([
                 'two_factor_code' => __('The two factor code you have entered does not match'),
             ]);
         }
 
+        // Clear rate limit on successful verification
+        RateLimiter::clear($key);
         $user->resetTwoFactorCode();
+
+        // Regenerate session ID to prevent session fixation
+        $request->session()->regenerate();
 
         if ($user->is_admin) {
             return redirect()->route('admin_dashboard', app()->getLocale());
@@ -90,6 +106,18 @@ class TwoFactorController extends Controller
             return redirect()->route('login', app()->getLocale())
                 ->withErrors(['email' =>  __('userNotification.sessionExpired')]);
         }
+
+        // Rate limiting for 2FA code resends - 3 per 5 minutes per user
+        $key = 'two-factor-resend:' . $user->id;
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            $seconds = RateLimiter::availableIn($key);
+            return redirect()->back()->withErrors([
+                'two_factor_code' => __('Too many resend requests. Please wait :minutes minutes before requesting again.', 
+                    ['minutes' => ceil($seconds / 60)])
+            ]);
+        }
+
+        RateLimiter::hit($key, 300); // 5 minutes
 
         $user->generateTwoFactorCode();
         $user->notify(new TwoFactorCode());

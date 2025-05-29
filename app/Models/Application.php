@@ -33,6 +33,8 @@ class Application extends Model
         'start_appl',
         'end_appl',
         'payout_plan',
+        'payment_amount',
+        'payment_date',
     ];
 
     protected $casts = [

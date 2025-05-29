@@ -19,13 +19,13 @@ class ProfileTest extends TestCase
 
     public function test_user_can_view_profile()
     {
-        $response = $this->get($this->getLocalizedRoute('profile.edit'));
+        $response = $this->get($this->getLocalizedRoute('user_profile.edit'));
         $response->assertStatus(200);
     }
 
     public function test_user_can_update_profile()
     {
-        $response = $this->patch($this->getLocalizedRoute('profile.update'), [
+        $response = $this->patch($this->getLocalizedRoute('user_profile.update'), [
             'firstname' => 'New Name',
             'email' => 'newemail@example.com',
         ]);

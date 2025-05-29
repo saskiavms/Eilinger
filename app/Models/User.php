@@ -49,8 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'in_ch_since',
         'granting',
         'is_draft',
-        'two_factor_code',
-        'two_factor_expires_at',
+        'is_admin',
     ];
 
     /**
@@ -62,6 +61,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_code',
+        'two_factor_expires_at',
     ];
 
     /**
@@ -136,7 +137,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function generateTwoFactorCode()
     {
         $this->timestamps = false;  // Prevent updated_at from being modified
-        $this->two_factor_code = rand(100000, 999999);
+        $this->two_factor_code = random_int(100000, 999999);
         $this->two_factor_expires_at = now()->addMinutes(10);
         $this->save();
     }

@@ -61,7 +61,7 @@ Route::group(['prefix' => '{locale}', 'middleware' => 'setLocale'], function () 
         Route::get('user/delete', App\Livewire\User\DeleteAccount::class)->name('user_delete');
     });
 
-    Route::group(['middleware' => ['admin', 'twofactor']], function () {
+    Route::group(['middleware' => ['auth', 'admin', 'twofactor']], function () {
         Route::get('admin/dashboard', App\Livewire\Admin\Uebersicht::class)->name('admin_dashboard');
         Route::get('admin/users', App\Livewire\Admin\Users::class)->name('admin_users');
         Route::get('admin/antrag/{application_id}', App\Livewire\Admin\Antrag::class)->name('admin_antrag');

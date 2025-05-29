@@ -52,8 +52,16 @@ class LoginTest extends TestCase
             'password' => $password,
         ]);
 
-        $response->assertRedirect($this->getLocalizedRoute('user_dashboard'));
+        // User should be redirected to 2FA verification after successful login
+        $response->assertRedirect($this->getLocalizedRoute('verify.index'));
         $this->assertAuthenticatedAs($user);
+        
+        // Session should have 2FA flag set
+        $this->assertTrue(session('auth.2fa'));
+        
+        // User should have a 2FA code generated
+        $user->refresh();
+        $this->assertNotNull($user->two_factor_code);
     }
 
     public function test_user_cannot_login_with_incorrect_password()

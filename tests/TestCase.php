@@ -24,6 +24,11 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        // Create foundation data to prevent view errors
+        if (!\App\Models\Foundation::exists()) {
+            \App\Models\Foundation::factory()->create();
+        }
+
         // Configure session and middleware
         $this->withoutExceptionHandling([
             \Illuminate\Auth\AuthenticationException::class,

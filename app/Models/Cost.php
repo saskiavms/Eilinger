@@ -44,6 +44,7 @@ class Cost extends Model
         'cost_of_living_with_partner' => 'integer',
         'number_of_children' => 'integer',
         'total_amount_costs' => 'integer',
+        'is_draft' => 'boolean',
     ];
 
     public function user()
