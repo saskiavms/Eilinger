@@ -67,11 +67,11 @@
             <span class="field-label">Gewünschter Betrag:</span> {{ $application->req_amount }}
         </div>
 		<div class="field">
-            <span class="field-label">Ausgezahlter Betrag:</span> {{ $application->payment_amount }}
+            <span class="field-label">Ausgezahlter Betrag (Total):</span> {{ number_format($application->total_paid, 2) }} {{ $application->currency->abbreviation }}
         </div>
 		<div class="field">
-            <span class="field-label">Auszahlungsdatum:</span>
-			{{ $application->payment_date ? $application->payment_date->format('d.m.Y') : '-' }}
+            <span class="field-label">Letzte Auszahlung:</span>
+			{{ $application->last_payment_date ? $application->last_payment_date->format('d.m.Y') : '-' }}
         </div>
 		<div class="field">
             <span class="field-label">Beginn des Projekts:</span>
@@ -91,6 +91,32 @@
         </div>
     </div>
 
+	@if($application->payments && $application->payments->count() > 0)
+	<div class="section">
+		<div class="section-title">Zahlungen</div>
+		<table>
+			<thead>
+				<tr>
+					<th>Datum</th>
+					<th>Betrag</th>
+					<th>Notizen</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($application->payments->sortBy('payment_date') as $payment)
+				<tr>
+					<td>{{ $payment->payment_date->format('d.m.Y') }}</td>
+					<td>{{ number_format($payment->amount, 2) }} {{ $application->currency->abbreviation }}</td>
+					<td>{{ $payment->notes ?: '-' }}</td>
+				</tr>
+				@endforeach
+			</tbody>
+		</table>
+		<div class="field">
+			<span class="field-label">Gesamtsumme ausgezahlt:</span> {{ number_format($application->total_paid, 2) }} {{ $application->currency->abbreviation }}
+		</div>
+	</div>
+	@endif
 
 	<div class="section">
         <div class="section-title">Persönliche Informationen</div>

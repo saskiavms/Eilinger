@@ -33,8 +33,6 @@ class Application extends Model
         'start_appl',
         'end_appl',
         'payout_plan',
-        'payment_amount',
-        'payment_date',
     ];
 
     protected $casts = [
@@ -47,7 +45,6 @@ class Application extends Model
         'end_appl' => 'date',
         'payout_plan' => PayoutPlan::class,
         'approval_appl' => 'date',
-        'payment_date' => 'date',
     ];
 
     public function messages()
@@ -115,5 +112,20 @@ class Application extends Model
     public function financingOrganisation()
     {
         return $this->hasMany(FinancingOrganisation::class, 'application_id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'application_id');
+    }
+
+    public function getTotalPaidAttribute()
+    {
+        return $this->payments()->sum('amount');
+    }
+
+    public function getLastPaymentDateAttribute()
+    {
+        return $this->payments()->latest('payment_date')->first()?->payment_date;
     }
 }

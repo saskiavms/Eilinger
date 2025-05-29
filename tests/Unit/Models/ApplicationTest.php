@@ -8,6 +8,7 @@ use App\Models\Account;
 use App\Models\Cost;
 use App\Models\Education;
 use App\Models\Financing;
+use App\Models\Payment;
 use App\Models\Enclosure;
 use App\Enums\ApplStatus;
 use App\Enums\Form;
@@ -120,6 +121,18 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
+    public function application_has_many_payments()
+    {
+        $application = Application::factory()->create();
+        $payment = Payment::factory()->create([
+            'application_id' => $application->id
+        ]);
+
+        $this->assertTrue($application->payments->contains($payment));
+        $this->assertInstanceOf(Payment::class, $application->payments->first());
+    }
+
+    /** @test */
     public function application_status_can_be_set_and_retrieved()
     {
         $application = Application::factory()->create(['appl_status' => ApplStatus::NOTSEND]);
@@ -160,25 +173,32 @@ class ApplicationTest extends TestCase
     /** @test */
     public function application_tracks_payment_information()
     {
-        $application = Application::factory()->create([
-            'payment_amount' => null,
-            'payment_date' => null
+        $application = Application::factory()->create();
+
+        // Initially no payments
+        $this->assertEquals(0, $application->payments->count());
+        $this->assertEquals(0, $application->total_paid);
+        $this->assertNull($application->last_payment_date);
+
+        // Add first payment
+        $payment1 = $application->payments()->create([
+            'amount' => 2000.00,
+            'payment_date' => now()->subDays(10),
+            'notes' => 'First payment'
         ]);
 
-        $this->assertNull($application->payment_amount);
-        $this->assertNull($application->payment_date);
-
-        // Simulate payment
-        $paymentAmount = 4500.00;
-        $paymentDate = now()->toDateString();
-
-        $application->update([
-            'payment_amount' => $paymentAmount,
-            'payment_date' => $paymentDate
+        // Add second payment
+        $payment2 = $application->payments()->create([
+            'amount' => 1500.00,
+            'payment_date' => now()->subDays(5),
+            'notes' => 'Second payment'
         ]);
 
-        $this->assertEquals($paymentAmount, $application->fresh()->payment_amount);
-        $this->assertEquals($paymentDate, $application->fresh()->payment_date->toDateString());
+        $application->refresh();
+
+        $this->assertEquals(2, $application->payments->count());
+        $this->assertEquals(3500.00, $application->total_paid);
+        $this->assertEquals($payment2->payment_date->toDateString(), $application->last_payment_date->toDateString());
     }
 
     /** @test */

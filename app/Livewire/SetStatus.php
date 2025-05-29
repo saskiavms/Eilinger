@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Enums\ApplStatus;
 use App\Models\Application;
+use App\Models\Payment;
 use App\Notifications\StatusUpdated;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Component;
@@ -16,8 +17,9 @@ class SetStatus extends Component
     public $status;
     public $reason_rejected;
     public $approval_appl;
-    public $payment_amount;
-    public $payment_date;
+    public $new_payment_amount;
+    public $new_payment_date;
+    public $new_payment_notes;
 
     public function mount(Application $application)
     {
@@ -26,8 +28,6 @@ class SetStatus extends Component
         $this->reason_rejected = $application->reason_rejected;
         // Format dates for the date input fields
         $this->approval_appl = $application->approval_appl ? $application->approval_appl->format('Y-m-d') : null;
-        $this->payment_date = $application->payment_date ? $application->payment_date->format('Y-m-d') : null;
-        $this->payment_amount = $application->payment_amount;
     }
 
     public function setStatus()
@@ -44,15 +44,6 @@ class SetStatus extends Component
                 'required_if:status,' . ApplStatus::APPROVED->value,
                 'nullable',
                 'date'
-            ],
-            'payment_amount' => [
-                'nullable',
-                'numeric',
-                'min:0'
-            ],
-            'payment_date' => [
-                'nullable',
-                'date'
             ]
         ]);
 
@@ -64,10 +55,6 @@ class SetStatus extends Component
         } elseif ($this->application->appl_status !== ApplStatus::APPROVED->value) {
             $this->application->approval_appl = null;
         }
-
-        // Handle payment information
-        $this->application->payment_amount = $validated['payment_amount'];
-        $this->application->payment_date = $validated['payment_date'];
 
         // Handle rejection reason
         if ($validated['status'] === ApplStatus::BLOCKED->value) {
@@ -83,6 +70,56 @@ class SetStatus extends Component
         session()->flash('message', 'Status des Antrags gespeichert');
     }
 
+    public function addPayment()
+    {
+        $validated = $this->validate([
+            'new_payment_amount' => ['required', 'numeric', 'min:0.01'],
+            'new_payment_date' => ['required', 'date'],
+            'new_payment_notes' => ['nullable', 'string', 'max:500']
+        ], [
+            'new_payment_amount.required' => 'Bitte geben Sie einen Zahlungsbetrag ein.',
+            'new_payment_amount.numeric' => 'Der Zahlungsbetrag muss eine Zahl sein.',
+            'new_payment_amount.min' => 'Der Zahlungsbetrag muss mindestens 0.01 betragen.',
+            'new_payment_date.required' => 'Bitte geben Sie ein Zahlungsdatum ein.',
+            'new_payment_date.date' => 'Bitte geben Sie ein gültiges Datum ein.',
+            'new_payment_notes.max' => 'Die Notizen dürfen nicht länger als 500 Zeichen sein.',
+        ]);
+
+        try {
+            $payment = Payment::create([
+                'application_id' => $this->application->id,
+                'amount' => $validated['new_payment_amount'],
+                'payment_date' => $validated['new_payment_date'],
+                'notes' => $validated['new_payment_notes'],
+            ]);
+
+            // Reset form fields
+            $this->new_payment_amount = null;
+            $this->new_payment_date = null;
+            $this->new_payment_notes = null;
+
+            // Refresh the application relationship
+            $this->application->refresh();
+
+            session()->flash('payment_message', 'Zahlung erfolgreich hinzugefügt');
+        } catch (\Exception $e) {
+            session()->flash('payment_error', 'Fehler beim Speichern der Zahlung: ' . $e->getMessage());
+        }
+    }
+
+    public function deletePayment($paymentId)
+    {
+        $payment = Payment::where('id', $paymentId)
+            ->where('application_id', $this->application->id)
+            ->first();
+
+        if ($payment) {
+            $payment->delete();
+            $this->application->refresh();
+            session()->flash('payment_message', 'Zahlung erfolgreich gelöscht');
+        }
+    }
+
     public function messages()
     {
         return [
@@ -95,6 +132,9 @@ class SetStatus extends Component
 
     public function render()
     {
+        // Ensure payments are loaded fresh
+        $this->application->load('payments');
+        
         return view('livewire.set-status');
     }
 }
