@@ -6,6 +6,7 @@ use App\Enums\Education;
 use App\Enums\Grade;
 use App\Enums\Time;
 use App\Enums\InitialEducation;
+use App\Models\Application;
 use App\Models\Education as EducationModel;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Validation\Rules\Enum;
@@ -23,6 +24,8 @@ class EducationForm extends Component
     public $begin_edu;
     public $duration_edu;
     public $start_semester;
+    public $application;
+    public $isEditable = true;
 
     protected function rules(): array
     {
@@ -47,6 +50,9 @@ class EducationForm extends Component
 
     public function mount()
     {
+        $this->application = Application::find(session()->get('appl_id'));
+        $this->isEditable = $this->application ? $this->application->isEditable() : true;
+        
         $education = EducationModel::loggedInUser()
             ->where('application_id', session()->get('appl_id'))
             ->first() ?? new EducationModel;
@@ -70,6 +76,11 @@ class EducationForm extends Component
 
     public function saveEducation()
     {
+        if (!$this->isEditable) {
+            session()->flash('error', __('application.edit_restriction_error'));
+            return;
+        }
+        
         $validatedData = $this->validate();
 
         $education = EducationModel::loggedInUser()

@@ -3,6 +3,7 @@
 namespace App\Livewire\Antrag;
 
 use App\Models\Address;
+use App\Models\Application;
 use App\Models\Country;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -16,6 +17,8 @@ class AddressForm extends Component
     public $country_id;
 
     public $countries;
+    public $application;
+    public $isEditable = true;
 
     protected function rules(): array
     {
@@ -35,6 +38,9 @@ class AddressForm extends Component
 
     public function mount()
     {
+        $this->application = Application::find(session()->get('appl_id'));
+        $this->isEditable = $this->application ? $this->application->isEditable() : true;
+        
         $this->countries = Country::all();
         $address = Address::loggedInUser()->first();
 
@@ -53,6 +59,11 @@ class AddressForm extends Component
 
     public function saveAddress()
     {
+        if (!$this->isEditable) {
+            session()->flash('error', __('application.edit_restriction_error'));
+            return;
+        }
+        
         $validatedData = $this->validate();
 
         $address = Address::loggedInUser()->first();

@@ -253,4 +253,17 @@ class ApplicationTest extends TestCase
 
         $this->assertNotEquals($originalUpdatedAt, $application->fresh()->updated_at);
     }
+
+    /** @test */
+    public function application_editability_depends_on_status()
+    {
+        $application = Application::factory()->create(['appl_status' => ApplStatus::PENDING]);
+        
+        // Should be editable when not approved
+        $this->assertTrue($application->isEditable());
+        
+        // Should not be editable when approved
+        $application->appl_status = ApplStatus::APPROVED;
+        $this->assertFalse($application->isEditable());
+    }
 }

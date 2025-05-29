@@ -56,8 +56,8 @@ class Application extends Model
     {
         return [
             ApplStatus::PENDING->name => 'warning', // Antrag liegt bei Eilinger zur Bearbeitung
-            ApplStatus::WAITING->name => 'info', //Antrag liegt wieder beim Benutzer zur Beantwortung der Fragen
-            ApplStatus::COMPLETE->name => 'dark', //Angaben im Antrag vollständig. Wartet auf nächste Stiftungsratssitzung
+            ApplStatus::WAITING->name => 'info', // Antrag liegt wieder beim Benutzer zur Beantwortung der Fragen
+            ApplStatus::COMPLETE->name => 'dark', // Angaben im Antrag vollständig. Wartet auf nächste Stiftungsratssitzung
             ApplStatus::APPROVED->name => 'success',
             ApplStatus::BLOCKED->name => 'danger',
             ApplStatus::NOTSEND->name => 'secondary',
@@ -127,5 +127,14 @@ class Application extends Model
     public function getLastPaymentDateAttribute()
     {
         return $this->payments()->latest('payment_date')->first()?->payment_date;
+    }
+
+    /**
+     * Check if the application can be edited by the user
+     * Applications cannot be edited once they are approved
+     */
+    public function isEditable(): bool
+    {
+        return $this->appl_status !== ApplStatus::APPROVED;
     }
 }

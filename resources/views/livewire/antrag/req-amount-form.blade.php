@@ -6,6 +6,11 @@
             <p class="text-sm text-gray-600">{{ __('reqAmount.subTitle') }}</p>
             <p class="text-sm text-gray-600">{{ __('reqAmount.addHint') }}</p>
         </div>
+        @if (!$isEditable)
+            <div class="mt-2 p-3 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+                <strong>{{ __('application.edit_restriction_hint') }}</strong> {{ __('application.edit_restriction_warning') }}
+            </div>
+        @endif
     </div>
 
     <x-notification />
@@ -74,7 +79,8 @@
                                 {{ $application->currency->abbreviation }}
                             </span>
                             <input wire:model.blur="req_amount" type="number"
-                                class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-gray-300 focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 sm:text-sm">
+                                {{ !$isEditable ? 'readonly' : '' }}
+                                class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-gray-300 focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 sm:text-sm {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}">
                         </div>
                         @error('req_amount')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -89,7 +95,8 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <select wire:model.blur="payout_plan"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 sm:text-sm">
+                            {{ !$isEditable ? 'disabled' : '' }}
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 sm:text-sm {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}">
                             <option value="">{{ __('attributes.please_select') }}</option>
                             @foreach (App\Enums\PayoutPlan::cases() as $payoutplan)
                                 <option value="{{ $payoutplan }}">
@@ -107,10 +114,12 @@
     </div>
 
     <!-- Submit Button -->
-    <div class="flex justify-center">
-        <button type="submit"
-            class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
-            {{ __('attributes.save') }}
-        </button>
-    </div>
+    @if ($isEditable)
+        <div class="flex justify-center">
+            <button type="submit"
+                class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
+                {{ __('attributes.save') }}
+            </button>
+        </div>
+    @endif
 </form>

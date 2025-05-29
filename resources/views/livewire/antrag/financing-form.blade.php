@@ -3,6 +3,11 @@
     <div class="mb-6">
         <h3 class="text-lg font-semibold text-primary mb-2">{{ __('financing.title') }}</h3>
         <p class="text-sm text-gray-600">{{ __('financing.subTitle') }}</p>
+        @if (!$isEditable)
+            <div class="mt-2 p-3 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+                <strong>{{ __('application.edit_restriction_hint') }}</strong> {{ __('application.edit_restriction_warning') }}
+            </div>
+        @endif
     </div>
 
     <x-notification />
@@ -15,7 +20,8 @@
                 {{ __('financing.personal_contribution') }} *
             </label>
             <input wire:model.blur="personal_contribution" type="number" step="0.01"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('personal_contribution')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -27,7 +33,8 @@
                 {{ __('financing.netto_income') }} *
             </label>
             <input wire:model.blur="netto_income" type="number" step="0.01"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('netto_income')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -39,7 +46,8 @@
                 {{ __('financing.assets') }} *
             </label>
             <input wire:model.blur="assets" type="number" step="0.01"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('assets')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -51,7 +59,8 @@
                 {{ __('financing.scholarship') }} *
             </label>
             <input wire:model.blur="scholarship" type="number" step="0.01"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('scholarship')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -69,7 +78,8 @@
                     {{ __('financing.other_income') }}
                 </label>
                 <input wire:model.blur="other_income" type="number" step="0.01"
-                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                    {{ !$isEditable ? 'readonly' : '' }}>
                 @error('other_income')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -81,7 +91,8 @@
                     {{ __('financing.income_where') }}
                 </label>
                 <input wire:model.blur="income_where" type="text"
-                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                    {{ !$isEditable ? 'readonly' : '' }}>
                 @error('income_where')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -93,7 +104,8 @@
                     {{ __('financing.incomeWho') }}
                 </label>
                 <input wire:model.blur="income_who" type="text"
-                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                    {{ !$isEditable ? 'readonly' : '' }}>
                 @error('income_who')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -109,10 +121,12 @@
     </div>
 
     <!-- Submit Button -->
-    <div class="flex justify-center">
-        <button type="submit"
-            class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
-            {{ __('attributes.save') }}
-        </button>
-    </div>
+    @if ($isEditable)
+        <div class="flex justify-center">
+            <button type="submit"
+                class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
+                {{ __('attributes.save') }}
+            </button>
+        </div>
+    @endif
 </form>

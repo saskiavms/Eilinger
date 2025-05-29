@@ -20,6 +20,8 @@ class FinancingForm extends Component
 
     public $currency_id;
     public $myCurrency;
+    public $application;
+    public $isEditable = true;
 
     protected function rules(): array
     {
@@ -41,6 +43,9 @@ class FinancingForm extends Component
 
     public function mount(): void
     {
+        $this->application = Application::find(session()->get('appl_id'));
+        $this->isEditable = $this->application ? $this->application->isEditable() : true;
+        
         $financing = Financing::where('application_id', session()->get('appl_id'))
             ->first() ?? new Financing();
 
@@ -58,6 +63,11 @@ class FinancingForm extends Component
 
     public function saveFinancing(): void
     {
+        if (!$this->isEditable) {
+            session()->flash('error', __('application.edit_restriction_error'));
+            return;
+        }
+        
         $validatedData = $this->validate();
 
         $financing = Financing::where('application_id', session()->get('appl_id'))

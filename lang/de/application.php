@@ -40,10 +40,10 @@ return [
     'status' => 'Status',
     'is_first' => 'Erstantrag',
     'currency_id' => 'Währung',
-	'proj_blocked' => 'Abgelehnte Anträge',
-	'proj_blocked_text' => 'Anträge mit Status "Abgelehnt"',
-	'proj_notsend' => 'Nicht eingereichte Anträge',
-	'proj_notsend_text'=> 'Anträge mit Status "Nicht eingereicht"',
+    'proj_blocked' => 'Abgelehnte Anträge',
+    'proj_blocked_text' => 'Anträge mit Status "Abgelehnt"',
+    'proj_notsend' => 'Nicht eingereichte Anträge',
+    'proj_notsend_text' => 'Anträge mit Status "Nicht eingereicht"',
 
     'status_name' => [
         ApplStatus::NOTSEND->name => 'Nicht eingereicht',
@@ -77,6 +77,11 @@ return [
 
     'time' => [
         Time::Teilzeit->name => 'Teilzeit',
-        Time::Vollzeit->name => 'Vollzeit'
+        Time::Vollzeit->name => 'Vollzeit',
     ],
+
+    // Application editing restrictions
+    'edit_restriction_warning' => 'Diese Anwendung wurde bereits genehmigt und kann nicht mehr bearbeitet werden.',
+    'edit_restriction_hint' => 'Hinweis:',
+    'edit_restriction_error' => 'Diese Anwendung kann nicht mehr bearbeitet werden, da sie bereits genehmigt wurde.',
 ];

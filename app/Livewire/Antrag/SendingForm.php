@@ -4,6 +4,7 @@ namespace App\Livewire\Antrag;
 
 use App\Models\Account;
 use App\Models\Address;
+use App\Models\Application;
 use App\Models\Cost;
 use App\Models\Education;
 use App\Models\Enclosure;
@@ -26,9 +27,14 @@ class SendingForm extends Component
     public $financingNoDraft;
     public $enclosureNoDraft;
     private bool $completeApp;
+    public $application;
+    public $isEditable = true;
 
     public function mount(): void
     {
+        $this->application = Application::find(session()->get('appl_id'));
+        $this->isEditable = $this->application ? $this->application->isEditable() : true;
+        
         $userId = auth()->id();
         $applId = session()->get('appl_id');
 
@@ -77,6 +83,11 @@ class SendingForm extends Component
 
     public function completeApplication(): void
     {
+        if (!$this->isEditable) {
+            session()->flash('error', __('application.edit_restriction_error'));
+            return;
+        }
+        
         if ($this->userNoDraft &&
             $this->addressNoDraft &&
             $this->educationNoDraft &&

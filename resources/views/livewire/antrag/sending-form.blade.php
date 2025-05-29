@@ -2,6 +2,11 @@
     <div class="mb-6">
         <h3 class="text-lg font-semibold text-primary mb-2">{{ __('sending.title') }}</h3>
         <p class="text-sm text-gray-600">{{ __('sending.subTitle') }}</p>
+        @if (!$isEditable)
+            <div class="mt-2 p-3 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+                <strong>{{ __('application.edit_restriction_hint') }}</strong> {{ __('application.edit_restriction_warning') }}
+            </div>
+        @endif
     </div>
 
     <div class="overflow-x-auto">

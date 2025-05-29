@@ -7,6 +7,11 @@
     <div class="mb-6">
         <h3 class="text-lg font-semibold text-primary mb-2">{{ __('education.education') }}</h3>
         <p class="text-sm text-gray-600">{{ __('education.subtitle') }}</p>
+        @if (!$isEditable)
+            <div class="mt-2 p-3 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+                <strong>{{ __('application.edit_restriction_hint') }}</strong> {{ __('application.edit_restriction_warning') }}
+            </div>
+        @endif
     </div>
 
     <x-notification />
@@ -18,7 +23,8 @@
                 {{ __('education.initial_education') }}? *
             </label>
             <select wire:model.blur="initial_education"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'disabled' : '' }}>
                 <option value="">{{ __('attributes.please_select') }}</option>
                 @foreach (InitialEducation::cases() as $initial)
                     <option value="{{ $initial->value }}">
@@ -37,7 +43,8 @@
                 {{ __('education.education') }} *
             </label>
             <select wire:model.blur="education_type"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'disabled' : '' }}>
                 <option value="">{{ __('attributes.please_select') }}</option>
                 @foreach (Education::cases() as $education)
                     <option value="{{ $education->value }}">
@@ -56,7 +63,8 @@
                 {{ __('education.name') }} *
             </label>
             <input wire:model.blur="name" type="text"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('name')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -68,7 +76,8 @@
                 {{ __('education.final') }} *
             </label>
             <input wire:model.blur="final" type="text"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('final')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -80,7 +89,8 @@
                 {{ __('education.grade') }} *
             </label>
             <select wire:model.blur="grade"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'disabled' : '' }}>
                 <option value="">{{ __('attributes.please_select') }}</option>
                 @foreach (App\Enums\Grade::cases() as $grade)
                     <option value="{{ $grade->value }}">
@@ -99,7 +109,8 @@
                 {{ __('education.ects_points') }} *
             </label>
             <input wire:model.blur="ects_points" type="text"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('ects_points')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -111,7 +122,8 @@
                 {{ __('education.time') }} *
             </label>
             <select wire:model.blur="time"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'disabled' : '' }}>
                 <option value="">{{ __('attributes.please_select') }}</option>
                 @foreach (App\Enums\Time::cases() as $time)
                     <option value="{{ $time->value }}">
@@ -130,7 +142,8 @@
                 {{ __('education.begin_edu') }} *
             </label>
             <input wire:model.blur="begin_edu" type="date"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('begin_edu')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -142,7 +155,8 @@
                 {{ __('education.duration_edu') }} *
             </label>
             <input wire:model.blur="duration_edu" type="number"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('duration_edu')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -154,7 +168,8 @@
                 {{ __('education.start_semester') }} *
             </label>
             <input wire:model.blur="start_semester" type="number"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('start_semester')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -162,10 +177,12 @@
     </div>
 
     <!-- Submit Button -->
-    <div class="mt-8 flex justify-center">
-        <button type="submit"
-            class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
-            {{ __('attributes.save') }}
-        </button>
-    </div>
+    @if ($isEditable)
+        <div class="mt-8 flex justify-center">
+            <button type="submit"
+                class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
+                {{ __('attributes.save') }}
+            </button>
+        </div>
+    @endif
 </form>

@@ -23,6 +23,8 @@ class CostForm extends Component
 
     public $currency_id;
     public $myCurrency;
+    public $application;
+    public $isEditable = true;
 
     protected function rules(): array
     {
@@ -47,6 +49,9 @@ class CostForm extends Component
 
     public function mount(): void
     {
+        $this->application = Application::find(session()->get('appl_id'));
+        $this->isEditable = $this->application ? $this->application->isEditable() : true;
+        
         $cost = Cost::where('application_id', session()->get('appl_id'))->first() ?? new Cost();
 
         $this->semester_fees = floatval($cost->semester_fees ?? 0);
@@ -71,6 +76,11 @@ class CostForm extends Component
 
     public function saveCost(): void
     {
+        if (!$this->isEditable) {
+            session()->flash('error', __('application.edit_restriction_error'));
+            return;
+        }
+        
         $validatedData = $this->validate();
 
         $cost = Cost::where('application_id', session()->get('appl_id'))->first() ?? new Cost();

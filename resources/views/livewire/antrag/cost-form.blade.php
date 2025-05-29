@@ -3,6 +3,11 @@
     <div class="mb-6">
         <h3 class="text-lg font-semibold text-primary mb-2">{{ __('cost.title') }}</h3>
         <p class="text-sm text-gray-600">{{ __('cost.subtitle') }}</p>
+        @if (!$isEditable)
+            <div class="mt-2 p-3 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+                <strong>{{ __('application.edit_restriction_hint') }}</strong> {{ __('application.edit_restriction_warning') }}
+            </div>
+        @endif
     </div>
 
     <x-notification />
@@ -15,7 +20,8 @@
                 {{ __('cost.semester_fees') }} *
             </label>
             <input wire:model.blur="semester_fees" type="number"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('semester_fees')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -27,7 +33,8 @@
                 {{ __('cost.fees') }} *
             </label>
             <input wire:model.blur="fees" type="number"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('fees')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -39,7 +46,8 @@
                 {{ __('cost.educational_material') }} *
             </label>
             <input wire:model.blur="educational_material" type="number"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('educational_material')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -51,7 +59,8 @@
                 {{ __('cost.excursion') }} *
             </label>
             <input wire:model.blur="excursion" type="number"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('excursion')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -63,7 +72,8 @@
                 {{ __('cost.travel_expenses') }} *
             </label>
             <input wire:model.blur="travel_expenses" type="number"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('travel_expenses')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -75,7 +85,8 @@
                 {{ __('cost.number_of_children') }} *
             </label>
             <input wire:model.blur="number_of_children" type="number"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                {{ !$isEditable ? 'readonly' : '' }}>
             @error('number_of_children')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -94,7 +105,8 @@
                     {{ __('cost.cost_of_living_with_parents') }}
                 </label>
                 <input wire:model.blur="cost_of_living_with_parents" type="number"
-                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                    {{ !$isEditable ? 'readonly' : '' }}>
                 @error('cost_of_living_with_parents')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -106,7 +118,8 @@
                     {{ __('cost.cost_of_living_alone') }}
                 </label>
                 <input wire:model.blur="cost_of_living_alone" type="number"
-                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                    {{ !$isEditable ? 'readonly' : '' }}>
                 @error('cost_of_living_alone')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -118,7 +131,8 @@
                     {{ __('cost.cost_of_living_single_parent') }}
                 </label>
                 <input wire:model.blur="cost_of_living_single_parent" type="number"
-                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                    {{ !$isEditable ? 'readonly' : '' }}>
                 @error('cost_of_living_single_parent')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -130,7 +144,8 @@
                     {{ __('cost.cost_of_living_with_partner') }}
                 </label>
                 <input wire:model.blur="cost_of_living_with_partner" type="number"
-                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50">
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-50 {{ !$isEditable ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                    {{ !$isEditable ? 'readonly' : '' }}>
                 @error('cost_of_living_with_partner')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -146,10 +161,12 @@
     </div>
 
     <!-- Submit Button -->
-    <div class="flex justify-center">
-        <button type="submit"
-            class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
-            {{ __('attributes.save') }}
-        </button>
-    </div>
+    @if ($isEditable)
+        <div class="flex justify-center">
+            <button type="submit"
+                class="px-6 py-2 bg-success text-white rounded-md hover:bg-successHover transition-colors">
+                {{ __('attributes.save') }}
+            </button>
+        </div>
+    @endif
 </form>

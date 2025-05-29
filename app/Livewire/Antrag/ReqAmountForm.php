@@ -14,11 +14,18 @@ use Livewire\Component;
 class ReqAmountForm extends Component
 {
     public $req_amount;
+
     public $payout_plan;
+
     public $total_amount_financing = 0;
+
     public $total_amount_costs = 0;
+
     public $diffAmount = 0;
+
     public $application;
+
+    public $isEditable = true;
 
     protected function rules(): array
     {
@@ -31,6 +38,7 @@ class ReqAmountForm extends Component
     public function mount(): void
     {
         $this->application = Application::where('id', session()->get('appl_id'))->first();
+        $this->isEditable = $this->application ? $this->application->isEditable() : true;
 
         // Get financing amount based on user type - using raw value comparison
         if ($this->application->user->getRawOriginal('type') === Types::nat->value) {
@@ -49,7 +57,6 @@ class ReqAmountForm extends Component
             $this->total_amount_costs = CostDarlehen::where('application_id', session()->get('appl_id'))
                 ->sum('cost_amount');
         }
-
 
         // Initialize form fields
         $this->req_amount = $this->application->req_amount;
@@ -71,6 +78,13 @@ class ReqAmountForm extends Component
 
     public function saveReqAmount(): void
     {
+        // Prevent saving if application is not editable
+        if (! $this->isEditable) {
+            session()->flash('error', __('application.edit_restriction_error'));
+
+            return;
+        }
+
         $validatedData = $this->validate();
 
         $this->application->req_amount = $validatedData['req_amount'];

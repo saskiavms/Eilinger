@@ -37,7 +37,7 @@ class PaymentTest extends TestCase
         $application = Application::factory()->create(['user_id' => $user->id]);
         $payment = Payment::factory()->create([
             'application_id' => $application->id,
-            'amount' => 1234.56
+            'amount' => 1234.56,
         ]);
 
         $this->assertEquals(1234.56, $payment->amount);
@@ -49,10 +49,10 @@ class PaymentTest extends TestCase
     {
         $user = User::factory()->create();
         $application = Application::factory()->create(['user_id' => $user->id]);
-        
+
         $payment = Payment::factory()->create([
             'application_id' => $application->id,
-            'notes' => 'First installment payment'
+            'notes' => 'First installment payment',
         ]);
 
         $this->assertEquals('First installment payment', $payment->notes);
@@ -65,7 +65,7 @@ class PaymentTest extends TestCase
         $application = Application::factory()->create(['user_id' => $user->id]);
         $payment = Payment::factory()->create([
             'application_id' => $application->id,
-            'payment_date' => '2024-12-25'
+            'payment_date' => '2024-12-25',
         ]);
 
         $this->assertInstanceOf(\Carbon\Carbon::class, $payment->payment_date);

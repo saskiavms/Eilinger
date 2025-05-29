@@ -3,15 +3,23 @@
 namespace App\Livewire\Antrag;
 
 use App\Models\Account;
+use App\Models\Application;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
 class AccountForm extends Component
 {
     public $name_bank;
+
     public $city_bank;
+
     public $owner;
+
     public $IBAN;
+
+    public $application;
+
+    public $isEditable = true;
 
     protected function rules(): array
     {
@@ -30,6 +38,9 @@ class AccountForm extends Component
 
     public function mount()
     {
+        $this->application = Application::find(session()->get('appl_id'));
+        $this->isEditable = $this->application ? $this->application->isEditable() : true;
+
         $account = Account::loggedInUser()
             ->where('application_id', session()->get('appl_id'))
             ->first() ?? new Account;
@@ -47,6 +58,13 @@ class AccountForm extends Component
 
     public function saveAccount()
     {
+        // Prevent saving if application is not editable
+        if (! $this->isEditable) {
+            session()->flash('error', __('application.edit_restriction_error'));
+
+            return;
+        }
+
         $validatedData = $this->validate();
 
         $account = Account::loggedInUser()
