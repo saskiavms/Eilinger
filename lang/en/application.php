@@ -26,6 +26,7 @@ return [
     'req_amount' => 'Required Amount',
     'payout_plan' => 'Payout Plan',
     'start_appl' => 'Start of the application',
+    'submission_date' => 'Submitted on',
     'end_appl' => 'End of the application',
     'no_applications' => 'No application found',
     'appl_overview' => 'Applications Overview',

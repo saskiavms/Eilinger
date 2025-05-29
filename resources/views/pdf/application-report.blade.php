@@ -85,6 +85,10 @@
             <span class="field-label">Erstellt am:</span>
             {{ $application->created_at->format('d.m.Y') }}
         </div>
+        <div class="field">
+            <span class="field-label">Eingereicht am:</span>
+            {{ $application->submission_date ? $application->submission_date->format('d.m.Y H:i') : '-' }}
+        </div>
 		<div class="field">
             <span class="field-label">Genehmigt am:</span>
             {{ $application->approval_appl ? $application->approval_appl->format('d.m.Y') : '-' }}

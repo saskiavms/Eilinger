@@ -32,6 +32,7 @@ class Antrag extends Component
     public function sendApplication()
     {
         $this->application->appl_status = ApplStatus::PENDING;
+        $this->application->submission_date = now();
         $this->application->save();
         $admins = User::where('is_admin', 1)->get();
         foreach ($admins as $admin) {

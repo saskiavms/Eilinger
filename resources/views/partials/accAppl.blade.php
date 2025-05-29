@@ -75,6 +75,14 @@
                 </p>
             </div>
 
+            <div>
+                <p class="text-md">
+                    <span class="font-medium text-gray-700">{{ __('application.submission_date') }}:</span>
+                    <span
+                        class="text-gray-900 ml-1">{{ $application->submission_date ? $application->submission_date->format('d.m.Y H:i') : '-' }}</span>
+                </p>
+            </div>
+
             @if ($application->form->value == 'Darlehen')
                 <div>
                     <p class="text-md">

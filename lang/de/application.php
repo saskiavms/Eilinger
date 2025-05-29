@@ -26,6 +26,7 @@ return [
     'req_amount' => 'Gewünschter Betrag',
     'payout_plan' => 'Auszahlungsform',
     'start_appl' => 'Startdatum',
+    'submission_date' => 'Eingereicht am',
     'end_appl' => 'Enddatum',
     'no_applications' => 'Keine Anträge gefunden',
     'reason_rejected' => 'Ablehnungsgrund',

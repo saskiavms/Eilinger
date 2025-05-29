@@ -27,7 +27,7 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                {{ __('application.createdAt') }}
+                                {{ __('application.submission_date') }}
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -55,7 +55,7 @@
                                     {{ __('application.status_name.' . $application->appl_status->name) }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ $application->created_at ? $application->created_at->format('d.m.Y H:i') : null }}
+                                    {{ $application->submission_date ? $application->submission_date->format('d.m.Y H:i') : '-' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {{ $application->updated_at ? $application->updated_at->format('d.m.Y H:i') : null }}

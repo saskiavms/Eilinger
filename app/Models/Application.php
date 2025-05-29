@@ -33,6 +33,7 @@ class Application extends Model
         'start_appl',
         'end_appl',
         'payout_plan',
+        'submission_date',
     ];
 
     protected $casts = [
@@ -45,6 +46,7 @@ class Application extends Model
         'end_appl' => 'date',
         'payout_plan' => PayoutPlan::class,
         'approval_appl' => 'date',
+        'submission_date' => 'datetime',
     ];
 
     public function messages()
