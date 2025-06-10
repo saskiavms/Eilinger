@@ -47,13 +47,13 @@
                                 {{ $application->bereich }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">
-                                {{ $application->user->lastname }}
+                                {{ $application->user?->lastname ?? '-' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">
-                                {{ $application->user->firstname }}
+                                {{ $application->user?->firstname ?? '-' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">
-                                {{ $application->user->email }}
+                                {{ $application->user?->email ?? '-' }}
                             </td>
                         </tr>
                     @empty

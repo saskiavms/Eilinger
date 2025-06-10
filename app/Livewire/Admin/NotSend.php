@@ -19,7 +19,9 @@ class NotSend extends Component
         return view('livewire.admin.not-send', [
             'applications' => Application::query()
                 ->where('appl_status', 'Not Send')
-                ->with(['user']) // Only eager load the user relationship
+                ->with(['user' => function ($query) {
+                    $query->withTrashed(); // Include soft-deleted users
+                }])
                 ->orderBy('created_at', 'desc')
                 ->paginate(10)
         ]);
