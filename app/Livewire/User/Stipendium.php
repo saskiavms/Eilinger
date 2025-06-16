@@ -35,11 +35,21 @@ class Stipendium extends Component
     public function increaseStep()
     {
         $this->currentStep++;
+        
+        // Reset completeApp when navigating to sending form step
+        if ($this->currentStep == 12) {
+            $this->completeApp = false;
+        }
     }
 
     public function decreaseStep()
     {
         $this->currentStep--;
+        
+        // Reset completeApp when navigating to sending form step
+        if ($this->currentStep == 12) {
+            $this->completeApp = false;
+        }
     }
 
     public function saveApplication()

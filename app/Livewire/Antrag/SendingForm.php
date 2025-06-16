@@ -88,16 +88,29 @@ class SendingForm extends Component
             return;
         }
         
-        if ($this->userNoDraft &&
+        // Check if all required forms are completed (not draft)
+        $this->completeApp = $this->userNoDraft &&
             $this->addressNoDraft &&
             $this->educationNoDraft &&
             $this->accountNoDraft &&
             $this->costNoDraft &&
             $this->financingNoDraft &&
-            $this->enclosureNoDraft) {
-            $this->completeApp = true;
+            $this->enclosureNoDraft;
+            
+        if ($this->completeApp) {
             $this->dispatch('completeApp');
         }
+    }
+
+    public function getCompleteAppProperty(): bool
+    {
+        return $this->userNoDraft &&
+            $this->addressNoDraft &&
+            $this->educationNoDraft &&
+            $this->accountNoDraft &&
+            $this->costNoDraft &&
+            $this->financingNoDraft &&
+            $this->enclosureNoDraft;
     }
 
     public function render()

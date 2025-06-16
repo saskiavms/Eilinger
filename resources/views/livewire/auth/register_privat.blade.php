@@ -224,6 +224,22 @@
                         @enderror
                     </div>
 
+                    <!-- Email Verification Notice -->
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-yellow-700">
+                                    {{ __('regLog.registrationEmailNotice') }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Submit Button -->
                     <div class="flex justify-end mt-6">
                         <button type="submit"

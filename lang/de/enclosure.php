@@ -34,4 +34,5 @@ return [
     'send_later' => 'Wird nachgereicht',
     'noEnclosure' => 'Keine Angaben oder Beilagen eingetragen',
     'instructions' => 'Die Dateien müssen von Format pdf, png, jpg oder jpeg sein und dürfen nicht grösser als 2 MB sein. Sie werden erst gespeichert, wenn keine Fehlermeldungen mehr vorhanden sind.',
+    'no_file_chosen' => 'Keine Datei ausgewählt',
 ];

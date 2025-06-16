@@ -10,13 +10,13 @@ use Livewire\Component;
 
 class FinancingForm extends Component
 {
-    public ?float $personal_contribution = 0;
-    public ?float $other_income = 0;
-    public ?string $income_where = '';
-    public ?string $income_who = '';
-    public ?float $netto_income = 0;
-    public ?float $assets = 0;
-    public ?float $scholarship = 0;
+    public ?float $personal_contribution = null;
+    public ?float $other_income = null;
+    public ?string $income_where = null;
+    public ?string $income_who = null;
+    public ?float $netto_income = null;
+    public ?float $assets = null;
+    public ?float $scholarship = null;
 
     public $currency_id;
     public $myCurrency;
@@ -26,13 +26,13 @@ class FinancingForm extends Component
     protected function rules(): array
     {
         return [
-            'personal_contribution' => 'required|numeric',
-            'other_income' => 'nullable|numeric',
+            'personal_contribution' => 'required|numeric|min:0',
+            'other_income' => 'nullable|numeric|min:0',
             'income_where' => 'required_unless:other_income,null,0,1',
             'income_who' => 'required_unless:other_income,null,0,1',
-            'netto_income' => 'required|numeric',
-            'assets' => 'required|numeric',
-            'scholarship' => 'required|numeric',
+            'netto_income' => 'required|numeric|min:0',
+            'assets' => 'required|numeric|min:0',
+            'scholarship' => 'required|numeric|min:0',
         ];
     }
 
@@ -46,16 +46,27 @@ class FinancingForm extends Component
         $this->application = Application::find(session()->get('appl_id'));
         $this->isEditable = $this->application ? $this->application->isEditable() : true;
         
-        $financing = Financing::where('application_id', session()->get('appl_id'))
-            ->first() ?? new Financing();
+        $financing = Financing::where('application_id', session()->get('appl_id'))->first();
 
-        $this->personal_contribution = floatval($financing->personal_contribution ?? 0);
-        $this->other_income = floatval($financing->other_income ?? 0);
-        $this->income_where = $financing->income_where;
-        $this->income_who = $financing->income_who;
-        $this->netto_income = floatval($financing->netto_income ?? 0);
-        $this->assets = floatval($financing->assets ?? 0);
-        $this->scholarship = floatval($financing->scholarship ?? 0);
+        if ($financing && !$financing->is_draft) {
+            // Load saved data
+            $this->personal_contribution = floatval($financing->personal_contribution ?? 0);
+            $this->other_income = floatval($financing->other_income ?? 0);
+            $this->income_where = $financing->income_where;
+            $this->income_who = $financing->income_who;
+            $this->netto_income = floatval($financing->netto_income ?? 0);
+            $this->assets = floatval($financing->assets ?? 0);
+            $this->scholarship = floatval($financing->scholarship ?? 0);
+        } else {
+            // Initialize as null for new forms to trigger required validation
+            $this->personal_contribution = null;
+            $this->other_income = null;
+            $this->income_where = null;
+            $this->income_who = null;
+            $this->netto_income = null;
+            $this->assets = null;
+            $this->scholarship = null;
+        }
 
         $this->currency_id = Application::where('id', session()->get('appl_id'))->pluck('currency_id');
         $this->myCurrency = Currency::where('id', $this->currency_id)->first();

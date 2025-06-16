@@ -9,7 +9,9 @@ class Currency extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'currency', 'abbreviation', 'symbol',
+        'currency', 'abbreviation', 'symbol', 'is_pinned',
     ];
 }

@@ -16,5 +16,7 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'unverified' => 'Your email address is not verified. Please check your email for a verification link.',
+    'unverified_redirect' => 'Your login credentials are correct, but your email address needs to be verified first. Please check your email for the verification link or request a new one below.',
 
 ];

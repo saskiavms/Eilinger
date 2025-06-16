@@ -18,13 +18,22 @@
         @endif
     </td>
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <input type="file" wire:model="{{ $model }}"
-            class="block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-md file:border-0
-                file:text-sm file:font-medium
-                file:bg-primary file:text-white
-                hover:file:bg-primary-dark">
+        <div class="flex items-center space-x-3">
+            <input type="file" wire:model="{{ $model }}"
+                class="block text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-md file:border-0
+                    file:text-sm file:font-medium
+                    file:bg-primary file:text-white
+                    hover:file:bg-primary-dark">
+            @if ($enclosure->{$fieldName})
+                <a href="{{ \Illuminate\Support\Facades\Storage::disk('s3')->url($enclosure->{$fieldName}) }}" 
+                   target="_blank" 
+                   class="text-blue-600 hover:text-blue-800 underline">
+                    {{ basename($enclosure->{$fieldName}) }}
+                </a>
+            @endif
+        </div>
         @error($model)
             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror

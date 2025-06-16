@@ -27,9 +27,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-
-
-        $request->authenticate();
+        try {
+            $request->authenticate();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Check if this is a redirect for unverified email
+            if ($e->errors() && isset($e->errors()['redirect'])) {
+                return redirect($e->errors()['redirect'][0]);
+            }
+            throw $e;
+        }
 
         $request->session()->regenerate();
 
@@ -41,7 +47,7 @@ class AuthenticatedSessionController extends Controller
         session(['auth.2fa' => true]);
 
         $request->user()->generateTwoFactorCode();
-        $request->user()->notify(new TwoFactorCode());
+        $request->user()->notify(new TwoFactorCode);
 
         return redirect()->route('verify.index', app()->getLocale());
     }

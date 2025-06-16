@@ -28,5 +28,8 @@ return [
     '2FANote' => 'You have received an email which contains two factor login code.',
     '2FAResend' => ' If you haven\'t received the code, please click the following link:',
     'accept' => 'I accept the terms of use',
-    'register' => 'Register'
+    'register' => 'Register',
+    'emailVerificationRequired' => 'Important: Email verification required!',
+    'emailVerificationInfo' => 'You must verify your email address before you can access your account. Please check your email inbox (including spam folder) for the verification link.',
+    'registrationEmailNotice' => 'After clicking Register, you will receive an email with a verification link. You must click this link before you can log in.',
 ];

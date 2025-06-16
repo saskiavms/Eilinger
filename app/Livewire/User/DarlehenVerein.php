@@ -23,11 +23,21 @@ class DarlehenVerein extends Component
     public function increaseStep(): void
     {
         $this->currentStep++;
+        
+        // Reset completeApp when navigating to sending form step
+        if ($this->currentStep == 9) {
+            $this->completeApp = false;
+        }
     }
 
     public function decreaseStep(): void
     {
         $this->currentStep--;
+        
+        // Reset completeApp when navigating to sending form step
+        if ($this->currentStep == 9) {
+            $this->completeApp = false;
+        }
     }
 
     public function render()

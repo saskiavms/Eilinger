@@ -28,5 +28,8 @@ return [
     '2FANote' => 'Sie haben eine E-Mail erhalten, die einen Zwei-Faktor-Login-Code enthält.',
     '2FAResend' => 'Wenn Sie den Code nicht erhalten haben, klicken Sie bitte auf den folgenden Link:',
     'accept' => 'Ich akzeptiere die Nutzungsbedinungen',
-    'register' => 'Registrieren'
+    'register' => 'Registrieren',
+    'emailVerificationRequired' => 'Wichtig: E-Mail-Verifizierung erforderlich!',
+    'emailVerificationInfo' => 'Sie müssen Ihre E-Mail-Adresse bestätigen, bevor Sie auf Ihr Konto zugreifen können. Bitte überprüfen Sie Ihren E-Mail-Eingang (auch den Spam-Ordner) für den Verifizierungslink.',
+    'registrationEmailNotice' => 'Nach dem Klick auf Registrieren erhalten Sie eine E-Mail mit einem Verifizierungslink. Sie müssen diesen Link anklicken, bevor Sie sich einloggen können.',
 ];

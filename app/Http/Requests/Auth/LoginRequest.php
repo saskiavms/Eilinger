@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -40,6 +41,22 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
+
+        // Check if user exists but email is not verified
+        $user = User::where('email', $this->email)->first();
+
+        if ($user && ! $user->hasVerifiedEmail()) {
+            // Verify password is correct before redirecting
+            if (auth()->validate($this->only('email', 'password'))) {
+                // Log the user in temporarily to access verification page
+                auth()->login($user);
+                session()->flash('info', trans('auth.unverified_redirect'));
+
+                throw ValidationException::withMessages([
+                    'redirect' => route('verification.notice', app()->getLocale()),
+                ]);
+            }
+        }
 
         if (! auth()->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
