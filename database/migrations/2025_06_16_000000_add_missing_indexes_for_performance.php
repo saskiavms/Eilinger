@@ -21,9 +21,9 @@ return new class extends Migration
             $table->index('application_id', 'costs_application_id_index');
         });
 
-        // Add index on financing.application_id if missing  
-        Schema::table('financing', function (Blueprint $table) {
-            $table->index('application_id', 'financing_application_id_index');
+        // Add index on financings.application_id if missing  
+        Schema::table('financings', function (Blueprint $table) {
+            $table->index('application_id', 'financings_application_id_index');
         });
 
         // Add indexes on other tables that might be missing them
@@ -74,8 +74,8 @@ return new class extends Migration
             $table->dropIndex('costs_application_id_index');
         });
 
-        Schema::table('financing', function (Blueprint $table) {
-            $table->dropIndex('financing_application_id_index');
+        Schema::table('financings', function (Blueprint $table) {
+            $table->dropIndex('financings_application_id_index');
         });
 
         Schema::table('educations', function (Blueprint $table) {
