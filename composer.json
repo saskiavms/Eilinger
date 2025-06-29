@@ -14,7 +14,9 @@
         "laravel/tinker": "^2.8",
         "league/flysystem-aws-s3-v3": "^3.29",
         "livewire/livewire": "^3.5",
-        "s-ichikawa/laravel-sendgrid-driver": "^4.0"
+        "s-ichikawa/laravel-sendgrid-driver": "^4.0",
+        "symfony/http-client": "^7.3",
+        "symfony/mailgun-mailer": "^7.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
