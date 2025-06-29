@@ -16,7 +16,9 @@ class Foundation extends Model
         'strasse',
         'ort',
         'land',
-        'nextCouncilMeeting'
+        'nextCouncilMeeting',
+        'nextCouncilMeetingNote_de',
+        'nextCouncilMeetingNote_en'
     ];
 
 }

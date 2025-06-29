@@ -14,6 +14,8 @@ class FoundationSettings extends Component
 	public $ort;
 	public $land;
 	public $nextCouncilMeeting;
+	public $nextCouncilMeetingNote_de;
+	public $nextCouncilMeetingNote_en;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -21,6 +23,8 @@ class FoundationSettings extends Component
         'ort' => 'required|string|max:255',
         'land' => 'required|string|max:255',
         'nextCouncilMeeting' => 'nullable|date',
+        'nextCouncilMeetingNote_de' => 'nullable|string|max:500',
+        'nextCouncilMeetingNote_en' => 'nullable|string|max:500',
     ];
 
     public function mount()
@@ -31,6 +35,8 @@ class FoundationSettings extends Component
 		$this->ort = $foundation->ort;
 		$this->land = $foundation->land;
 		$this->nextCouncilMeeting = $foundation->nextCouncilMeeting;
+		$this->nextCouncilMeetingNote_de = $foundation->nextCouncilMeetingNote_de;
+		$this->nextCouncilMeetingNote_en = $foundation->nextCouncilMeetingNote_en;
     }
 
     public function save()

@@ -43,6 +43,25 @@
                 @error('nextCouncilMeeting') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
+            <!-- Next Council Meeting Note - German -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Zusätzlicher Text zur Ratssitzung - Deutsch (optional)</label>
+                <textarea wire:model="nextCouncilMeetingNote_de" rows="3"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                    placeholder="z.B. Die Sitzung findet im Rathaus statt. Anmeldung erforderlich."></textarea>
+                @error('nextCouncilMeetingNote_de') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Next Council Meeting Note - English -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Additional Council Meeting Text - English (optional)</label>
+                <textarea wire:model="nextCouncilMeetingNote_en" rows="3"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                    placeholder="e.g. The meeting takes place at the town hall. Registration required."></textarea>
+                @error('nextCouncilMeetingNote_en') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                <p class="mt-1 text-sm text-gray-500">Diese Texte werden auf der Homepage unter dem Datum in der jeweiligen Sprache angezeigt.</p>
+            </div>
+
             <div class="flex justify-end">
                 <button type="submit"
                     class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors">

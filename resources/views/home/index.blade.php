@@ -349,6 +349,12 @@
                     <p>{{ __('home.request_disclaimer') }}</p>
                     <p>{{ __('home.request_meeting') }}</p>
 					<p><strong>{{ __('home.nextCouncilMeeting') }}: {{$foundation->nextCouncilMeeting}}</strong></p>
+					@php
+						$noteField = 'nextCouncilMeetingNote_' . app()->getLocale();
+					@endphp
+					@if($foundation->$noteField)
+						<p>{{ $foundation->$noteField }}</p>
+					@endif
                 </div>
 
                 <!-- Request Cards Grid -->
