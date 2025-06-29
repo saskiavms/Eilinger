@@ -37,6 +37,9 @@ return [
         'sendgrid' => [
             'transport' => 'sendgrid',
         ],
+        'brevo' => [
+            'transport' => 'brevo',
+        ],
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),

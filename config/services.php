@@ -35,4 +35,8 @@ return [
         'api_key' => env('SENDGRID_API_KEY'),
     ],
 
+    'brevo' => [
+        'api_key' => env('BREVO_API_KEY'),
+    ],
+
 ];
