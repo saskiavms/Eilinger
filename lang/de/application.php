@@ -46,6 +46,13 @@ return [
     'proj_notsend' => 'Nicht eingereichte Anträge',
     'proj_notsend_text' => 'Anträge mit Status "Nicht eingereicht"',
 
+    // New translations for application type display
+    'application_type' => 'Antragstyp',
+    'first_application' => 'Erstantrag',
+    'follow_up_application' => 'Folgeantrag',
+    'main_application' => 'Hauptantrag',
+    'main_application_not_found' => 'Hauptantrag nicht gefunden',
+
     'status_name' => [
         ApplStatus::NOTSEND->name => 'Nicht eingereicht',
         ApplStatus::PENDING->name => 'Ausstehend',

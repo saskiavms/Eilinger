@@ -97,6 +97,37 @@
                     </p>
                 </div>
             @endif
+
+            <div>
+                <p class="text-md">
+                    <span class="font-medium text-gray-700">{{ __('application.application_type') }}:</span>
+                    <span class="text-gray-900 ml-1">
+                        @if ($application->is_first)
+                            {{ __('application.first_application') }}
+                        @else
+                            {{ __('application.follow_up_application') }}
+                        @endif
+                    </span>
+                </p>
+            </div>
+
+            @if (!$application->is_first && $application->main_application_id)
+                <div>
+                    <p class="text-md">
+                        <span class="font-medium text-gray-700">{{ __('application.main_application') }}:</span>
+                        <span class="text-gray-900 ml-1">
+                            @if ($application->mainApplication)
+                                <a href="{{ route('admin_antrag', ['application_id' => $application->mainApplication->id, 'locale' => app()->getLocale()]) }}"
+                                   class="text-indigo-600 hover:text-indigo-900 underline">
+                                    {{ $application->mainApplication->name }}
+                                </a>
+                            @else
+                                {{ __('application.main_application_not_found') }}
+                            @endif
+                        </span>
+                    </p>
+                </div>
+            @endif
         </div>
     </div>
 </div>

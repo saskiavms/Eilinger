@@ -45,6 +45,13 @@ return [
     'proj_notsend' => 'Not Send Applications',
     'proj_notsend_text' => 'Application with status "not send"',
 
+    // New translations for application type display
+    'application_type' => 'Application Type',
+    'first_application' => 'First Application',
+    'follow_up_application' => 'Follow-up Application',
+    'main_application' => 'Main Application',
+    'main_application_not_found' => 'Main application not found',
+
     'status_name' => [
         ApplStatus::NOTSEND->name => 'Not send',
         ApplStatus::PENDING->name => 'Pending',

@@ -47,6 +47,7 @@ class Application extends Model
         'payout_plan' => PayoutPlan::class,
         'approval_appl' => 'date',
         'submission_date' => 'datetime',
+        'is_first' => 'boolean',
     ];
 
     public function messages()
@@ -119,6 +120,16 @@ class Application extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class, 'application_id');
+    }
+
+    public function mainApplication()
+    {
+        return $this->belongsTo(Application::class, 'main_application_id');
+    }
+
+    public function followUpApplications()
+    {
+        return $this->hasMany(Application::class, 'main_application_id');
     }
 
     public function getTotalPaidAttribute()
