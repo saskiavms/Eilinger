@@ -52,6 +52,14 @@ return [
     'main_application' => 'Main Application',
     'main_application_not_found' => 'Main application not found',
 
+    // Application deletion messages
+    'application_deleted_successfully' => 'Application deleted successfully',
+    'cannot_delete_submitted_application' => 'Submitted applications cannot be deleted',
+    'cannot_delete_approved_application' => 'Approved or finished applications cannot be deleted',
+    'confirm_delete_application' => 'Are you sure you want to delete this application?',
+    'application_not_found' => 'Application not found',
+    'error_deleting_application' => 'Error deleting application',
+
     'status_name' => [
         ApplStatus::NOTSEND->name => 'Not send',
         ApplStatus::PENDING->name => 'Pending',

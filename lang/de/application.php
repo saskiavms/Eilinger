@@ -53,6 +53,14 @@ return [
     'main_application' => 'Hauptantrag',
     'main_application_not_found' => 'Hauptantrag nicht gefunden',
 
+    // Application deletion messages
+    'application_deleted_successfully' => 'Antrag wurde erfolgreich gelöscht',
+    'cannot_delete_submitted_application' => 'Eingereichte Anträge können nicht gelöscht werden',
+    'cannot_delete_approved_application' => 'Genehmigte oder abgeschlossene Anträge können nicht gelöscht werden',
+    'confirm_delete_application' => 'Sind Sie sicher, dass Sie diesen Antrag löschen möchten?',
+    'application_not_found' => 'Antrag nicht gefunden',
+    'error_deleting_application' => 'Fehler beim Löschen des Antrags',
+
     'status_name' => [
         ApplStatus::NOTSEND->name => 'Nicht eingereicht',
         ApplStatus::PENDING->name => 'Ausstehend',

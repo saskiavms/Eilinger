@@ -63,7 +63,7 @@ class Antraege extends Component
     public function render()
     {
         $applications = Application::LoggedInUser()
-            ->where('appl_status', 'not send')
+            ->where('appl_status', 'Not Send')
             ->get();
         $currencies = Currency::orderBy('is_pinned', 'DESC')->orderBy('currency')->get();
 
@@ -81,8 +81,21 @@ class Antraege extends Component
 
     public function deleteApplication($id)
     {
-        Application::find($id)->delete();
-        session()->flash('success', 'Antrag erfolgreich gelöscht');
+        try {
+            $application = Application::LoggedInUser()->findOrFail($id);
+
+            // Only allow deletion of draft applications
+            if ($application->appl_status->value === 'Not Send') {
+                $application->delete();
+                session()->flash('success', __('application.application_deleted_successfully'));
+            } else {
+                session()->flash('error', __('application.cannot_delete_submitted_application'));
+            }
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            session()->flash('error', __('application.application_not_found'));
+        } catch (\Exception $e) {
+            session()->flash('error', __('application.error_deleting_application'));
+        }
     }
 
     public function save()
