@@ -34,9 +34,6 @@ return [
     */
 
     'mailers' => [
-        'sendgrid' => [
-            'transport' => 'sendgrid',
-        ],
         'brevo' => [
             'transport' => 'brevo',
         ],
