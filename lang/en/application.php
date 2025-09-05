@@ -59,6 +59,7 @@ return [
     'confirm_delete_application' => 'Are you sure you want to delete this application?',
     'application_not_found' => 'Application not found',
     'error_deleting_application' => 'Error deleting application',
+    'past_applications' => 'Past Applications',
 
     'status_name' => [
         ApplStatus::NOTSEND->name => 'Not send',

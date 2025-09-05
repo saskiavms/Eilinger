@@ -60,6 +60,7 @@ return [
     'confirm_delete_application' => 'Sind Sie sicher, dass Sie diesen Antrag löschen möchten?',
     'application_not_found' => 'Antrag nicht gefunden',
     'error_deleting_application' => 'Fehler beim Löschen des Antrags',
+    'past_applications' => 'Vorherige Anträge',
 
     'status_name' => [
         ApplStatus::NOTSEND->name => 'Nicht eingereicht',
