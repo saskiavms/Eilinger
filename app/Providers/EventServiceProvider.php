@@ -6,6 +6,11 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Notifications\Events\NotificationSending;
+use Illuminate\Notifications\Events\NotificationSent;
+use Illuminate\Notifications\Events\NotificationFailed;
+use Illuminate\Support\Facades\Log;
+use App\Notifications\VerifyEmail;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,7 +32,45 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Event::listen(NotificationSending::class, function ($event) {
+            if ($event->notification instanceof VerifyEmail) {
+                try {
+                    Log::info('VerifyEmail sending', [
+                        'user_id' => optional($event->notifiable)->id ?? null,
+                        'email' => optional($event->notifiable)->email ?? null,
+                        'channels' => $event->channels ?? null,
+                    ]);
+                } catch (\Throwable $t) {
+                }
+            }
+        });
+
+        Event::listen(NotificationSent::class, function ($event) {
+            if ($event->notification instanceof VerifyEmail) {
+                try {
+                    Log::info('VerifyEmail sent', [
+                        'user_id' => optional($event->notifiable)->id ?? null,
+                        'email' => optional($event->notifiable)->email ?? null,
+                        'channel' => $event->channel ?? null,
+                        'response' => method_exists($event, 'response') ? $event->response : null,
+                    ]);
+                } catch (\Throwable $t) {
+                }
+            }
+        });
+
+        Event::listen(NotificationFailed::class, function ($event) {
+            if ($event->notification instanceof VerifyEmail) {
+                try {
+                    Log::warning('VerifyEmail failed', [
+                        'user_id' => optional($event->notifiable)->id ?? null,
+                        'email' => optional($event->notifiable)->email ?? null,
+                        'channel' => $event->channel ?? null,
+                    ]);
+                } catch (\Throwable $t) {
+                }
+            }
+        });
     }
 
     /**

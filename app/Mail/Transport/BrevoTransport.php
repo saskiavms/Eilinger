@@ -8,6 +8,7 @@ use Symfony\Component\Mime\MessageConverter;
 use Brevo\Client\Configuration;
 use Brevo\Client\Api\TransactionalEmailsApi;
 use Brevo\Client\Model\SendSmtpEmail;
+use Illuminate\Support\Facades\Log;
 
 class BrevoTransport extends AbstractTransport
 {
@@ -22,13 +23,13 @@ class BrevoTransport extends AbstractTransport
     protected function doSend(SentMessage $message): void
     {
         $email = MessageConverter::toEmail($message->getOriginalMessage());
-        
+
         $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $this->apiKey);
         $apiInstance = new TransactionalEmailsApi(null, $config);
 
         $sendSmtpEmail = new SendSmtpEmail();
         $sendSmtpEmail->setSubject($email->getSubject());
-        
+
         // Set sender
         $fromAddresses = $email->getFrom();
         if (!empty($fromAddresses)) {
@@ -44,7 +45,7 @@ class BrevoTransport extends AbstractTransport
                 'name' => config('mail.from.name', config('mail.from.address'))
             ]);
         }
-        
+
         // Set recipients
         $to = [];
         foreach ($email->getTo() as $recipient) {
@@ -60,7 +61,7 @@ class BrevoTransport extends AbstractTransport
             ];
         }
         $sendSmtpEmail->setTo($to);
-        
+
         // Set content
         if ($email->getHtmlBody()) {
             $sendSmtpEmail->setHtmlContent($email->getHtmlBody());
@@ -68,7 +69,7 @@ class BrevoTransport extends AbstractTransport
         if ($email->getTextBody()) {
             $sendSmtpEmail->setTextContent($email->getTextBody());
         }
-        
+
         // Set reply-to if exists
         if ($email->getReplyTo()) {
             $replyTo = $email->getReplyTo()[0];
@@ -77,11 +78,36 @@ class BrevoTransport extends AbstractTransport
                 'name' => $replyTo->getName() ?: $replyTo->getAddress()
             ]);
         }
-        
+
         // Send email
         try {
-            $apiInstance->sendTransacEmail($sendSmtpEmail);
+            $response = $apiInstance->sendTransacEmail($sendSmtpEmail);
+
+            // Best-effort logging for diagnostics (non-PII where possible)
+            try {
+                $recipientEmails = array_map(fn ($r) => $r['email'] ?? null, $to);
+                $recipientEmails = array_values(array_filter($recipientEmails));
+                $messageId = method_exists($response, 'getMessageId') ? $response->getMessageId() : null;
+                Log::info('Brevo email sent', [
+                    'subject' => $email->getSubject(),
+                    'to' => $recipientEmails,
+                    'message_id' => $messageId,
+                ]);
+            } catch (\Throwable $t) {
+                // avoid failing the mail send due to logging issues
+            }
         } catch (\Exception $e) {
+            try {
+                $recipientEmails = array_map(fn ($r) => $r['email'] ?? null, $to);
+                $recipientEmails = array_values(array_filter($recipientEmails));
+                Log::error('Brevo email failed', [
+                    'subject' => $email->getSubject(),
+                    'to' => $recipientEmails,
+                    'error' => $e->getMessage(),
+                ]);
+            } catch (\Throwable $t) {
+                // ignore logging failure
+            }
             throw new \Exception('Brevo API Error: ' . $e->getMessage());
         }
     }
