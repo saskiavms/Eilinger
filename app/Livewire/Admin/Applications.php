@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Application;
+use App\Enums\ApplStatus;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
@@ -28,13 +29,19 @@ class Applications extends Component
 
     public function render()
     {
-        $applications = Application::with('user')
-            ->whereIn('appl_status', ['pending', 'waiting', 'complete'])
+        $applications = Application::with([
+                'user',
+                'user.applications' => function ($query) {
+                    $query->whereIn('appl_status', [ApplStatus::APPROVED, ApplStatus::BLOCKED, ApplStatus::FINISHED])
+                        ->whereNull('deleted_at');
+                },
+            ])
+            ->whereIn('appl_status', [ApplStatus::PENDING, ApplStatus::WAITING, ApplStatus::COMPLETE])
             ->whereNull('deleted_at')
             ->when($this->filterBereich, function ($query) {
                 $query->where('bereich', $this->filterBereich);
             })
-            ->paginate(10);
+            ->paginate(10, pageName: 'currentPage');
 
         return view('livewire.admin.applications', [
             'applications' => $applications,

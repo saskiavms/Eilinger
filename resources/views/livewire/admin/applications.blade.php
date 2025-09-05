@@ -50,6 +50,10 @@
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {{ __('user.email') }}
                         </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ __('application.past_applications') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -83,10 +87,33 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ optional($application->user)->email }}
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                @php
+                                    $past = optional($application->user)->applications
+                                        ?->whereIn('appl_status', [\App\Enums\ApplStatus::APPROVED, \App\Enums\ApplStatus::BLOCKED, \App\Enums\ApplStatus::FINISHED])
+                                        ->where('id', '!=', $application->id)
+                                        ->sortByDesc('created_at');
+                                @endphp
+                                @if (!empty($past) && $past->count())
+                                    <div class="flex flex-col gap-1">
+                                        @foreach ($past as $pastApp)
+                                            <a href="{{ route('admin_antrag', ['application_id' => $pastApp->id, 'locale' => app()->getLocale()]) }}"
+                                                class="text-primary hover:text-primary-600">
+                                                {{ $pastApp->name }}
+                                                <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-700">
+                                                    {{ __('application.status_name.' . $pastApp->appl_status->name) }}
+                                                </span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <span class="text-gray-400">—</span>
+                                @endif
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                                 {{ __('application.no_applications') }}
                             </td>
                         </tr>
