@@ -35,11 +35,19 @@ class EventServiceProvider extends ServiceProvider
         Event::listen(NotificationSending::class, function ($event) {
             if ($event->notification instanceof VerifyEmail) {
                 try {
-                    Log::info('VerifyEmail sending', [
+                    $context = [
                         'user_id' => optional($event->notifiable)->id ?? null,
                         'email' => optional($event->notifiable)->email ?? null,
                         'channels' => $event->channels ?? null,
-                    ]);
+                    ];
+                    if (app()->runningInConsole()) {
+                        try {
+                            fwrite(STDOUT, '[verify] sending ' . json_encode($context) . PHP_EOL);
+                        } catch (\Throwable $ignore) {
+                        }
+                    } else {
+                        Log::info('VerifyEmail sending', $context);
+                    }
                 } catch (\Throwable $t) {
                 }
             }
@@ -48,12 +56,19 @@ class EventServiceProvider extends ServiceProvider
         Event::listen(NotificationSent::class, function ($event) {
             if ($event->notification instanceof VerifyEmail) {
                 try {
-                    Log::info('VerifyEmail sent', [
+                    $context = [
                         'user_id' => optional($event->notifiable)->id ?? null,
                         'email' => optional($event->notifiable)->email ?? null,
                         'channel' => $event->channel ?? null,
-                        'response' => method_exists($event, 'response') ? $event->response : null,
-                    ]);
+                    ];
+                    if (app()->runningInConsole()) {
+                        try {
+                            fwrite(STDOUT, '[verify] sent ' . json_encode($context) . PHP_EOL);
+                        } catch (\Throwable $ignore) {
+                        }
+                    } else {
+                        Log::info('VerifyEmail sent', $context);
+                    }
                 } catch (\Throwable $t) {
                 }
             }
@@ -62,11 +77,19 @@ class EventServiceProvider extends ServiceProvider
         Event::listen(NotificationFailed::class, function ($event) {
             if ($event->notification instanceof VerifyEmail) {
                 try {
-                    Log::warning('VerifyEmail failed', [
+                    $context = [
                         'user_id' => optional($event->notifiable)->id ?? null,
                         'email' => optional($event->notifiable)->email ?? null,
                         'channel' => $event->channel ?? null,
-                    ]);
+                    ];
+                    if (app()->runningInConsole()) {
+                        try {
+                            fwrite(STDERR, '[verify] failed ' . json_encode($context) . PHP_EOL);
+                        } catch (\Throwable $ignore) {
+                        }
+                    } else {
+                        Log::warning('VerifyEmail failed', $context);
+                    }
                 } catch (\Throwable $t) {
                 }
             }

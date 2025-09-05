@@ -88,11 +88,19 @@ class BrevoTransport extends AbstractTransport
                 $recipientEmails = array_map(fn ($r) => $r['email'] ?? null, $to);
                 $recipientEmails = array_values(array_filter($recipientEmails));
                 $messageId = method_exists($response, 'getMessageId') ? $response->getMessageId() : null;
-                Log::info('Brevo email sent', [
+                $context = [
                     'subject' => $email->getSubject(),
                     'to' => $recipientEmails,
                     'message_id' => $messageId,
-                ]);
+                ];
+                if (app()->runningInConsole()) {
+                    try {
+                        fwrite(STDOUT, '[brevo] sent ' . json_encode($context) . PHP_EOL);
+                    } catch (\Throwable $ignore) {
+                    }
+                } else {
+                    Log::info('Brevo email sent', $context);
+                }
             } catch (\Throwable $t) {
                 // avoid failing the mail send due to logging issues
             }
@@ -100,11 +108,19 @@ class BrevoTransport extends AbstractTransport
             try {
                 $recipientEmails = array_map(fn ($r) => $r['email'] ?? null, $to);
                 $recipientEmails = array_values(array_filter($recipientEmails));
-                Log::error('Brevo email failed', [
+                $context = [
                     'subject' => $email->getSubject(),
                     'to' => $recipientEmails,
                     'error' => $e->getMessage(),
-                ]);
+                ];
+                if (app()->runningInConsole()) {
+                    try {
+                        fwrite(STDERR, '[brevo] failed ' . json_encode($context) . PHP_EOL);
+                    } catch (\Throwable $ignore) {
+                    }
+                } else {
+                    Log::error('Brevo email failed', $context);
+                }
             } catch (\Throwable $t) {
                 // ignore logging failure
             }
