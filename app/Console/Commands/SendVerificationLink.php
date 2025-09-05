@@ -9,7 +9,6 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification as NotificationFacade;
 use Illuminate\Support\Facades\URL;
 
@@ -23,6 +22,12 @@ class SendVerificationLink extends Command
         $email = (string) $this->argument('email');
         $sendNow = (bool) $this->option('now');
         $locale = $this->option('locale');
+
+        // Force console-friendly logging to avoid storage permissions
+        try {
+            Config::set('logging.default', 'stderr');
+        } catch (\Throwable $ignore) {
+        }
 
         /** @var User|null $user */
         $user = User::where('email', $email)->first();
@@ -64,20 +69,16 @@ class SendVerificationLink extends Command
                 $user->notify(new VerifyEmail());
                 $this->info('Verification email queued for ' . $email);
             }
-
-            Log::info('Manual verification email trigger', [
-                'user_id' => $user->id,
-                'email' => $user->email,
-                'now' => $sendNow,
-                'locale' => $linkLocale,
-            ]);
+            try {
+                fwrite(STDOUT, '[verify] manual trigger ' . json_encode(['user_id' => $user->id,'email' => $user->email,'now' => $sendNow,'locale' => $linkLocale]) . PHP_EOL);
+            } catch (\Throwable $ignore) {
+            }
         } catch (\Throwable $e) {
             $this->error('Failed to send verification email: ' . $e->getMessage());
-            Log::error('Manual verification email failed', [
-                'user_id' => $user->id,
-                'email' => $user->email,
-                'error' => $e->getMessage(),
-            ]);
+            try {
+                fwrite(STDERR, '[verify] manual trigger failed ' . json_encode(['user_id' => $user->id,'email' => $user->email,'error' => $e->getMessage()]) . PHP_EOL);
+            } catch (\Throwable $ignore) {
+            }
             return self::FAILURE;
         }
 
