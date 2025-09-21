@@ -25,7 +25,7 @@ class MessagesSection extends Component
     public function handleMessageDeleted()
     {
         // Force a refresh of the messages
-        $this->reset('page');
+        $this->resetPage();
     }
 
     public function render()

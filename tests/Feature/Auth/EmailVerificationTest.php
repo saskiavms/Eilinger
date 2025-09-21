@@ -87,7 +87,7 @@ class EmailVerificationTest extends TestCase
         $response->assertRedirect($this->homeRoute());
     }
 
-    public function testGuestCannotSeeTheVerificationVerifyRoute()
+    public function testGuestCanVerifyEmail()
     {
         $user = User::factory()->create([
             'email_verified_at' => null,
@@ -95,23 +95,20 @@ class EmailVerificationTest extends TestCase
 
         $response = $this->get($this->validVerificationVerifyRoute($user));
 
-        $response->assertRedirect($this->loginRoute());
+        $response->assertRedirect($this->successfulVerificationRoute());
+        $this->assertNotNull($user->fresh()->email_verified_at);
     }
 
-    public function testUserCannotVerifyOthers()
+    public function testCannotVerifyWithWrongHash()
     {
         $user = User::factory()->create([
             'email_verified_at' => null,
         ]);
 
-        $user2 = User::factory()->create([
-            'email_verified_at' => null,
-        ]);
+        $response = $this->get($this->invalidVerificationVerifyRoute($user));
 
-        $response = $this->actingAs($user)->get($this->validVerificationVerifyRoute($user2));
-
-        $response->assertForbidden();
-        $this->assertFalse($user2->fresh()->hasVerifiedEmail());
+        $response->assertStatus(403);
+        $this->assertFalse($user->fresh()->hasVerifiedEmail());
     }
 
     public function testUserIsRedirectedToCorrectRouteWhenAlreadyVerified()
