@@ -98,8 +98,6 @@ class BrevoTransport extends AbstractTransport
                         fwrite(STDOUT, '[brevo] sent ' . json_encode($context) . PHP_EOL);
                     } catch (\Throwable $ignore) {
                     }
-                } else {
-                    Log::info('Brevo email sent', $context);
                 }
             } catch (\Throwable $t) {
                 // avoid failing the mail send due to logging issues
