@@ -37,8 +37,8 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
-        
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
+
         session(['appl_id' => $application->id]);
 
         Livewire::test(CostForm::class)
@@ -53,8 +53,8 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
-        
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
+
         session(['appl_id' => $application->id]);
 
         Livewire::test(CostForm::class)
@@ -74,8 +74,8 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
-        
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
+
         session(['appl_id' => $application->id]);
 
         Livewire::test(CostForm::class)
@@ -99,7 +99,7 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
         
         session(['appl_id' => $application->id]);
 
@@ -132,7 +132,7 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
         
         session(['appl_id' => $application->id]);
 
@@ -165,7 +165,7 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
         
         session(['appl_id' => $application->id]);
 
@@ -200,7 +200,7 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
         
         session(['appl_id' => $application->id]);
 
@@ -221,7 +221,7 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
         
         session(['appl_id' => $application->id]);
 
@@ -246,7 +246,7 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
         
         // Create existing cost data
         Cost::create([
@@ -275,7 +275,7 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
         
         session(['appl_id' => $application->id]);
 
@@ -296,7 +296,7 @@ class CostFormTest extends TestCase
     {
         $user = $this->createAndAuthenticateUser();
         $currency = Currency::first();
-        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id]);
+        $application = Application::factory()->create(['user_id' => $user->id, 'currency_id' => $currency->id, 'appl_status' => \App\Enums\ApplStatus::NOTSEND]);
         
         session(['appl_id' => $application->id]);
 
