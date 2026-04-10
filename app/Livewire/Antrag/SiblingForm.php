@@ -22,16 +22,7 @@ class SiblingForm extends Component
             'siblingsList.*.graduation_year' => 'nullable|digits:4|max:'.(date('Y') + 10),
             'siblingsList.*.place_of_residence' => 'nullable',
             'siblingsList.*.get_amount' => ['required', new Enum(GetAmount::class)],
-            'siblingsList.*.support_site' => [
-                function ($attribute, $value, $fail) {
-                    $index = explode('.', $attribute)[1];
-                    $getAmountValue = $this->siblingsList[$index]['get_amount'] ?? null;
-
-                    if ($getAmountValue === GetAmount::Yes && empty($value)) {
-                        $fail(__('sibling.supportedSiteNeeded'));
-                    }
-                },
-            ],
+            'siblingsList.*.support_site' => ['nullable'],
         ];
     }
 
@@ -99,7 +90,19 @@ class SiblingForm extends Component
 
     public function saveSiblings()
     {
-        $validatedData = $this->validate();
+        $this->validate();
+
+        // Conditional validation: support_site required when sibling receives support
+        $hasConditionalError = false;
+        foreach ($this->siblingsList as $index => $sibling) {
+            if (($sibling['get_amount'] ?? null) === GetAmount::Yes->value && empty($sibling['support_site'])) {
+                $this->addError("siblingsList.$index.support_site", __('sibling.supportedSiteNeeded'));
+                $hasConditionalError = true;
+            }
+        }
+        if ($hasConditionalError) {
+            return;
+        }
 
         foreach ($this->siblingsList as $siblingData) {
             $siblingData['graduation_year'] = !empty($siblingData['graduation_year'])
