@@ -115,6 +115,10 @@ class ParentForm extends Component
         $validatedData = $this->validate();
 
         foreach ($this->parentsList as $parentData) {
+            // Enum-Casts vertragen keinen leeren String — null setzen
+            $parentData['job_type'] = $parentData['job_type'] ?: null;
+            $parentData['parent_type'] = $parentData['parent_type'] ?: null;
+
             $parent = Parents::updateOrCreate(
                 [
                     'user_id' => auth()->user()->id,
