@@ -11,7 +11,7 @@
         <!-- Organization Name -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1" for="name_inst">
-                {{ __('user.name_inst') }}
+                {{ __('user.name_inst') }} *
             </label>
             <input wire:model.blur="name_inst" type="text"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
@@ -23,7 +23,7 @@
         <!-- Organization Phone -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1" for="phone_inst">
-                {{ __('user.phone_inst') }}
+                {{ __('user.phone_inst') }} *
             </label>
             <input wire:model.blur="phone_inst" type="text"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
@@ -35,7 +35,7 @@
         <!-- Organization Email -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1" for="email_inst">
-                {{ __('user.email_inst') }}
+                {{ __('user.email_inst') }} *
             </label>
             <input wire:model.blur="email_inst" type="email"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
@@ -64,7 +64,7 @@
         <!-- Salutation -->
         <div class="md:col-span-1">
             <label class="block text-sm font-medium text-gray-700 mb-1" for="salutation">
-                {{ __('user.salutation') }}
+                {{ __('user.salutation') }} *
             </label>
             <select wire:model.blur="salutation"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
@@ -81,7 +81,7 @@
         <!-- Contact First Name -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1" for="firstname">
-                {{ __('user.firstname') }}
+                {{ __('user.firstname') }} *
             </label>
             <input wire:model.blur="firstname" type="text"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
@@ -93,7 +93,7 @@
         <!-- Contact Last Name -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1" for="lastname">
-                {{ __('user.lastname') }}
+                {{ __('user.lastname') }} *
             </label>
             <input wire:model.blur="lastname" type="text"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">

@@ -64,7 +64,7 @@
         <!-- Phone -->
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1" for="phone">
-                {{ __('user.phone') }}
+                {{ __('user.phone') }}*
             </label>
             <input wire:model.blur="phone" type="text"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
