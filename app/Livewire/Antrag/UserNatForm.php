@@ -77,6 +77,10 @@ class UserNatForm extends Component
     {
         $validatedData = $this->validate();
 
+        // Enum-Casts auf dem User-Model vertragen keinen leeren String — null setzen
+        $validatedData['granting'] = $validatedData['granting'] ?: null;
+        $validatedData['civil_status'] = $validatedData['civil_status'] ?: null;
+
         $user = auth()->user();
         $user->fill($validatedData);
         $user->is_draft = false;
