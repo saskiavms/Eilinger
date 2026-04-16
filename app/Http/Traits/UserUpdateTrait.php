@@ -36,7 +36,7 @@ trait UserUpdateTrait
     {
         session()->forget('valid-username');
         if ($this->validateOnly('username')) {
-            session(['valid-username' => 'Username is available']);
+            session(['valid-username' => __('user.usernameAvailable')]);
         }
     }
 

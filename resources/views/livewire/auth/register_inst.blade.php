@@ -19,6 +19,9 @@
                     @error('username')
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
+                    @if (session()->has('valid-username'))
+                        <span class="text-green-500 text-sm mt-1">{{ session('valid-username') }}</span>
+                    @endif
                 </div>
 
                 <!-- Institution Name -->

@@ -37,6 +37,7 @@ return [
     'contact_aboard' => 'Contact Aboard',
     'delAccountConfirmation' => 'Do you really want to delete your account?',
     'usernameUnique' => 'This username is already taken',
+    'usernameAvailable' => 'Username is available',
     'nameInstUnique' => 'Your organization is already registered',
     'emailInstUnique' => 'This email of your organization is already registered',
     'passwordRegexp' => 'The password must be at least 8 characters long and must contain at least 1 uppercase letter,

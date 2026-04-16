@@ -37,6 +37,7 @@ return [
     'contact_aboard' => 'Ansprechpartner im Ausland',
     'delAccountConfirmation' => 'Wollen Sie ihren Account wirklich löschen?',
     'usernameUnique' => 'Dieser Benutzername ist bereits vergeben',
+    'usernameAvailable' => 'Benutzername ist verfügbar',
     'nameInstUnique' => 'Ihre Organisation ist bereits registriert',
     'emailInstUnique' => 'Diese Email ihrer Organisation ist bereits registriert',
     'passwordRegexp' => 'Das Passwort muss mindestens 8 Zeichen lang sein und muss mindestens 1 Grossbuchstaben,
