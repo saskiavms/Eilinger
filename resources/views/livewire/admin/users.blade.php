@@ -1,4 +1,10 @@
 <div>
+    @if (session()->has('success'))
+        <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-md">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <!-- Page Header -->
     <div class="mb-6">
         <h1 class="text-3xl font-ubuntu text-primary font-semibold">Benutzerübersicht</h1>
@@ -59,6 +65,7 @@
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Status
                         </th>
+                        <th scope="col" class="px-6 py-3"></th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -121,6 +128,12 @@
                                     <span class="text-gray-400">-</span>
                                 @endif
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right">
+                                <button wire:click="openEditModal({{ $user->id }})"
+                                    class="text-primary hover:text-primary-600 font-medium">
+                                    Bearbeiten
+                                </button>
+                            </td>
                         </tr>
                     @empty
                         <tr>
@@ -138,4 +151,71 @@
             {{ $users->links() }}
         </div>
     </div>
+
+    <!-- Edit Contact Modal -->
+    @if ($showEditModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-4">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-900">Kontaktperson bearbeiten</h3>
+                    <button wire:click="closeEditModal" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+                </div>
+                <div class="px-6 py-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Anrede *</label>
+                        <select wire:model="editSalutation"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                            <option value="">Bitte wählen</option>
+                            @foreach (App\Enums\Salutation::cases() as $salutation)
+                                <option value="{{ $salutation->value }}">{{ $salutation->value }}</option>
+                            @endforeach
+                        </select>
+                        @error('editSalutation') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Vorname *</label>
+                            <input wire:model="editFirstname" type="text"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                            @error('editFirstname') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nachname *</label>
+                            <input wire:model="editLastname" type="text"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                            @error('editLastname') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">E-Mail (Login) *</label>
+                        <input wire:model="editEmail" type="email"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                        @error('editEmail') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Telefon</label>
+                            <input wire:model="editPhone" type="text"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Mobile</label>
+                            <input wire:model="editMobile" type="text"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t border-gray-200 flex justify-end gap-4">
+                    <button wire:click="closeEditModal"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                        Abbrechen
+                    </button>
+                    <button wire:click="saveContact"
+                        class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary-600">
+                        Speichern
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
