@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\Application;
+use App\Models\DocumentHash;
 use App\Models\Enclosure;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
@@ -102,12 +103,18 @@ class Datei extends Component
         $this->validate();
 
         try {
+            $hash = hash_file('sha256', $this->file->getRealPath());
             $filePath = $this->upload($this->file, $this->column);
 
             $this->enclosure = $this->enclosure ?? new Enclosure();
             $this->enclosure->application_id = $this->application_id;
             $this->enclosure->{$this->column} = $filePath;
             $this->enclosure->save();
+
+            DocumentHash::updateOrCreate(
+                ['application_id' => $this->application_id, 'field_name' => $this->column],
+                ['user_id' => auth()->id(), 'file_hash' => $hash],
+            );
 
             $this->resetForm();
             $this->showModal = false;

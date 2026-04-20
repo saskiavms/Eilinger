@@ -14,6 +14,10 @@ class Login extends Model
         'ip_address',
     ];
 
+    protected $casts = [
+        'ip_address' => 'encrypted',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

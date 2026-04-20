@@ -8,8 +8,11 @@ use App\Livewire\Antrag\EnclosureFormStipendiumFolge;
 use App\Livewire\Antrag\EnclosureOrganisationForm;
 use App\Models\Application;
 use App\Models\Currency;
+use App\Models\DocumentHash;
 use App\Models\Enclosure;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 use Tests\Traits\WithAuthUser;
@@ -171,6 +174,69 @@ class EnclosureFormTest extends TestCase
             'application_id' => $application->id,
             'is_draft' => false,
         ]);
+    }
+
+    // ─── Document Hashing ────────────────────────────────────────────────────
+
+    /** @test */
+    public function uploading_a_file_creates_a_document_hash()
+    {
+        Storage::fake('s3');
+
+        $user = $this->createAndAuthenticateUser();
+        $application = $this->makeApplication($user);
+
+        $file = UploadedFile::fake()->create('register.pdf', 50, 'application/pdf');
+        $expectedHash = hash_file('sha256', $file->getRealPath());
+
+        $component = Livewire::test(EnclosureOrganisationForm::class)
+            ->set('commercial_register_extract', $file);
+        $this->setSendLater($component, ['statute', 'activity', 'activity_report']);
+        $component->call('saveEnclosure')->assertHasNoErrors();
+
+        $docHash = DocumentHash::where('application_id', $application->id)
+            ->where('field_name', 'commercial_register_extract')
+            ->first();
+
+        $this->assertNotNull($docHash);
+        $this->assertEquals($expectedHash, $docHash->file_hash);
+        $this->assertEquals($user->id, $docHash->user_id);
+    }
+
+    /** @test */
+    public function same_file_uploaded_by_different_application_is_detected_as_duplicate()
+    {
+        Storage::fake('s3');
+
+        $user1 = $this->createAndAuthenticateUser();
+        $app1 = $this->makeApplication($user1);
+
+        $file = UploadedFile::fake()->create('register.pdf', 50, 'application/pdf');
+        $hash = hash_file('sha256', $file->getRealPath());
+
+        DocumentHash::create([
+            'user_id' => $user1->id,
+            'application_id' => $app1->id,
+            'field_name' => 'commercial_register_extract',
+            'file_hash' => $hash,
+        ]);
+
+        $user2 = $this->createAndAuthenticateUser();
+        $app2 = Application::factory()->create([
+            'user_id' => $user2->id,
+            'currency_id' => Currency::first()->id,
+        ]);
+        DocumentHash::create([
+            'user_id' => $user2->id,
+            'application_id' => $app2->id,
+            'field_name' => 'commercial_register_extract',
+            'file_hash' => $hash,
+        ]);
+
+        $duplicates = DocumentHash::findDuplicates($hash, $app1->id);
+
+        $this->assertCount(1, $duplicates);
+        $this->assertEquals($app2->id, $duplicates->first()->application_id);
     }
 
     // ─── Organisation ─────────────────────────────────────────────────────────

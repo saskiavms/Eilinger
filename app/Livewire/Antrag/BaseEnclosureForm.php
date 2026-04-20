@@ -3,6 +3,7 @@
 namespace App\Livewire\Antrag;
 
 use App\Models\Application;
+use App\Models\DocumentHash;
 use App\Models\Enclosure;
 use App\Rules\FileUploadRule;
 use Illuminate\Support\Facades\Lang;
@@ -42,6 +43,8 @@ abstract class BaseEnclosureForm extends Component
     public $divorce;
     public $commercial_register_extract;
     public $statute;
+
+    protected array $pendingHashes = [];
 
     abstract protected function getRequiredFields(): array;
     abstract protected function getOptionalFields(): array;
@@ -126,6 +129,7 @@ abstract class BaseEnclosureForm extends Component
     protected function handleFileUpload($field): void
     {
         if ($this->$field) {
+            $this->pendingHashes[$field] = hash_file('sha256', $this->$field->getRealPath());
             $filePath = $this->upload($this->$field, $field);
             $this->enclosure->$field = $filePath;
             $sendLaterField = $this->getCamelCaseSendLater($field);
@@ -152,6 +156,14 @@ abstract class BaseEnclosureForm extends Component
         $this->enclosure->is_draft = false;
         $this->enclosure->application_id = session()->get('appl_id');
         $this->enclosure->save();
+
+        foreach ($this->pendingHashes as $field => $hash) {
+            DocumentHash::updateOrCreate(
+                ['application_id' => $this->enclosure->application_id, 'field_name' => $field],
+                ['user_id' => auth()->id(), 'file_hash' => $hash],
+            );
+        }
+        $this->pendingHashes = [];
 
         session()->flash('success', __('userNotification.enclosureSaved'));
     }
