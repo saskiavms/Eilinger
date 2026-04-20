@@ -33,4 +33,9 @@ return [
     'new_user_line1' => 'Es hat sich ein neuer Benutzer mit dem Benutzernamen :username' ,
     'new_user_line2' => 'und der Email Adresse :email registriert',
     'browser_action' => "Wenn Sie Probleme haben, auf die Schaltfläche \":actionText\" zu klicken, kopieren Sie die folgende URL und fügen Sie sie in Ihren Webbrowser ein.",
+    'fraud_signal_subject' => 'Betrugsverdacht erkannt',
+    'fraud_signal_line1' => 'Es wurde ein kritisches Betrugssignal erkannt: :type',
+    'fraud_signal_line2' => 'Benutzer A: :name (:email)',
+    'fraud_signal_line3' => 'Benutzer B: :name (:email)',
+    'fraud_signal_action' => 'Zu den Betrugssignalen',
 ];

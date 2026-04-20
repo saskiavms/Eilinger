@@ -33,4 +33,9 @@ return [
     'new_user_line1' => 'A new user has registered with the username :username' ,
     'new_user_line2' => 'and email address :email',
     'browser_action' => "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below into your web browser:",
+    'fraud_signal_subject' => 'Fraud suspicion detected',
+    'fraud_signal_line1' => 'A critical fraud signal has been detected: :type',
+    'fraud_signal_line2' => 'User A: :name (:email)',
+    'fraud_signal_line3' => 'User B: :name (:email)',
+    'fraud_signal_action' => 'View fraud signals',
 ];

@@ -105,6 +105,22 @@
                             <span x-show="sidebarOpen">Report Generator</span>
                         </a>
 
+                        <a href="{{ route('admin_fraud_signals', app()->getLocale()) }}"
+                            class="flex items-center text-white hover:bg-primary-600"
+                            :class="sidebarOpen ? 'px-6' : 'justify-center px-3'"
+                            :title="!sidebarOpen ? 'Betrugssignale' : ''">
+                            <i class="bi bi-shield-exclamation text-xl" :class="sidebarOpen ? 'mr-3' : ''"></i>
+                            <span x-show="sidebarOpen" class="flex items-center justify-between w-full">
+                                <span>Betrugssignale</span>
+                                @php $fraudOpen = \App\Models\FraudSignal::open()->count() @endphp
+                                @if($fraudOpen > 0)
+                                    <span class="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-xs font-bold bg-red-500 text-white min-w-[1.25rem]">
+                                        {{ $fraudOpen }}
+                                    </span>
+                                @endif
+                            </span>
+                        </a>
+
                         <a href="{{ route('admin_settings', app()->getLocale()) }}"
                             class="flex items-center text-white hover:bg-primary-600"
                             :class="sidebarOpen ? 'px-6' : 'justify-center px-3'"

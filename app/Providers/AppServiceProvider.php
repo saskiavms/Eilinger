@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Account;
+use App\Models\Address;
+use App\Models\DocumentHash;
+use App\Models\Login;
 use App\Models\Message;
+use App\Models\User;
 use App\Notifications\VerifyEmail;
+use App\Services\FraudDetector;
 use App\Policies\MessagePolicy;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -30,6 +36,26 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Fraud detection — wrapped so errors never break user flows
+        $fraudGuard = function (callable $check) {
+            return function ($model) use ($check) {
+                try { $check($model); } catch (\Throwable $e) {
+                    Log::error('FraudDetector error: ' . $e->getMessage(), ['model' => get_class($model), 'id' => $model->id ?? null]);
+                }
+            };
+        };
+
+        DocumentHash::created($fraudGuard(fn($m) => FraudDetector::onDocumentHash($m)));
+        Login::created($fraudGuard(fn($m) => FraudDetector::onLogin($m)));
+        Account::saved($fraudGuard(fn($m) => FraudDetector::onAccount($m)));
+        Address::saved($fraudGuard(fn($m) => FraudDetector::onAddress($m)));
+        User::created($fraudGuard(fn($m) => FraudDetector::onUser($m)));
+        User::updated(function ($user) use ($fraudGuard) {
+            if ($user->wasChanged(['phone', 'mobile', 'phone_inst', 'soz_vers_nr'])) {
+                $fraudGuard(fn($m) => FraudDetector::onUser($m))($user);
+            }
+        });
+
         // HTTPS in production
         if ($this->app->environment('production')) {
             URL::forceScheme('https');

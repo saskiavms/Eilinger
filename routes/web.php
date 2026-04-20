@@ -74,6 +74,7 @@ Route::group(['prefix' => '{locale}', 'middleware' => 'setLocale'], function () 
         Route::patch('admin/profile', [ProfileController::class, 'update'])->name('admin_profile.update');
         Route::get('admin/foundation-settings', App\Livewire\Admin\FoundationSettings::class)->name('admin_foundation_settings');
         Route::get('admin/reports', App\Livewire\Admin\ReportGenerator::class)->name('admin_reports');
+        Route::get('admin/fraud-signals', App\Livewire\Admin\FraudSignals::class)->name('admin_fraud_signals');
     });
 
     Route::middleware('guest')->group(function () {
