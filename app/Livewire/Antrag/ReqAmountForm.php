@@ -88,7 +88,7 @@ class ReqAmountForm extends Component
         $validatedData = $this->validate();
 
         $this->application->req_amount = $validatedData['req_amount'];
-        $this->application->payout_plan = $validatedData['payout_plan'];
+        $this->application->payout_plan = $validatedData['payout_plan'] ?: null;
         $this->application->calc_amount = $this->diffAmount;
         $this->application->save();
 
