@@ -22,4 +22,5 @@ return [
     'no_appl' => 'No requests or projects available',
     'writeMessage' => 'Write a message',
     'writeReply' => 'Write a reply',
+    'fraud_signal_detected' => 'New fraud signal detected',
 ];

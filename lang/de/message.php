@@ -22,4 +22,5 @@ return [
     'no_appl' => 'Keine Gesuche oder Projekte vorhanden',
     'writeMessage' => 'Schreiben Sie eine Nachricht',
     'writeReply' => 'Schreiben Sie eine Antwort',
+    'fraud_signal_detected' => 'Neues Betrugssignal erkannt',
 ];

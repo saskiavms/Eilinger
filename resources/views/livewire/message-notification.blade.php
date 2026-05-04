@@ -41,7 +41,14 @@
                             </p>
                             <p class="text-xs text-gray-500 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
                         </a>
-                    @else
+                    @elseif($notification->type == App\Notifications\FraudSignalDetected::class)
+                        <a href="{{ $notification->data['url'] }}" class="block">
+                            <p class="text-sm text-gray-800">
+                                {{ __('message.fraud_signal_detected') }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
+                        </a>
+                    @elseif(isset($notification->data['appl_name']))
                         <a href="{{ $notification->data['url'] }}" class="block">
                             <p class="text-sm text-gray-800">
                                 {{ __('message.status') }}
